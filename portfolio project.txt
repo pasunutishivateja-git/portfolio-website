@@ -4,3 +4,4 @@ portfolio project
 3.MONGO_URI=mongodb://127.0.0.1:27017/portfolioDB
 4.http://localhost:3000/
 5.https://portfolio-backend-2k8z.onrender.com
+mongodb+srv://shivateja6685_db_user:@shivateja6685@portfolio-website.ty2vhn5.mongodb.net/?appName=portfolio-website
