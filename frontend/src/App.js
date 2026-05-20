@@ -19,7 +19,7 @@ function App() {
 
   const fetchProjects = () => {
     axios
-      .get("http://localhost:5000/api/projects")
+      .get("https://portfolio-backend-2k8z.onrender.com/api/projects")
       .then((res) => {
         setProjects(res.data);
       })
@@ -46,14 +46,14 @@ function App() {
   try {
     if (editId) {
       await axios.put(
-        `http://localhost:5000/api/projects/${editId}`,
+        `https://portfolio-backend-2k8z.onrender.com/api/projects/${editId}`,
         newProject
       );
 
       setEditId(null);
     } else {
       await axios.post(
-        "http://localhost:5000/api/projects",
+        "https://portfolio-backend-2k8z.onrender.com/api/projects",
         newProject
       );
     }
@@ -75,7 +75,7 @@ function App() {
 const deleteProject = async (id) => {
   try {
     await axios.delete(
-      `http://localhost:5000/api/projects/${id}`
+      `https://portfolio-backend-2k8z.onrender.com/api/projects/${id}`
     );
 
     fetchProjects();

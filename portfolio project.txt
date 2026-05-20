@@ -1,0 +1,6 @@
+portfolio project
+1.backend- npm run dev
+2.frontend- npm start
+3.MONGO_URI=mongodb://127.0.0.1:27017/portfolioDB
+4.http://localhost:3000/
+5.https://portfolio-backend-2k8z.onrender.com
