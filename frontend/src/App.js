@@ -1,17 +1,26 @@
+import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
 
 function App() {
+
   const [projects, setProjects] = useState([]);
   const [editId, setEditId] = useState(null);
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     technologies: "",
     githubLink: "",
     liveDemo: "",
+  });
+
+  const [contactData, setContactData] = useState({
+    name: "",
+    email: "",
+    message: "",
   });
 
   useEffect(() => {
@@ -36,6 +45,36 @@ function App() {
     });
   };
 
+  const handleContactChange = (e) => {
+    setContactData({
+      ...contactData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .send(
+        "service_jcwz5az",
+        "template_84bnhae",
+        contactData,
+        "68PSl9RYGeUNFwyWF"
+      )
+      .then(() => {
+        alert("Message Sent Successfully!");
+
+        setContactData({
+          name: "",
+          email: "",
+          message: "",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const handleSubmit = async (e) => {
   e.preventDefault();
 
@@ -265,12 +304,43 @@ const editProject = (project) => {
     </div>
   </motion.div>
 ))}
-         <section className="contact" id="contact">
-      <h2>Contact Me</h2>
-      <p>Email: shivatejapasunuti@gmail.com</p>
-      <p>Phone: +91 9381416738</p>
-      <p>Location: Telangana, India</p>
-    </section>
+        <section className="contact" id="contact">
+  <h2>Contact Me</h2>
+
+  <form className="contact-form" onSubmit={sendEmail}>
+
+    <input
+      type="text"
+      name="name"
+      placeholder="Your Name"
+      value={contactData.name}
+      onChange={handleContactChange}
+      required
+    />
+
+    <input
+      type="email"
+      name="email"
+      placeholder="Your Email"
+      value={contactData.email}
+      onChange={handleContactChange}
+      required
+    />
+
+    <textarea
+      name="message"
+      placeholder="Your Message"
+      value={contactData.message}
+      onChange={handleContactChange}
+      required
+    />
+
+    <button type="submit">
+      Send Message
+    </button>
+
+  </form>
+</section>
 
     <footer className="footer">
       <p>© 2026 Shiva Teja. All Rights Reserved.</p>
