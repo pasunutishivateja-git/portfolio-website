@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
@@ -109,13 +110,37 @@ const editProject = (project) => {
 </div>
     </nav>
 
-    <div className="hero" id="home">
-      <h1>Full Stack Developer</h1>
+  <motion.div
+  className="hero"
+  id="home"
+  initial={{ opacity: 0, y: 80 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 1 }}
+>
+  <h1>Full Stack Developer</h1>
 
-      <p>
-        I build modern web applications using React, Node.js, Express, and MongoDB.
-      </p>
-    </div>
+  <p>
+    I build modern web applications using React, Node.js, Express, and MongoDB.
+  </p>
+
+  <div className="hero-buttons">
+    <a
+      href="https://github.com/pasunutishivateja-git"
+      target="_blank"
+      rel="noreferrer"
+    >
+      <button>GitHub</button>
+    </a>
+
+    <a
+      href="YOUR_LINKEDIN_URL"
+      target="_blank"
+      rel="noreferrer"
+    >
+      <button>LinkedIn</button>
+    </a>
+  </div>
+</motion.div>
 
     <section className="about">
       <h2>About Me</h2>
@@ -188,31 +213,58 @@ const editProject = (project) => {
 
       <button type="submit">Add Project</button>
     </form>
+{projects.map((project) => (
+  <motion.div
+    className="project-card"
+    key={project._id}
+    initial={{ opacity: 0, y: 50 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.7 }}
+    viewport={{ once: true }}
+  >
+    <h2>{project.title}</h2>
 
-    {projects.map((project) => (
-      <div className="project-card" key={project._id}>
-        <h2>{project.title}</h2>
-        <p>{project.description}</p>
+    <p>{project.description}</p>
 
-        <h4>Technologies Used</h4>
+    <h4>Technologies Used</h4>
 
-        <ul className="tech-list">
-          {project.technologies.map((tech, index) => (
-            <li className="tech-item" key={index}>
-              {tech}
-            </li>
-          ))}
-        </ul>
+    <ul className="tech-list">
+      {project.technologies.map((tech, index) => (
+        <li className="tech-item" key={index}>
+          {tech}
+        </li>
+      ))}
+    </ul>
 
-        <div className="links">
-          <button onClick={() => editProject(project)}>Edit</button>
+    <div className="links">
 
-          <button onClick={() => deleteProject(project._id)}>
-            Delete
-          </button>
-           </div>
-      </div>
-    ))}
+      <a
+        href={project.githubLink}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <button>GitHub</button>
+      </a>
+
+      <a
+        href={project.liveDemo}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <button>Live Demo</button>
+      </a>
+
+      <button onClick={() => editProject(project)}>
+        Edit
+      </button>
+
+      <button onClick={() => deleteProject(project._id)}>
+        Delete
+      </button>
+
+    </div>
+  </motion.div>
+))}
          <section className="contact" id="contact">
       <h2>Contact Me</h2>
       <p>Email: shivatejapasunuti@gmail.com</p>
