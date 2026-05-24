@@ -576,3 +576,11 @@ body::before {
     opacity: 0.4;
   }
 }
+.animated-text {
+  font-size: 5rem;
+  font-weight: 700;
+  animation: floatText 3s ease-in-out infinite;
+  background: linear-gradient(90deg, #7f5af0, #2cb67d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
