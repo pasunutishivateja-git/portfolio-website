@@ -1,63 +1,79 @@
-/* =========================
-   GLOBAL
-========================= */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
-body {
+* {
   margin: 0;
-  font-family: "Segoe UI", sans-serif;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
   scroll-behavior: smooth;
 }
 
-.app {
-  transition: 0.3s ease;
+body {
+  font-family: "Poppins", sans-serif;
+  background: #050816;
+  color: white;
   overflow-x: hidden;
 }
 
-/* DARK / LIGHT */
-
-.app.dark {
-  background: radial-gradient(circle at top, #0f172a, #020617);
-  color: #e2e8f0;
+.app {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, #1d2671 0%, transparent 30%),
+    radial-gradient(circle at bottom right, #c33764 0%, transparent 30%),
+    #050816;
 }
 
-.app.light {
-  background: radial-gradient(circle at top, #ffffff, #e2e8f0);
-  color: #111827;
-}
-
-/* =========================
-   NAVBAR (GLASS EFFECT)
-========================= */
+/* NAVBAR */
 
 .navbar {
+  width: 100%;
+  padding: 22px 10%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 40px;
   position: sticky;
   top: 0;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(15px);
-  z-index: 100;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+  background: rgba(5, 8, 22, 0.7);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.navbar h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #7f5af0, #2cb67d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-links {
+  display: flex;
+  gap: 35px;
 }
 
 .nav-links a {
-  margin: 0 12px;
+  color: white;
   text-decoration: none;
-  color: inherit;
-  font-weight: 500;
+  font-size: 1rem;
+  transition: 0.3s;
   position: relative;
+}
+
+.nav-links a:hover {
+  color: #7f5af0;
 }
 
 .nav-links a::after {
   content: "";
   position: absolute;
+  left: 0;
+  bottom: -6px;
   width: 0%;
   height: 2px;
-  left: 0;
-  bottom: -4px;
-  background: #6366f1;
+  background: #7f5af0;
   transition: 0.3s;
 }
 
@@ -65,292 +81,498 @@ body {
   width: 100%;
 }
 
-/* =========================
-   HERO (FLOATING TEXT)
-========================= */
+.theme-toggle {
+  background: rgba(255,255,255,0.08);
+  border: none;
+  color: white;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+.theme-toggle:hover {
+  background: #7f5af0;
+  transform: rotate(180deg);
+}
+
+/* HERO */
 
 .hero {
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10%;
   text-align: center;
-  padding: 120px 20px;
+  position: relative;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: #7f5af0;
+  filter: blur(180px);
+  opacity: 0.25;
+  z-index: 0;
 }
 
 .hero h1 {
-  font-size: 3rem;
-  background: linear-gradient(90deg, #6366f1, #22d3ee);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: glow 3s infinite alternate;
-}
-
-@keyframes glow {
-  from {
-    text-shadow: 0 0 10px rgba(99,102,241,0.3);
-  }
-  to {
-    text-shadow: 0 0 25px rgba(34,211,238,0.7);
-  }
+  font-size: 5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  z-index: 1;
+  animation: floatText 3s ease-in-out infinite;
 }
 
 .hero p {
-  opacity: 0.8;
-  animation: floatText 4s ease-in-out infinite;
+  font-size: 1.2rem;
+  max-width: 700px;
+  line-height: 1.8;
+  color: #cbd5e1;
+  z-index: 1;
 }
 
-@keyframes floatText {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-5px); }
+.hero-buttons {
+  margin-top: 40px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  z-index: 1;
 }
-
-/* BUTTONS */
 
 .hero-buttons button {
-  margin: 10px;
-  padding: 10px 18px;
-  border-radius: 8px;
+  padding: 15px 28px;
+  border-radius: 14px;
   border: none;
+  background: linear-gradient(135deg, #7f5af0, #6246ea);
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: 0.4s;
+  box-shadow: 0 10px 25px rgba(127,90,240,0.3);
+}
+
+.hero-buttons button:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 15px 35px rgba(127,90,240,0.5);
+}
+
+/* FLOATING ANIMATION */
+
+@keyframes floatText {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* ABOUT */
+
+.about {
+  padding: 100px 10%;
+  text-align: center;
+}
+
+.about h2 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.about p {
+  max-width: 900px;
+  margin: auto;
+  color: #cbd5e1;
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+/* SKILLS */
+
+.skills {
+  padding: 60px 10%;
+  text-align: center;
+}
+
+.skills h2 {
+  font-size: 3rem;
+  margin-bottom: 40px;
+}
+
+.skills-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.skill-card {
+  padding: 18px 30px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  transition: 0.4s;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.skill-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  background: #7f5af0;
+}
+
+/* FORM */
+
+.project-form {
+  width: 85%;
+  margin: 80px auto;
+  padding: 40px;
+  border-radius: 30px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+}
+
+.project-form input,
+.project-form textarea {
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: white;
+  font-size: 1rem;
+  outline: none;
+}
+
+.project-form textarea {
+  min-height: 120px;
+  resize: none;
+}
+
+.project-form button {
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #7f5af0, #6246ea);
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+.project-form button:hover {
+  transform: scale(1.03);
+}
+
+/* PROJECTS */
+
+.projects-grid {
+  width: 90%;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 35px;
+  padding-bottom: 100px;
+}
+
+.project-card {
+  background: rgba(255,255,255,0.05);
+  padding: 35px;
+  border-radius: 28px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-card::before {
+  content: "";
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  background: #7f5af0;
+  border-radius: 50%;
+  top: -60px;
+  right: -60px;
+  opacity: 0.15;
+}
+
+.project-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 15px 35px rgba(127,90,240,0.25);
+}
+
+.project-card h2 {
+  margin-bottom: 15px;
+  font-size: 1.8rem;
+}
+
+.project-card p {
+  color: #cbd5e1;
+  line-height: 1.7;
+}
+
+.tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  margin-top: 20px;
+}
+
+.tech-item {
+  padding: 10px 18px;
+  background: rgba(127,90,240,0.2);
+  border-radius: 30px;
+  font-size: 0.9rem;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.links button {
+  border: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: #7f5af0;
+  color: white;
   cursor: pointer;
   transition: 0.3s;
 }
 
-.hero-buttons button:hover {
-  transform: scale(1.08);
+.links button:hover {
+  transform: scale(1.05);
 }
 
-/* =========================
-   SECTIONS
-========================= */
-
-section {
-  padding: 60px 20px;
-  text-align: center;
-}
-
-/* =========================
-   SKILLS FLOAT CARDS
-========================= */
-
-.skills-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-}
-
-.skill-card {
-  padding: 10px 15px;
-  border-radius: 10px;
-  background: rgba(99,102,241,0.15);
-  border: 1px solid rgba(99,102,241,0.3);
-  transition: 0.3s;
-}
-
-.skill-card:hover {
-  transform: translateY(-5px);
-}
-
-/* =========================
-   PROJECT GRID
-========================= */
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 25px;
-  padding: 40px;
-}
-
-/* FLOATING CARDS */
-.project-card {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 20px;
-  border-radius: 15px;
-  min-height: 280px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  transition: 0.4s ease;
-  animation: floatCard 6s ease-in-out infinite;
-}
-
-@keyframes floatCard {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
-}
-
-.project-card:hover {
-  transform: scale(1.03);
-}
-
-/* TAGS */
-.tech-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 0;
-}
-
-.tech-item {
-  list-style: none;
-  background: rgba(34,211,238,0.2);
-  padding: 5px 10px;
-  border-radius: 8px;
-  font-size: 12px;
-}
-
-/* =========================
-   CONTACT
-========================= */
+/* CONTACT */
 
 .contact {
+  width: 90%;
+  margin: auto;
+  margin-bottom: 100px;
+  padding: 70px;
+  border-radius: 35px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  justify-content: space-between;
   gap: 60px;
   flex-wrap: wrap;
-  padding: 60px 20px;
 }
 
-/* LEFT */
 .contact-left {
-  max-width: 300px;
+  flex: 1;
+  min-width: 280px;
+}
+
+.contact-left h2 {
+  font-size: 3rem;
+  margin-bottom: 30px;
 }
 
 .contact-left p {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 12px 0;
+  gap: 14px;
+  margin-bottom: 22px;
+  color: #cbd5e1;
+  font-size: 1.1rem;
 }
 
-/* FORM */
 .contact-form {
+  flex: 1;
+  min-width: 320px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  width: 320px;
+  gap: 20px;
 }
 
 .contact-form input,
 .contact-form textarea {
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.2);
-  background: transparent;
-  color: inherit;
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+  color: white;
+  outline: none;
+  font-size: 1rem;
+}
+
+.contact-form textarea {
+  min-height: 150px;
+  resize: none;
 }
 
 .contact-form button {
-  padding: 10px;
+  padding: 16px;
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: #6366f1;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #7f5af0, #6246ea);
   color: white;
+  cursor: pointer;
+  font-size: 1rem;
   transition: 0.3s;
 }
 
 .contact-form button:hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
-/* =========================
-   CLICK EFFECT (GLOBAL)
-========================= */
-
-button:active {
-  transform: scale(0.95);
-}
-
-/* =========================
-   FOOTER
-========================= */
+/* FOOTER */
 
 .footer {
   text-align: center;
-  padding: 20px;
-  opacity: 0.7;
-}
-/* =========================
-   SECTION HEADINGS FIX
-========================= */
-
-h2 {
-  font-size: 28px;
-  margin-bottom: 20px;
+  padding: 30px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  color: #94a3b8;
 }
 
-/* =========================
-   FORM LABEL CLARITY FIX
-========================= */
+/* MOBILE */
 
-.project-form input,
-.project-form textarea,
-.contact-form input,
-.contact-form textarea {
-  outline: none;
+@media (max-width: 900px) {
+
+  .hero h1 {
+    font-size: 3rem;
+  }
+
+  .navbar {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .nav-links {
+    gap: 20px;
+  }
+
+  .contact {
+    padding: 40px;
+  }
+
+  .project-form {
+    grid-template-columns: 1fr;
+  }
+}
+/* LIGHT MODE */
+
+.light {
+  background: #f4f7ff;
+  color: #111827;
 }
 
-/* placeholder styling */
-input::placeholder,
-textarea::placeholder {
-  opacity: 0.7;
+.light .navbar {
+  background: rgba(255,255,255,0.8);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
 }
 
-/* =========================
-   SECTION SEPARATION FIX
-========================= */
-
-.about,
-.skills,
-.projects-grid,
-.contact {
-  margin-top: 20px;
+.light .nav-links a {
+  color: #111827;
 }
 
-/* =========================
-   CONTACT CLEAN LOOK
-========================= */
-
-.contact {
-  background: rgba(255,255,255,0.03);
-  border-radius: 20px;
-  padding: 50px;
+.light .nav-links a:hover {
+  color: #6246ea;
 }
 
-/* =========================
-   REMOVE TEXT CLUTTER FEEL
-========================= */
-
-.project-form,
-.contact-form {
-  background: rgba(255,255,255,0.04);
-  padding: 20px;
-  border-radius: 15px;
-  backdrop-filter: blur(10px);
+.light .hero p,
+.light .about p,
+.light .project-card p,
+.light .contact-left p {
+  color: #374151;
 }
 
-/* =========================
-   FIX TEXT OVERLAP VISUAL
-========================= */
-
-section {
-  position: relative;
-  z-index: 1;
+.light .skill-card,
+.light .project-card,
+.light .project-form,
+.light .contact {
+  background: rgba(255,255,255,0.8);
+  border: 1px solid rgba(0,0,0,0.08);
+  color: #111827;
 }
-.project-form {
+
+.light .project-form input,
+.light .project-form textarea,
+.light .contact-form input,
+.light .contact-form textarea {
+  background: rgba(0,0,0,0.03);
+  color: #111827;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.light .tech-item {
+  background: rgba(127,90,240,0.15);
+  color: #111827;
+}
+
+.light .footer {
+  color: #4b5563;
+}
+
+.light .theme-toggle {
+  background: rgba(0,0,0,0.08);
+  color: #111827;
+}
+body::before {
+  content: "";
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(
+    circle,
+    rgba(127,90,240,0.15),
+    transparent 70%
+  );
+  top: var(--y);
+  left: var(--x);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+}
+.loader {
+  height: 100vh;
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-width: 500px;
-  margin: auto;
+  justify-content: center;
+  align-items: center;
+  background: #050816;
 }
 
-.project-form input,
-.project-form textarea {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.2);
+.loader h1 {
+  font-size: 4rem;
+  color: #7f5af0;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.4;
+  }
 }

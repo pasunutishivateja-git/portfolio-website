@@ -11,12 +11,21 @@ import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 function App() {
 
+  // =========================
+  // STATES
+  // =========================
+
   const [projects, setProjects] = useState([]);
   const [editId, setEditId] = useState(null);
+
   const [darkMode, setDarkMode] = useState(true);
+
+  const [loading, setLoading] = useState(true);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -32,36 +41,72 @@ function App() {
     message: "",
   });
 
+  // =========================
+  // USE EFFECT
+  // =========================
+
   useEffect(() => {
+
     fetchProjects();
+
+    AOS.init({
+      duration: 1000,
+    });
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
   }, []);
 
+  // =========================
+  // FETCH PROJECTS
+  // =========================
+
   const fetchProjects = () => {
+
     axios
       .get("https://portfolio-backend-2k8z.onrender.com/api/projects")
+
       .then((res) => {
         setProjects(res.data);
       })
+
       .catch((err) => {
         console.log(err);
       });
   };
 
+  // =========================
+  // HANDLE FORM CHANGES
+  // =========================
+
   const handleChange = (e) => {
+
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
+  // =========================
+  // HANDLE CONTACT CHANGES
+  // =========================
+
   const handleContactChange = (e) => {
+
     setContactData({
       ...contactData,
       [e.target.name]: e.target.value,
     });
   };
 
+  // =========================
+  // SEND EMAIL
+  // =========================
+
   const sendEmail = (e) => {
+
     e.preventDefault();
 
     emailjs
@@ -71,7 +116,9 @@ function App() {
         contactData,
         "68PSl9RYGeUNFwyWF"
       )
+
       .then(() => {
+
         alert("Message Sent Successfully!");
 
         setContactData({
@@ -80,12 +127,18 @@ function App() {
           message: "",
         });
       })
+
       .catch((error) => {
         console.log(error);
       });
   };
 
+  // =========================
+  // ADD / UPDATE PROJECT
+  // =========================
+
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     const newProject = {
@@ -94,7 +147,11 @@ function App() {
     };
 
     try {
+
+      // UPDATE
+
       if (editId) {
+
         await axios.put(
           `https://portfolio-backend-2k8z.onrender.com/api/projects/${editId}`,
           newProject
@@ -102,7 +159,11 @@ function App() {
 
         setEditId(null);
 
-      } else {
+      }
+
+      // ADD
+
+      else {
 
         await axios.post(
           "https://portfolio-backend-2k8z.onrender.com/api/projects",
@@ -125,7 +186,12 @@ function App() {
     }
   };
 
+  // =========================
+  // DELETE PROJECT
+  // =========================
+
   const deleteProject = async (id) => {
+
     try {
 
       await axios.delete(
@@ -139,7 +205,12 @@ function App() {
     }
   };
 
+  // =========================
+  // EDIT PROJECT
+  // =========================
+
   const editProject = (project) => {
+
     setFormData({
       title: project.title,
       description: project.description,
@@ -151,31 +222,55 @@ function App() {
     setEditId(project._id);
   };
 
+  // =========================
+  // LOADER
+  // =========================
+
+  if (loading) {
+
+    return (
+      <div className="loader">
+        <h1>Shiva Teja</h1>
+      </div>
+    );
+  }
+
+  // =========================
+  // MAIN RETURN
+  // =========================
+
   return (
+
     <div className={darkMode ? "app dark" : "app light"}>
 
-      {/* NAVBAR */}
+      {/* ================= NAVBAR ================= */}
 
       <nav className="navbar">
 
         <h2>Shiva Teja</h2>
 
         <div className="nav-links">
+
           <a href="#home">Home</a>
+
           <a href="#projects">Projects</a>
+
           <a href="#contact">Contact</a>
+
         </div>
 
         <button
           className="theme-toggle"
           onClick={() => setDarkMode(!darkMode)}
         >
+
           {darkMode ? <FaSun /> : <FaMoon />}
+
         </button>
 
       </nav>
 
-      {/* HERO SECTION */}
+      {/* ================= HERO SECTION ================= */}
 
       <motion.div
         className="hero"
@@ -184,159 +279,238 @@ function App() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
-
-        <h1>Full Stack Developer</h1>
+<h1 className="animated-text">
+  Full Stack Developer
+</h1>
 
         <p>
-          I build modern web applications using React, Node.js,
-          Express, and MongoDB.
+
+          I build modern web applications using React,
+          Node.js, Express, and MongoDB.
+
         </p>
 
         <div className="hero-buttons">
+
+          {/* GITHUB */}
 
           <a
             href="https://github.com/pasunutishivateja-git"
             target="_blank"
             rel="noreferrer"
           >
+
             <button>
               <FaGithub /> GitHub
             </button>
+
           </a>
 
+          {/* LINKEDIN */}
+
           <a
-            href="https://www.linkedin.com/"
+            href="https://www.linkedin.com/in/shiva-teja-pasunuti-961286331/"
             target="_blank"
             rel="noreferrer"
           >
+
             <button>
               <FaLinkedin /> LinkedIn
             </button>
+
           </a>
 
         </div>
 
       </motion.div>
 
-      {/* ABOUT */}
+      {/* ================= ABOUT ================= */}
 
-      <section className="about">
+      <section className="about" data-aos="fade-up">
 
         <h2>About Me</h2>
 
         <p>
+
           I am a passionate Full Stack Developer skilled in
           building modern web applications using React,
           Node.js, Express, and MongoDB.
+
         </p>
 
       </section>
 
-      {/* SKILLS */}
+      {/* ================= SKILLS ================= */}
 
-      <section className="skills">
+      <section className="skills" data-aos="zoom-in">
 
         <h2>Skills</h2>
 
         <div className="skills-container">
 
           <div className="skill-card">HTML</div>
+
           <div className="skill-card">CSS</div>
+
           <div className="skill-card">JavaScript</div>
+
           <div className="skill-card">React</div>
+
           <div className="skill-card">Node.js</div>
+
           <div className="skill-card">Express</div>
+
           <div className="skill-card">MongoDB</div>
+
           <div className="skill-card">Python</div>
 
         </div>
 
       </section>
 
-     {/* PROJECT FORM */}
-     
-<form className="project-form" onSubmit={handleSubmit} id="projects">
-  <input
-    type="text"
-    name="title"
-    placeholder="Project Title"
-    value={formData.title}
-    onChange={handleChange}
-    required
-  />
+      {/* ================= PROJECT FORM ================= */}
 
-  <textarea
-    name="description"
-    placeholder="Project Description"
-    value={formData.description}
-    onChange={handleChange}
-    required
-  />
+      <form
+        className="project-form"
+        onSubmit={handleSubmit}
+        id="projects"
+        data-aos="fade-up"
+      >
 
-  <input
-    type="text"
-    name="technologies"
-    placeholder="Technologies (comma separated)"
-    value={formData.technologies}
-    onChange={handleChange}
-  />
+        <input
+          type="text"
+          name="title"
+          placeholder="Project Title"
+          value={formData.title}
+          onChange={handleChange}
+          required
+        />
 
-  <input
-    type="text"
-    name="githubLink"
-    placeholder="GitHub Link"
-    value={formData.githubLink}
-    onChange={handleChange}
-  />
+        <textarea
+          name="description"
+          placeholder="Project Description"
+          value={formData.description}
+          onChange={handleChange}
+          required
+        />
 
-  <input
-    type="text"
-    name="liveDemo"
-    placeholder="Live Demo Link"
-    value={formData.liveDemo}
-    onChange={handleChange}
-  />
+        <input
+          type="text"
+          name="technologies"
+          placeholder="Technologies (comma separated)"
+          value={formData.technologies}
+          onChange={handleChange}
+        />
 
-  <button type="submit">
-    {editId ? "Update Project" : "Add Project"}
-  </button>
-</form>
+        <input
+          type="text"
+          name="githubLink"
+          placeholder="GitHub Link"
+          value={formData.githubLink}
+          onChange={handleChange}
+        />
 
-{/* PROJECT GRID */}
-<div className="projects-grid">
-  {projects.map((project) => (
-    <motion.div className="project-card" key={project._id}>
-      <h2>{project.title}</h2>
-      <p>{project.description}</p>
+        <input
+          type="text"
+          name="liveDemo"
+          placeholder="Live Demo Link"
+          value={formData.liveDemo}
+          onChange={handleChange}
+        />
 
-      <h4>Technologies</h4>
-      <ul className="tech-list">
-        {project.technologies.map((tech, i) => (
-          <li key={i} className="tech-item">
-            {tech}
-          </li>
+        <button type="submit">
+
+          {editId ? "Update Project" : "Add Project"}
+
+        </button>
+
+      </form>
+
+      {/* ================= PROJECTS ================= */}
+
+      <div className="projects-grid">
+
+        {projects.map((project) => (
+
+          <motion.div
+            className="project-card"
+            key={project._id}
+            data-aos="fade-up"
+          >
+
+            <h2>{project.title}</h2>
+
+            <p>{project.description}</p>
+
+            <h4>Technologies</h4>
+
+            <ul className="tech-list">
+
+              {project.technologies.map((tech, i) => (
+
+                <li key={i} className="tech-item">
+
+                  {tech}
+
+                </li>
+
+              ))}
+
+            </ul>
+
+            <div className="links">
+
+              {/* GITHUB */}
+
+              <a
+                href={project.githubLink}
+                target="_blank"
+                rel="noreferrer"
+              >
+
+                <button>GitHub</button>
+
+              </a>
+
+              {/* LIVE */}
+
+              <a
+                href={project.liveDemo}
+                target="_blank"
+                rel="noreferrer"
+              >
+
+                <button>Live Demo</button>
+
+              </a>
+
+              {/* EDIT */}
+
+              <button onClick={() => editProject(project)}>
+                Edit
+              </button>
+
+              {/* DELETE */}
+
+              <button onClick={() => deleteProject(project._id)}>
+                Delete
+              </button>
+
+            </div>
+
+          </motion.div>
+
         ))}
-      </ul>
 
-      <div className="links">
-        <a href={project.githubLink} target="_blank">
-          <button>GitHub</button>
-        </a>
-
-        <a href={project.liveDemo} target="_blank">
-          <button>Live</button>
-        </a>
-
-        <button onClick={() => editProject(project)}>Edit</button>
-        <button onClick={() => deleteProject(project._id)}>Delete</button>
       </div>
-    </motion.div>
-  ))}
-</div>
 
-      {/* CONTACT */}
+      {/* ================= CONTACT ================= */}
 
-      <section className="contact" id="contact">
+      <section
+        className="contact"
+        id="contact"
+        data-aos="fade-up"
+      >
 
         <div className="contact-left">
 
@@ -347,17 +521,39 @@ function App() {
             shivatejapasunuti@gmail.com
           </p>
 
-          <p>
-            <FaGithub />
-            GitHub Profile
-          </p>
+          {/* GITHUB */}
 
-          <p>
-            <FaLinkedin />
-            LinkedIn Profile
-          </p>
+          <a
+            href="https://github.com/pasunutishivateja-git"
+            target="_blank"
+            rel="noreferrer"
+          >
+
+            <p>
+              <FaGithub />
+              GitHub Profile
+            </p>
+
+          </a>
+
+          {/* LINKEDIN */}
+
+          <a
+            href="https://www.linkedin.com/in/shiva-teja-pasunuti-961286331/"
+            target="_blank"
+            rel="noreferrer"
+          >
+
+            <p>
+              <FaLinkedin />
+              LinkedIn Profile
+            </p>
+
+          </a>
 
         </div>
+
+        {/* CONTACT FORM */}
 
         <form
           className="contact-form"
@@ -398,7 +594,7 @@ function App() {
 
       </section>
 
-      {/* FOOTER */}
+      {/* ================= FOOTER ================= */}
 
       <footer className="footer">
 
