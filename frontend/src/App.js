@@ -366,10 +366,7 @@ function App() {
             "JavaScript",
             "React",
             "Node.js",
-            "Express.js",
-            "MongoDB",
             "Python",
-            "REST APIs",
           ].map((skill, index) => (
 
             <motion.div
@@ -447,7 +444,11 @@ function App() {
       {/* ================= PROJECTS ================= */}
 
       <section className="projects-section">
-
+{projects.length === 0 ? (
+   <div className="no-projects">
+      No project added
+      </div>
+        ) : (
         <div className="projects-grid">
 
           {projects.map((project) => (
@@ -527,6 +528,7 @@ function App() {
           ))}
 
         </div>
+        )}
 
       </section>
 
