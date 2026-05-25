@@ -3,7 +3,7 @@ import {
   FaLinkedin,
   FaEnvelope,
   FaMoon,
-  FaSun
+  FaSun,
 } from "react-icons/fa";
 
 import emailjs from "@emailjs/browser";
@@ -11,11 +11,8 @@ import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
-import AOS from "aos";
-import "aos/dist/aos.css";
 
 function App() {
-
   // =========================
   // STATES
   // =========================
@@ -46,14 +43,11 @@ function App() {
   // =========================
 
   useEffect(() => {
-AOS.init({
-      duration: 1000,
-     });
     fetchProjects();
+
     setTimeout(() => {
       setLoading(false);
     }, 2000);
-
   }, []);
 
   // =========================
@@ -61,7 +55,6 @@ AOS.init({
   // =========================
 
   const fetchProjects = () => {
-
     axios
       .get("https://portfolio-backend-2k8z.onrender.com/api/projects")
 
@@ -79,7 +72,6 @@ AOS.init({
   // =========================
 
   const handleChange = (e) => {
-
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -91,7 +83,6 @@ AOS.init({
   // =========================
 
   const handleContactChange = (e) => {
-
     setContactData({
       ...contactData,
       [e.target.name]: e.target.value,
@@ -103,7 +94,6 @@ AOS.init({
   // =========================
 
   const sendEmail = (e) => {
-
     e.preventDefault();
 
     emailjs
@@ -115,7 +105,6 @@ AOS.init({
       )
 
       .then(() => {
-
         alert("Message Sent Successfully!");
 
         setContactData({
@@ -135,7 +124,6 @@ AOS.init({
   // =========================
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
 
     const newProject = {
@@ -144,24 +132,20 @@ AOS.init({
     };
 
     try {
-
       // UPDATE
 
       if (editId) {
-
         await axios.put(
           `https://portfolio-backend-2k8z.onrender.com/api/projects/${editId}`,
           newProject
         );
 
         setEditId(null);
-
       }
 
       // ADD
 
       else {
-
         await axios.post(
           "https://portfolio-backend-2k8z.onrender.com/api/projects",
           newProject
@@ -177,7 +161,6 @@ AOS.init({
         githubLink: "",
         liveDemo: "",
       });
-
     } catch (error) {
       console.log(error);
     }
@@ -188,15 +171,12 @@ AOS.init({
   // =========================
 
   const deleteProject = async (id) => {
-
     try {
-
       await axios.delete(
         `https://portfolio-backend-2k8z.onrender.com/api/projects/${id}`
       );
 
       fetchProjects();
-
     } catch (error) {
       console.log(error);
     }
@@ -207,7 +187,6 @@ AOS.init({
   // =========================
 
   const editProject = (project) => {
-
     setFormData({
       title: project.title,
       description: project.description,
@@ -224,7 +203,6 @@ AOS.init({
   // =========================
 
   if (loading) {
-
     return (
       <div className="loader">
         <h1>Shiva Teja</h1>
@@ -237,58 +215,60 @@ AOS.init({
   // =========================
 
   return (
-
     <div className={darkMode ? "app dark" : "app light"}>
-
       {/* ================= NAVBAR ================= */}
 
       <nav className="navbar">
-
         <h2>Shiva Teja</h2>
 
         <div className="nav-links">
-
           <a href="#home">Home</a>
+
+          <a href="#about">About</a>
+
+          <a href="#skills">Skills</a>
 
           <a href="#projects">Projects</a>
 
           <a href="#contact">Contact</a>
-
         </div>
 
         <button
           className="theme-toggle"
           onClick={() => setDarkMode(!darkMode)}
         >
-
           {darkMode ? <FaSun /> : <FaMoon />}
-
         </button>
-
       </nav>
 
       {/* ================= HERO SECTION ================= */}
 
-      <motion.div
+      <motion.section
         className="hero"
         id="home"
         initial={{ opacity: 0, y: 80 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
-<h1 className="animated-text">
-  Full Stack Developer
-</h1>
+        <motion.h1
+          className="animated-text"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          Full Stack Developer
+        </motion.h1>
 
-        <p>
-
-          I build modern web applications using React,
-          Node.js, Express, and MongoDB.
-
-        </p>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          I build modern and responsive web applications using
+          React, Node.js, Express.js, and MongoDB.
+        </motion.p>
 
         <div className="hero-buttons">
-
           {/* GITHUB */}
 
           <a
@@ -296,11 +276,9 @@ AOS.init({
             target="_blank"
             rel="noreferrer"
           >
-
             <button>
               <FaGithub /> GitHub
             </button>
-
           </a>
 
           {/* LINKEDIN */}
@@ -310,41 +288,46 @@ AOS.init({
             target="_blank"
             rel="noreferrer"
           >
-
             <button>
               <FaLinkedin /> LinkedIn
             </button>
-
           </a>
-
         </div>
-
-      </motion.div>
+      </motion.section>
 
       {/* ================= ABOUT ================= */}
 
-      <section className="about" data-aos="fade-up">
-
+      <motion.section
+        className="about"
+        id="about"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+      >
         <h2>About Me</h2>
 
         <p>
-
-          I am a passionate Full Stack Developer skilled in
-          building modern web applications using React,
-          Node.js, Express, and MongoDB.
-
+          I am a passionate Full Stack Developer skilled in building
+          scalable and modern web applications using the MERN Stack.
+          I enjoy creating beautiful UI designs and solving real-world
+          problems through technology.
         </p>
-
-      </section>
+      </motion.section>
 
       {/* ================= SKILLS ================= */}
 
-      <section className="skills" data-aos="zoom-in">
-
+      <motion.section
+        className="skills"
+        id="skills"
+        initial={{ opacity: 0, scale: 0.8 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+      >
         <h2>Skills</h2>
 
         <div className="skills-container">
-
           <div className="skill-card">HTML</div>
 
           <div className="skill-card">CSS</div>
@@ -355,24 +338,32 @@ AOS.init({
 
           <div className="skill-card">Node.js</div>
 
-          <div className="skill-card">Express</div>
+          <div className="skill-card">Express.js</div>
 
           <div className="skill-card">MongoDB</div>
 
           <div className="skill-card">Python</div>
 
-        </div>
+          <div className="skill-card">GitHub</div>
 
-      </section>
+          <div className="skill-card">REST APIs</div>
+        </div>
+      </motion.section>
 
       {/* ================= PROJECT FORM ================= */}
 
-      <form
+      <motion.form
         className="project-form"
         onSubmit={handleSubmit}
         id="projects"
-        data-aos="fade-up"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
       >
+        <h2>
+          {editId ? "Update Project" : "Add New Project"}
+        </h2>
 
         <input
           type="text"
@@ -416,25 +407,23 @@ AOS.init({
         />
 
         <button type="submit">
-
           {editId ? "Update Project" : "Add Project"}
-
         </button>
-
-      </form>
+      </motion.form>
 
       {/* ================= PROJECTS ================= */}
 
       <div className="projects-grid">
-
         {projects.map((project) => (
-
           <motion.div
             className="project-card"
             key={project._id}
-            data-aos="fade-up"
+            initial={{ opacity: 0, y: 80 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.03 }}
           >
-
             <h2>{project.title}</h2>
 
             <p>{project.description}</p>
@@ -442,21 +431,14 @@ AOS.init({
             <h4>Technologies</h4>
 
             <ul className="tech-list">
-
               {project.technologies.map((tech, i) => (
-
                 <li key={i} className="tech-item">
-
                   {tech}
-
                 </li>
-
               ))}
-
             </ul>
 
             <div className="links">
-
               {/* GITHUB */}
 
               <a
@@ -464,9 +446,7 @@ AOS.init({
                 target="_blank"
                 rel="noreferrer"
               >
-
                 <button>GitHub</button>
-
               </a>
 
               {/* LIVE */}
@@ -476,9 +456,7 @@ AOS.init({
                 target="_blank"
                 rel="noreferrer"
               >
-
                 <button>Live Demo</button>
-
               </a>
 
               {/* EDIT */}
@@ -492,25 +470,22 @@ AOS.init({
               <button onClick={() => deleteProject(project._id)}>
                 Delete
               </button>
-
             </div>
-
           </motion.div>
-
         ))}
-
       </div>
 
       {/* ================= CONTACT ================= */}
 
-      <section
+      <motion.section
         className="contact"
         id="contact"
-        data-aos="fade-up"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
       >
-
         <div className="contact-left">
-
           <h2>Contact Me</h2>
 
           <p>
@@ -525,12 +500,10 @@ AOS.init({
             target="_blank"
             rel="noreferrer"
           >
-
             <p>
               <FaGithub />
               GitHub Profile
             </p>
-
           </a>
 
           {/* LINKEDIN */}
@@ -540,23 +513,16 @@ AOS.init({
             target="_blank"
             rel="noreferrer"
           >
-
             <p>
               <FaLinkedin />
               LinkedIn Profile
             </p>
-
           </a>
-
         </div>
 
         {/* CONTACT FORM */}
 
-        <form
-          className="contact-form"
-          onSubmit={sendEmail}
-        >
-
+        <form className="contact-form" onSubmit={sendEmail}>
           <input
             type="text"
             name="name"
@@ -586,21 +552,16 @@ AOS.init({
           <button type="submit">
             Send Message
           </button>
-
         </form>
-
-      </section>
+      </motion.section>
 
       {/* ================= FOOTER ================= */}
 
       <footer className="footer">
-
         <p>
           © 2026 Shiva Teja. All Rights Reserved.
         </p>
-
       </footer>
-
     </div>
   );
 }
