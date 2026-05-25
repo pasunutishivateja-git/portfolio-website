@@ -46,13 +46,10 @@ function App() {
   // =========================
 
   useEffect(() => {
-
-    fetchProjects();
-
-    AOS.init({
+AOS.init({
       duration: 1000,
-    });
-
+     });
+    fetchProjects();
     setTimeout(() => {
       setLoading(false);
     }, 2000);
