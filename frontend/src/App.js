@@ -7,20 +7,16 @@ import {
 } from "react-icons/fa";
 
 import emailjs from "@emailjs/browser";
-import { motion } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
 import "./App.css";
 
 function App() {
 
-  // =========================
-  // STATES
-  // =========================
+  // ================= STATES =================
 
   const [projects, setProjects] = useState([]);
-
   const [editId, setEditId] = useState(null);
 
   const [darkMode, setDarkMode] = useState(true);
@@ -40,9 +36,31 @@ function App() {
     message: "",
   });
 
-  // =========================
-  // FETCH PROJECTS
-  // =========================
+  // ================= THEME EFFECT =================
+
+  useEffect(() => {
+
+    if (darkMode) {
+      document.body.classList.remove("light-mode");
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+      document.body.classList.add("light-mode");
+    }
+
+  }, [darkMode]);
+
+  // ================= SCROLL BAR =================
+
+  const { scrollYProgress } = useScroll();
+
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
+
+  // ================= INITIAL LOAD =================
 
   useEffect(() => {
 
@@ -50,16 +68,16 @@ function App() {
 
     setTimeout(() => {
       setLoading(false);
-    }, 1800);
+    }, 1200);
 
   }, []);
+
+  // ================= FETCH PROJECTS =================
 
   const fetchProjects = () => {
 
     axios
-      .get(
-        "https://portfolio-backend-2k8z.onrender.com/api/projects"
-      )
+      .get("https://portfolio-backend-2k8z.onrender.com/api/projects")
 
       .then((res) => {
         setProjects(res.data);
@@ -70,9 +88,7 @@ function App() {
       });
   };
 
-  // =========================
-  // HANDLE INPUT CHANGES
-  // =========================
+  // ================= FORM CHANGE =================
 
   const handleChange = (e) => {
 
@@ -82,6 +98,8 @@ function App() {
     });
   };
 
+  // ================= CONTACT CHANGE =================
+
   const handleContactChange = (e) => {
 
     setContactData({
@@ -90,9 +108,7 @@ function App() {
     });
   };
 
-  // =========================
-  // SEND EMAIL
-  // =========================
+  // ================= SEND EMAIL =================
 
   const sendEmail = (e) => {
 
@@ -115,7 +131,6 @@ function App() {
           email: "",
           message: "",
         });
-
       })
 
       .catch((error) => {
@@ -123,27 +138,20 @@ function App() {
       });
   };
 
-  // =========================
-  // ADD / UPDATE PROJECT
-  // =========================
+  // ================= SUBMIT PROJECT =================
 
   const handleSubmit = async (e) => {
 
     e.preventDefault();
 
     const newProject = {
-
       ...formData,
-
-      technologies:
-        formData.technologies
-          .split(",")
-          .map((tech) => tech.trim()),
+      technologies: formData.technologies
+        .split(",")
+        .map((tech) => tech.trim()),
     };
 
     try {
-
-      // UPDATE
 
       if (editId) {
 
@@ -154,11 +162,7 @@ function App() {
 
         setEditId(null);
 
-      }
-
-      // ADD
-
-      else {
+      } else {
 
         await axios.post(
           "https://portfolio-backend-2k8z.onrender.com/api/projects",
@@ -175,16 +179,12 @@ function App() {
         githubLink: "",
       });
 
-    }
-
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
   };
 
-  // =========================
-  // DELETE PROJECT
-  // =========================
+  // ================= DELETE =================
 
   const deleteProject = async (id) => {
 
@@ -196,81 +196,79 @@ function App() {
 
       fetchProjects();
 
-    }
-
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
   };
 
-  // =========================
-  // EDIT PROJECT
-  // =========================
+  // ================= EDIT =================
 
   const editProject = (project) => {
 
     setFormData({
       title: project.title,
       description: project.description,
-      technologies:
-        project.technologies.join(", "),
+      technologies: project.technologies.join(", "),
       githubLink: project.githubLink,
     });
 
     setEditId(project._id);
+
+    window.scrollTo({
+      top: 700,
+      behavior: "smooth",
+    });
   };
 
-  // =========================
-  // LOADER
-  // =========================
+  // ================= LOADER =================
 
   if (loading) {
 
     return (
-
       <div className="loader">
-
         <h1>Shiva Teja</h1>
-
       </div>
     );
   }
 
-  // =========================
-  // MAIN RETURN
-  // =========================
+  // ================= MAIN =================
 
   return (
 
-    <div className={darkMode ? "app dark" : "app light"}>
+   <div className={`app ${darkMode ? "dark" : "light"}`}>
+
+      {/* SCROLL BAR */}
+
+      <motion.div
+        className="scroll-progress"
+        style={{ scaleX }}
+      />
 
       {/* ================= NAVBAR ================= */}
 
       <nav className="navbar">
 
-        <h2>Shiva Teja</h2>
+        <h2 className="logo">
+          Shiva Teja
+        </h2>
 
         <div className="nav-links">
 
           <a href="#home">Home</a>
-
           <a href="#about">About</a>
-
           <a href="#skills">Skills</a>
-
           <a href="#projects">Projects</a>
-
           <a href="#contact">Contact</a>
 
         </div>
+
+        {/* THEME BUTTON */}
 
         <button
           className="theme-toggle"
           onClick={() => setDarkMode(!darkMode)}
         >
-
           {darkMode ? <FaSun /> : <FaMoon />}
-
         </button>
 
       </nav>
@@ -280,22 +278,30 @@ function App() {
       <motion.section
         className="hero"
         id="home"
-        initial={{ opacity: 0, y: 80 }}
+        initial={{ opacity: 0, y: 70 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
 
-        <h1 className="animated-text">
+        <motion.h1
+          className="animated-text"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
           Full Stack Developer
-        </h1>
+        </motion.h1>
 
-        <p>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          I build modern, scalable and responsive web applications
+          using React.js, Node.js, Express.js and MongoDB.
+        </motion.p>
 
-          I build modern and responsive
-          web applications using React,
-          Node.js, Express.js, and MongoDB.
-
-        </p>
+        {/* HERO BUTTONS */}
 
         <div className="hero-buttons">
 
@@ -303,26 +309,24 @@ function App() {
             href="https://github.com/pasunutishivateja-git"
             target="_blank"
             rel="noreferrer"
+            className="hero-link"
           >
-
-            <button>
+            <div className="hero-btn">
               <FaGithub />
-              GitHub
-            </button>
-
+              <span>GitHub</span>
+            </div>
           </a>
 
           <a
             href="https://www.linkedin.com/in/shiva-teja-pasunuti-961286331/"
             target="_blank"
             rel="noreferrer"
+            className="hero-link"
           >
-
-            <button>
+            <div className="hero-btn">
               <FaLinkedin />
-              LinkedIn
-            </button>
-
+              <span>LinkedIn</span>
+            </div>
           </a>
 
         </div>
@@ -331,41 +335,24 @@ function App() {
 
       {/* ================= ABOUT ================= */}
 
-      <motion.section
-        className="about"
-        id="about"
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
+      <section className="about" id="about">
 
         <h2 className="section-title">
           About Me
         </h2>
 
         <p>
-
-          I am a passionate Full Stack
-          Developer skilled in building
-          scalable and modern web
-          applications using the
-          MERN Stack.
-
+          I am a passionate MERN Stack Developer skilled in
+          creating beautiful, modern and scalable web applications.
+          I enjoy solving real-world problems through technology
+          and building professional user experiences.
         </p>
 
-      </motion.section>
+      </section>
 
       {/* ================= SKILLS ================= */}
 
-      <motion.section
-        className="skills"
-        id="skills"
-        initial={{ opacity: 0, scale: 0.8 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
+      <section className="skills" id="skills">
 
         <h2 className="section-title">
           Skills
@@ -373,78 +360,52 @@ function App() {
 
         <div className="skills-container">
 
-          <div className="skill-card">HTML</div>
-          <div className="skill-card">CSS</div>
-          <div className="skill-card">JavaScript</div>
-          <div className="skill-card">React</div>
-          <div className="skill-card">Node.js</div>
-          <div className="skill-card">Express.js</div>
-          <div className="skill-card">MongoDB</div>
-          <div className="skill-card">Python</div>
-          <div className="skill-card">GitHub</div>
-          <div className="skill-card">REST APIs</div>
+          {[
+            "HTML",
+            "CSS",
+            "JavaScript",
+            "React",
+            "Node.js",
+            "Express.js",
+            "MongoDB",
+            "Python",
+            "REST APIs",
+          ].map((skill, index) => (
+
+            <motion.div
+              key={index}
+              className="skill-card"
+              whileHover={{ scale: 1.08 }}
+            >
+              {skill}
+            </motion.div>
+
+          ))}
 
         </div>
 
-      </motion.section>
+      </section>
 
       {/* ================= PROJECT FORM ================= */}
 
-      <motion.form
-        className="project-form"
-        onSubmit={handleSubmit}
-        id="projects"
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
+      <section className="project-wrapper" id="projects">
 
-        {/* LAYER 1 */}
+        <form
+          className="project-form"
+          onSubmit={handleSubmit}
+        >
 
-        <div className="form-layer">
-
-          <h3>
-
-            <span className="layer-number">
-              1
-            </span>
-
-            Project Title
-
-          </h3>
-
-          <input
-            type="text"
-            name="title"
-            placeholder="Enter project title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-          />
-
-        </div>
-
-        {/* LAYER 2 */}
-
-        <div className="form-layer">
-
-          <h3>
-
-            <span className="layer-number">
-              2
-            </span>
-
-            Project Details
-
-          </h3>
+          <h2 className="section-title">
+            {editId ? "Update Project" : "Add New Project"}
+          </h2>
 
           <div className="form-grid">
 
-            <textarea
-              name="description"
-              placeholder="Project description"
-              value={formData.description}
+            <input
+              type="text"
+              name="title"
+              placeholder="Project Title"
+              value={formData.title}
               onChange={handleChange}
               required
             />
@@ -452,7 +413,7 @@ function App() {
             <input
               type="text"
               name="technologies"
-              placeholder="Technologies (comma separated)"
+              placeholder="Technologies (React, Node.js)"
               value={formData.technologies}
               onChange={handleChange}
             />
@@ -467,141 +428,111 @@ function App() {
 
           </div>
 
-        </div>
-
-        {/* LAYER 3 */}
-
-        <div className="form-layer">
-
-          <h3>
-
-            <span className="layer-number">
-              3
-            </span>
-
-            {editId
-              ? "Update Project"
-              : "Add Project"}
-
-          </h3>
+          <textarea
+            name="description"
+            placeholder="Project Description"
+            value={formData.description}
+            onChange={handleChange}
+            required
+          />
 
           <button type="submit">
-
-            {editId
-              ? "Update Project"
-              : "Add Project"}
-
+            {editId ? "Update Project" : "Add Project"}
           </button>
 
-        </div>
+        </form>
 
-      </motion.form>
+      </section>
 
       {/* ================= PROJECTS ================= */}
 
-      <div className="projects-grid">
+      <section className="projects-section">
 
-        {projects.length === 0 ? (
+        <div className="projects-grid">
 
-          <h2 className="empty-projects">
-            No Projects Added Yet
-          </h2>
-
-        ) : (
-
-          projects.map((project) => (
+          {projects.map((project) => (
 
             <motion.div
               className="project-card"
               key={project._id}
-              initial={{ opacity: 0, y: 80 }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              transition={{
-                duration: 0.7,
-              }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ y: -8 }}
             >
 
-              <h2>{project.title}</h2>
+              <div>
 
-              <p>{project.description}</p>
+                <h3>{project.title}</h3>
 
-              <h4>Technologies</h4>
+                <div className="project-line"></div>
 
-              <ul className="tech-list">
+                <p className="project-description">
+                  {project.description}
+                </p>
 
-                {project.technologies.map(
-                  (tech, i) => (
+              </div>
 
-                    <li
+              <div>
+
+                <div className="tech-list">
+
+                  {project.technologies.map((tech, i) => (
+
+                    <span
                       key={i}
                       className="tech-item"
                     >
-
                       {tech}
+                    </span>
 
-                    </li>
-                  )
-                )}
+                  ))}
 
-              </ul>
+                </div>
 
-              <div className="links">
+                <div className="project-buttons">
 
-                <a
-                  href={project.githubLink}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                  <a
+                    href={project.githubLink}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <button
+                      type="button"
+                      className="github-btn"
+                    >
+                      GitHub
+                    </button>
+                  </a>
 
-                  <button>
-                    GitHub
+                  <button
+                    type="button"
+                    className="edit-btn"
+                    onClick={() => editProject(project)}
+                  >
+                    Edit
                   </button>
 
-                </a>
+                  <button
+                    type="button"
+                    className="delete-btn"
+                    onClick={() => deleteProject(project._id)}
+                  >
+                    Delete
+                  </button>
 
-                <button
-                  onClick={() =>
-                    editProject(project)
-                  }
-                >
-
-                  Edit
-
-                </button>
-
-                <button
-                  onClick={() =>
-                    deleteProject(project._id)
-                  }
-                >
-
-                  Delete
-
-                </button>
+                </div>
 
               </div>
 
             </motion.div>
-          ))
-        )}
 
-      </div>
+          ))}
+
+        </div>
+
+      </section>
 
       {/* ================= CONTACT ================= */}
 
-      <motion.section
-        className="contact"
-        id="contact"
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-      >
+      <section className="contact" id="contact">
 
         <div className="contact-left">
 
@@ -610,43 +541,28 @@ function App() {
           </h2>
 
           <p>
-
             <FaEnvelope />
-
             shivatejapasunuti@gmail.com
-
           </p>
 
           <a
             href="https://github.com/pasunutishivateja-git"
             target="_blank"
             rel="noreferrer"
+            className="contact-link"
           >
-
-            <p>
-
-              <FaGithub />
-
-              GitHub Profile
-
-            </p>
-
+            <FaGithub />
+            GitHub Profile
           </a>
 
           <a
             href="https://www.linkedin.com/in/shiva-teja-pasunuti-961286331/"
             target="_blank"
             rel="noreferrer"
+            className="contact-link"
           >
-
-            <p>
-
-              <FaLinkedin />
-
-              LinkedIn Profile
-
-            </p>
-
+            <FaLinkedin />
+            LinkedIn Profile
           </a>
 
         </div>
@@ -690,15 +606,14 @@ function App() {
 
         </form>
 
-      </motion.section>
+      </section>
 
       {/* ================= FOOTER ================= */}
 
       <footer className="footer">
 
         <p>
-          © 2026 Shiva Teja.
-          All Rights Reserved.
+          © 2026 Shiva Teja. All Rights Reserved.
         </p>
 
       </footer>
