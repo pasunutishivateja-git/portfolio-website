@@ -1,0 +1,2168 @@
+.css
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+/* ================= GLOBAL ================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:"Poppins",sans-serif;
+  overflow-x:hidden;
+}
+
+/* ================= APP ================= */
+
+.app{
+  min-height:100vh;
+
+  color:white;
+
+  transition:0.4s ease;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(127,90,240,0.15),
+      transparent 30%
+    ),
+
+    radial-gradient(
+      circle at bottom right,
+      rgba(44,182,125,0.12),
+      transparent 30%
+    ),
+
+    #050816;
+}
+
+/* ================= SCROLL BAR ================= */
+
+.scroll-progress{
+  position:fixed;
+
+  top:0;
+  left:0;
+
+  width:100%;
+  height:4px;
+
+  background:linear-gradient(
+    90deg,
+    #7f5af0,
+    #2cb67d
+  );
+
+  transform-origin:left;
+
+  z-index:9999;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+  width:100%;
+
+  padding:20px 6%;
+
+  display:flex;
+
+  align-items:center;
+
+  position:sticky;
+
+  top:0;
+
+  z-index:1000;
+
+  backdrop-filter:blur(14px);
+
+  background:rgba(5,8,22,0.78);
+
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+/* LOGO */
+
+.navbar h2{
+  font-size:2rem;
+
+  font-weight:700;
+
+  background:linear-gradient(
+    90deg,
+    #7f5af0,
+    #2cb67d
+  );
+
+  -webkit-background-clip:text;
+
+  -webkit-text-fill-color:transparent;
+
+  margin-right:auto;
+}
+
+/* NAV LINKS */
+
+.nav-links{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:flex-end;
+
+  gap:34px;
+
+  margin-right:28px;
+}
+
+.nav-links a{
+  color:white;
+
+  text-decoration:none;
+
+  font-size:0.96rem;
+
+  font-weight:500;
+
+  position:relative;
+
+  transition:0.3s ease;
+}
+
+.nav-links a::after{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  bottom:-6px;
+
+  width:0%;
+  height:2px;
+
+  background:#7f5af0;
+
+  transition:0.3s ease;
+}
+
+.nav-links a:hover{
+  color:#7f5af0;
+}
+
+.nav-links a:hover::after{
+  width:100%;
+}
+
+/* TOGGLE */
+
+.theme-toggle{
+  width:48px;
+  height:48px;
+
+  border:none;
+
+  border-radius:50%;
+
+  background:rgba(255,255,255,0.08);
+
+  color:white;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  cursor:pointer;
+
+  font-size:1rem;
+
+  transition:0.35s ease;
+
+  box-shadow:
+    0 0 0 transparent;
+}
+
+.theme-toggle:hover{
+  transform:rotate(180deg) scale(1.08);
+
+  background:linear-gradient(
+    135deg,
+    #7f5af0,
+    #6246ea
+  );
+
+  box-shadow:
+    0 0 25px rgba(127,90,240,0.55);
+}
+
+/* ================= HERO ================= */
+
+.hero{
+  min-height:100vh;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+
+  align-items:center;
+
+  text-align:center;
+
+  padding:0 10%;
+
+  position:relative;
+}
+
+.hero::before{
+  content:"";
+
+  position:absolute;
+
+  width:450px;
+  height:450px;
+
+  background:#7f5af0;
+
+  filter:blur(180px);
+
+  opacity:0.18;
+}
+
+/* ================= HERO AVATAR ================= */
+
+.hero-avatar{
+  width:220px;
+  height:220px;
+
+  border-radius:50%;
+
+  padding:6px;
+
+  margin-bottom:35px;
+
+  background:linear-gradient(
+    135deg,
+    #7f5af0,
+    #2cb67d
+  );
+
+  box-shadow:
+    0 0 25px rgba(127,90,240,0.6),
+    0 0 60px rgba(44,182,125,0.35);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.hero-avatar img{
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  border-radius:50%;
+
+  border:4px solid #050816;
+}
+
+.hero *{
+  position:relative;
+
+  z-index:2;
+}
+
+.animated-text{
+  font-size:5rem;
+
+  font-weight:700;
+
+  margin-bottom:22px;
+
+  background:linear-gradient(
+    90deg,
+    #7f5af0,
+    #2cb67d
+  );
+
+  -webkit-background-clip:text;
+
+  -webkit-text-fill-color:transparent;
+
+  animation:floatText 3s ease-in-out infinite;
+}
+
+.hero p{
+  max-width:720px;
+
+  line-height:1.9;
+
+  color:#cbd5e1;
+
+  font-size:1.05rem;
+}
+
+/* HERO BUTTONS */
+
+.hero-buttons{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:24px;
+
+  margin-top:45px;
+
+  flex-wrap:wrap;
+}
+
+.hero-buttons a{
+  text-decoration:none;
+}
+
+/* ===== UPDATED GITHUB + LINKEDIN BUTTONS ===== */
+
+/* ===== UPDATED GITHUB + LINKEDIN BUTTONS ===== */
+
+.hero-btn{
+  min-width:190px;
+
+  padding:15px 30px;
+
+  border-radius:16px;
+
+  background:rgba(255,255,255,0.08);
+
+  border:1px solid rgba(255,255,255,0.15);
+
+  color:white;
+
+  font-size:1rem;
+
+  font-weight:600;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:12px;
+
+  cursor:pointer;
+
+  transition:all 0.35s ease;
+
+  position:relative;
+
+  overflow:hidden;
+
+  backdrop-filter:blur(10px);
+
+  box-shadow:
+    0 0 12px rgba(127,90,240,0.18);
+}
+
+/* GLOW LAYER */
+
+.hero-btn::before{
+  content:"";
+
+  position:absolute;
+
+  top:-50%;
+  left:-50%;
+
+  width:200%;
+  height:200%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(127,90,240,0.25),
+      transparent 60%
+    );
+
+  transform:scale(0);
+
+  transition:0.45s ease;
+
+  z-index:0;
+}
+
+.hero-btn svg,
+.hero-btn span{
+  position:relative;
+  z-index:2;
+}
+
+/* HOVER */
+
+.hero-btn:hover{
+  transform:
+    translateY(-6px)
+    scale(1.05);
+
+  background:white;
+
+  color:#111827;
+
+  border:1px solid rgba(255,255,255,0.45);
+
+  box-shadow:
+    0 0 20px rgba(255,255,255,0.55),
+    0 0 40px rgba(127,90,240,0.45),
+    0 18px 38px rgba(127,90,240,0.35);
+}
+
+.hero-btn:hover::before{
+  transform:scale(1);
+}
+
+.hero-buttons button:hover{
+  transform:
+    translateY(-6px)
+    scale(1.05);
+
+  box-shadow:
+    0 0 18px rgba(255,255,255,0.65),
+    0 0 38px rgba(127,90,240,0.45),
+    0 18px 38px rgba(127,90,240,0.35);
+
+  background:#ffffff;
+}
+
+/* ================= FLOAT ANIMATION ================= */
+
+@keyframes floatText{
+
+  0%{
+    transform:translateY(0px);
+  }
+
+  50%{
+    transform:translateY(-12px);
+  }
+
+  100%{
+    transform:translateY(0px);
+  }
+}
+
+/* ================= TITLES ================= */
+
+.about h2,
+.skills h2,
+.project-form h2,
+.contact h2{
+  font-size:2.8rem;
+
+  text-align:center;
+
+  margin-bottom:30px;
+
+  background:linear-gradient(
+    90deg,
+    #7f5af0,
+    #2cb67d
+  );
+
+  -webkit-background-clip:text;
+
+  -webkit-text-fill-color:transparent;
+}
+
+/* ================= ABOUT ================= */
+
+.about{
+  padding:100px 10%;
+
+  text-align:center;
+}
+
+.about p{
+  max-width:850px;
+
+  margin:auto;
+
+  line-height:1.9;
+
+  color:#cbd5e1;
+}
+
+/* ================= SKILLS ================= */
+
+.skills{
+  padding:80px 10%;
+}
+
+.skills-container{
+  display:flex;
+
+  justify-content:center;
+
+  flex-wrap:wrap;
+
+  gap:18px;
+}
+
+.skill-card{
+  padding:16px 28px;
+
+  border-radius:14px;
+
+  background:rgba(255,255,255,0.05);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  transition:0.35s ease;
+
+  cursor:pointer;
+}
+
+.skill-card:hover{
+  transform:translateY(-8px);
+
+  background:#7f5af0;
+
+  box-shadow:
+    0 14px 30px rgba(127,90,240,0.45);
+}
+
+/* ================= PROJECT FORM ================= */
+
+.project-form{
+  width:88%;
+
+  max-width:1200px;
+
+  margin:90px auto;
+
+  padding:45px;
+
+  border-radius:30px;
+
+  background:rgba(255,255,255,0.05);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  backdrop-filter:blur(14px);
+
+  box-shadow:
+    0 18px 45px rgba(0,0,0,0.35);
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:24px;
+}
+
+.form-grid{
+  display:grid;
+
+  grid-template-columns:repeat(3,1fr);
+
+  gap:20px;
+}
+
+/* INPUTS */
+
+.project-form input,
+.project-form textarea,
+.contact-form input,
+.contact-form textarea{
+  width:100%;
+
+  border:none;
+
+  outline:none;
+
+  background:rgba(255,255,255,0.04);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  border-radius:16px;
+
+  padding:16px 18px;
+
+  color:white;
+
+  font-size:0.95rem;
+
+  font-family:"Poppins",sans-serif;
+
+  transition:0.3s ease;
+}
+
+.project-form input,
+.contact-form input{
+  height:58px;
+}
+
+.project-form textarea,
+.contact-form textarea{
+  min-height:170px;
+
+  resize:none;
+}
+
+.project-form input::placeholder,
+.project-form textarea::placeholder,
+.contact-form input::placeholder,
+.contact-form textarea::placeholder{
+  color:#9ca3af;
+}
+
+.project-form input:focus,
+.project-form textarea:focus,
+.contact-form input:focus,
+.contact-form textarea:focus{
+  border-color:#7f5af0;
+
+  box-shadow:
+    0 0 18px rgba(127,90,240,0.25);
+}
+
+/* BUTTONS */
+
+.project-form button,
+.contact-form button{
+  height:58px;
+
+  border:none;
+
+  border-radius:14px;
+
+  background:linear-gradient(
+    135deg,
+    #7f5af0,
+    #6246ea
+  );
+
+  color:white;
+
+  font-size:1rem;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.35s ease;
+
+  box-shadow:
+    0 12px 28px rgba(127,90,240,0.35);
+}
+
+.project-form button:hover,
+.contact-form button:hover{
+  transform:translateY(-4px);
+
+  box-shadow:
+    0 18px 38px rgba(127,90,240,0.55);
+}
+
+/* ================= PROJECTS ================= */
+
+.projects-grid{
+  width:90%;
+
+  margin:auto;
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(auto-fit,minmax(340px,1fr));
+
+  gap:35px;
+
+  padding-bottom:120px;
+}
+
+/* ===== NO PROJECTS MESSAGE ===== */
+
+.no-projects{
+  width:90%;
+
+  margin:20px auto 120px auto;
+
+  padding:40px;
+
+  text-align:center;
+
+  border-radius:24px;
+
+  background:rgba(255,255,255,0.05);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  color:#cbd5e1;
+
+  font-size:1.2rem;
+
+  font-weight:500;
+
+  backdrop-filter:blur(12px);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.25);
+}
+
+.project-card{
+  position:relative;
+
+  overflow:hidden;
+
+  min-height:420px;
+
+  padding:32px;
+
+  border-radius:28px;
+
+  background:rgba(255,255,255,0.05);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  backdrop-filter:blur(14px);
+
+  transition:0.4s ease;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:space-between;
+}
+
+.project-card::before{
+  content:"";
+
+  position:absolute;
+
+  width:240px;
+  height:240px;
+
+  background:#7f5af0;
+
+  border-radius:50%;
+
+  top:-100px;
+  right:-100px;
+
+  opacity:0.12;
+
+  filter:blur(90px);
+}
+
+.project-card:hover{
+  transform:translateY(-10px);
+
+  box-shadow:
+    0 20px 45px rgba(127,90,240,0.32);
+}
+
+.project-card h3{
+  font-size:1.5rem;
+
+  margin-bottom:18px;
+}
+
+.project-description{
+  color:#cbd5e1;
+
+  line-height:1.8;
+
+  margin-bottom:28px;
+}
+
+/* TECH */
+
+.tech-list{
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:10px;
+
+  margin-top:auto;
+}
+
+.tech-item{
+  padding:8px 16px;
+
+  border-radius:30px;
+
+  background:rgba(127,90,240,0.18);
+
+  border:1px solid rgba(127,90,240,0.2);
+
+  font-size:0.82rem;
+}
+
+/* PROJECT BUTTONS */
+
+.project-buttons{
+  display:flex;
+
+  align-items:center;
+
+  flex-wrap:wrap;
+
+  gap:14px;
+
+  margin-top:30px;
+}
+
+.project-buttons a{
+  text-decoration:none;
+}
+
+.project-buttons button{
+  padding:12px 18px;
+
+  border:none;
+
+  border-radius:12px;
+
+  color:white;
+
+  font-weight:500;
+
+  cursor:pointer;
+
+  transition:0.3s ease;
+}
+
+.github-btn{
+  background:linear-gradient(
+    135deg,
+    #7f5af0,
+    #6246ea
+  );
+
+  box-shadow:
+    0 10px 24px rgba(127,90,240,0.35);
+}
+
+.github-btn:hover{
+  transform:translateY(-4px);
+
+  box-shadow:
+    0 16px 35px rgba(127,90,240,0.55);
+}
+
+.edit-btn{
+  background:#0ea5e9;
+}
+
+.delete-btn{
+  background:#ef4444;
+}
+
+/* ================= CONTACT ================= */
+
+.contact{
+  width:90%;
+
+  margin:0 auto 110px auto;
+
+  padding:75px;
+
+  border-radius:35px;
+
+  background:rgba(255,255,255,0.05);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  display:flex;
+
+  justify-content:space-between;
+
+ align-items:flex-start;
+ 
+  gap:70px;
+
+  flex-wrap:wrap;
+
+  backdrop-filter:blur(14px);
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,0.3);
+}
+
+/* LEFT */
+
+.contact-left{
+  flex:1;
+
+  min-width:320px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+}
+
+.contact-left h2{
+  text-align:left;
+
+  margin-bottom:35px;
+}
+
+.contact-left a{
+  text-decoration:none;
+
+  width:fit-content;
+}
+
+/* ===== UPDATED CONTACT BUTTON EFFECTS ===== */
+
+/* ===== CONTACT CARDS ===== */
+
+.contact-left{
+  flex:1;
+
+  min-width:320px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+
+  align-items:flex-start;
+}
+
+.contact-left h2{
+  text-align:left;
+
+  margin-bottom:35px;
+}
+
+/* COMMON STYLE */
+
+.contact-left p,
+.contact-link{
+  display:flex;
+
+  align-items:center;
+
+  gap:14px;
+
+  padding:16px 22px;
+
+  margin-bottom:18px;
+
+  border-radius:16px;
+
+  width:100%;
+
+  max-width:340px;
+
+  color:white;
+
+  font-weight:500;
+
+  background:rgba(255,255,255,0.06);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  backdrop-filter:blur(10px);
+
+  text-decoration:none;
+
+  position:relative;
+
+  overflow:hidden;
+
+  transition:all 0.35s ease;
+
+  box-shadow:
+    0 0 12px rgba(127,90,240,0.15);
+}
+
+/* ICON */
+
+.contact-left p svg,
+.contact-link svg{
+  font-size:1.1rem;
+
+  flex-shrink:0;
+
+  position:relative;
+
+  z-index:2;
+}
+
+/* TEXT */
+
+.contact-left p span,
+.contact-link span{
+  position:relative;
+
+  z-index:2;
+}
+
+/* GLOW EFFECT */
+
+.contact-left p::before,
+.contact-link::before{
+  content:"";
+
+  position:absolute;
+
+  top:-50%;
+  left:-50%;
+
+  width:200%;
+  height:200%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(127,90,240,0.25),
+      transparent 60%
+    );
+
+  transform:scale(0);
+
+  transition:0.45s ease;
+}
+
+/* HOVER */
+
+.contact-left p:hover,
+.contact-link:hover{
+  transform:
+    translateX(8px)
+    translateY(-3px);
+
+  background:white;
+
+  color:#111827;
+
+  box-shadow:
+    0 0 20px rgba(255,255,255,0.55),
+    0 0 38px rgba(127,90,240,0.35),
+    0 18px 35px rgba(127,90,240,0.25);
+}
+
+.contact-left p:hover::before,
+.contact-link:hover::before{
+  transform:scale(1);
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+  margin-top:80px;
+
+  padding:60px 10% 25px;
+
+  background:rgba(255,255,255,0.04);
+
+  border-top:1px solid rgba(255,255,255,0.08);
+
+  backdrop-filter:blur(12px);
+}
+
+.footer-container{
+  display:flex;
+
+  justify-content:space-between;
+
+  gap:50px;
+
+  flex-wrap:wrap;
+}
+
+.footer-left h2{
+  font-size:2rem;
+
+  margin-bottom:15px;
+
+  background:linear-gradient(
+    90deg,
+    #7f5af0,
+    #2cb67d
+  );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.footer-left p{
+  max-width:350px;
+
+  line-height:1.8;
+
+  color:#cbd5e1;
+}
+
+.footer-center,
+.footer-right{
+  display:flex;
+
+  flex-direction:column;
+
+  gap:14px;
+}
+
+.footer-center h3,
+.footer-right h3{
+  margin-bottom:10px;
+
+  color:white;
+}
+
+.footer-center a{
+  text-decoration:none;
+
+  color:#cbd5e1;
+
+  transition:0.3s ease;
+}
+
+.footer-center a:hover{
+  color:#7f5af0;
+
+  transform:translateX(5px);
+}
+
+.footer-icons{
+  display:flex;
+
+  gap:18px;
+}
+
+.footer-icons a{
+  width:50px;
+  height:50px;
+
+  border-radius:50%;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  background:rgba(255,255,255,0.06);
+
+  color:white;
+
+  font-size:1.2rem;
+
+  transition:0.35s ease;
+
+  text-decoration:none;
+}
+
+.footer-icons a:hover{
+  transform:
+    translateY(-6px)
+    scale(1.08);
+
+  background:white;
+
+  color:#111827;
+
+  box-shadow:
+    0 0 20px rgba(255,255,255,0.5),
+    0 0 40px rgba(127,90,240,0.35);
+}
+
+.footer-bottom{
+  margin-top:50px;
+
+  padding-top:25px;
+
+  text-align:center;
+
+  border-top:1px solid rgba(255,255,255,0.08);
+
+  color:#94a3b8;
+}
+
+/* LIGHT MODE */
+
+.light .footer{
+  background:rgba(255,255,255,0.92);
+
+  border-top:1px solid rgba(0,0,0,0.08);
+}
+.light .hero-btn{
+  background:white;
+
+  color:#111827;
+
+  border:1px solid rgba(0,0,0,0.08);
+}
+
+.light .contact-link{
+  background:white;
+
+  color:#111827;
+
+  border:1px solid rgba(0,0,0,0.08);
+}
+
+.light .footer-left p,
+.light .footer-center a,
+.light .footer-bottom{
+  color:#4b5563;
+}
+
+.light .footer-center h3,
+.light .footer-right h3{
+  color:#111827;
+}
+
+.light .footer-icons a{
+  background:rgba(0,0,0,0.05);
+
+  color:#111827;
+}
+
+/* ================= LOADER ================= */
+
+.loader{
+  height:100vh;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  background:#050816;
+}
+
+.loader h1{
+  font-size:4rem;
+
+  color:#7f5af0;
+
+  animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+
+  0%{
+    opacity:0.4;
+  }
+
+  50%{
+    opacity:1;
+  }
+
+  100%{
+    opacity:0.4;
+  }
+}
+
+/* ================= LIGHT MODE ================= */
+
+.light{
+  background:#f4f7fb;
+
+  color:#111827;
+}
+
+.light .navbar{
+  background:rgba(255,255,255,0.85);
+
+  border-bottom:1px solid rgba(0,0,0,0.08);
+}
+
+.light .nav-links a{
+  color:#111827;
+}
+
+.light .hero p,
+.light .about p,
+.light .project-description{
+  color:#4b5563;
+}
+
+.light .project-card,
+.light .project-form,
+.light .contact,
+.light .skill-card,
+.light .no-projects{
+  background:rgba(255,255,255,0.92);
+
+  border:1px solid rgba(0,0,0,0.08);
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.08);
+}
+
+.light input,
+.light textarea{
+  background:white;
+
+  color:#111827;
+
+  border:1px solid rgba(0,0,0,0.08);
+}
+
+.light input::placeholder,
+.light textarea::placeholder{
+  color:#6b7280;
+}
+
+.light .theme-toggle{
+  background:#111827;
+
+  color:white;
+}
+
+.light .footer{
+  color:#4b5563;
+
+  border-top:1px solid rgba(0,0,0,0.08);
+}
+
+.light .no-projects{
+  background:rgba(255,255,255,0.92);
+
+  color:#374151;
+
+  border:1px solid rgba(0,0,0,0.08);
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:1100px){
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:900px){
+
+  .navbar{
+    flex-direction:column;
+
+    gap:20px;
+  }
+
+  .nav-links{
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+    gap:18px;
+  }
+
+  .animated-text{
+    font-size:3rem;
+  }
+
+  .project-form{
+    width:92%;
+
+    padding:30px;
+  }
+
+  .project-card{
+    min-height:auto;
+  }
+
+  .contact{
+    padding:40px;
+
+    gap:40px;
+  }
+
+  .contact-left{
+    align-items:center;
+
+    text-align:center;
+  }
+
+  .contact-left h2{
+    text-align:center;
+  }
+
+  .contact-left p{
+    width:100%;
+
+    justify-content:center;
+  }
+
+  .contact-form{
+    width:100%;
+  }
+
+  .hero-buttons{
+    flex-direction:column;
+  }
+
+  .hero-buttons button{
+    width:100%;
+  }
+.hero-avatar{
+  width:170px;
+  height:170px;
+}
+}
+
+@media(max-width:600px){
+
+  .animated-text{
+    font-size:2.4rem;
+  }
+
+  .contact{
+    padding:28px;
+  }
+}
+app.js----------------------------------------------------------------------------------------------------------------------------------
+import profileImage from "./assets/aizen.jpg";
+import Login from "./pages/Login";
+import {
+  Routes,
+  Route,
+}
+from "react-router-dom";
+import {
+  FaGithub,
+  FaLinkedin,
+  FaEnvelope,
+  FaMoon,
+  FaSun,
+} from "react-icons/fa";
+
+import emailjs from "@emailjs/browser";
+import { motion, useScroll, useSpring } from "framer-motion";
+import React, { useEffect, useState } from "react";
+
+import axios from "axios";
+import "./App.css";
+
+function App() {
+
+  // ================= STATES =================
+
+  const [projects, setProjects] = useState([]);
+  const [editId, setEditId] = useState(null);
+
+  const [darkMode, setDarkMode] = useState(true);
+
+  const [loading, setLoading] = useState(true);
+
+  // ADMIN TOKEN
+  const token = localStorage.getItem("token");
+
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    technologies: "",
+    githubLink: "",
+  });
+
+  const [contactData, setContactData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  // ================= THEME EFFECT =================
+
+  useEffect(() => {
+
+    if (darkMode) {
+      document.body.classList.remove("light-mode");
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+      document.body.classList.add("light-mode");
+    }
+
+  }, [darkMode]);
+
+  // ================= SCROLL BAR =================
+
+  const { scrollYProgress } = useScroll();
+
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
+
+  // ================= INITIAL LOAD =================
+
+  useEffect(() => {
+
+    fetchProjects();
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 1200);
+
+  }, []);
+
+  // ================= FETCH PROJECTS =================
+
+  const fetchProjects = () => {
+
+    axios
+      .get("https://portfolio-backend-2k8z.onrender.com/api/projects")
+
+      .then((res) => {
+        setProjects(res.data);
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  // ================= FORM CHANGE =================
+
+  const handleChange = (e) => {
+
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // ================= CONTACT CHANGE =================
+
+  const handleContactChange = (e) => {
+
+    setContactData({
+      ...contactData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // ================= SEND EMAIL =================
+
+  const sendEmail = (e) => {
+
+    e.preventDefault();
+
+    emailjs
+      .send(
+        "service_jcwz5az",
+        "template_84bnhae",
+        contactData,
+        "68PSl9RYGeUNFwyWF"
+      )
+
+      .then(() => {
+
+        alert("Message Sent Successfully!");
+
+        setContactData({
+          name: "",
+          email: "",
+          message: "",
+        });
+      })
+
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // ================= SUBMIT PROJECT =================
+
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
+
+    const newProject = {
+      ...formData,
+      technologies: formData.technologies
+        .split(",")
+        .map((tech) => tech.trim()),
+    };
+
+    try {
+
+      if (editId) {
+
+        await axios.put(
+          `https://portfolio-backend-2k8z.onrender.com/api/projects/${editId}`,
+          newProject,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setEditId(null);
+
+      } else {
+
+        await axios.post(
+          "https://portfolio-backend-2k8z.onrender.com/api/projects",
+          newProject,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      }
+
+      fetchProjects();
+
+      setFormData({
+        title: "",
+        description: "",
+        technologies: "",
+        githubLink: "",
+      });
+
+    } catch(error) {
+      console.log(error);
+    }
+  };
+
+  // ================= DELETE =================
+
+  const deleteProject = async (id) => {
+
+    try {
+
+      await axios.delete(
+        `https://portfolio-backend-2k8z.onrender.com/api/projects/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      fetchProjects();
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // ================= EDIT =================
+
+  const editProject = (project) => {
+
+    setFormData({
+      title: project.title,
+      description: project.description,
+      technologies: project.technologies.join(", "),
+      githubLink: project.githubLink,
+    });
+
+    setEditId(project._id);
+
+    window.scrollTo({
+      top: 700,
+      behavior: "smooth",
+    });
+  };
+
+  // ================= LOADER =================
+
+  if (loading) {
+  return (
+    <div className="loader">
+      <h1>Shiva Teja</h1>
+    </div>
+  );
+}
+//========================MAIN========================//
+const isAdmin = localStorage.getItem("token");
+
+return (
+
+  <Routes>
+
+    {/* ================= MAIN PORTFOLIO ================= */}
+
+    <Route
+      path="/"
+      element={
+
+        <div className={`app ${darkMode ? "dark" : "light"}`}>
+
+          {/* SCROLL BAR */}
+
+          <motion.div
+            className="scroll-progress"
+            style={{ scaleX }}
+          />
+
+          {/* ================= NAVBAR ================= */}
+
+          <nav className="navbar">
+
+            <h2 className="logo">
+              Shiva Teja
+            </h2>
+
+            <div className="nav-links">
+
+              <a href="#home">Home</a>
+              <a href="#about">About</a>
+              <a href="#skills">Skills</a>
+              <a href="#projects">Projects</a>
+              <a href="#contact">Contact</a>
+
+            </div>
+
+            {/* THEME BUTTON */}
+
+            <button
+              className="theme-toggle"
+              onClick={() => setDarkMode(!darkMode)}
+            >
+              {darkMode ? <FaSun /> : <FaMoon />}
+            </button>
+
+          </nav>
+
+          {/* ================= HERO ================= */}
+
+          <motion.section
+            className="hero"
+            id="home"
+            initial={{ opacity: 0, y: 70 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+          >
+
+            <motion.h1
+              className="animated-text"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+            >
+              Full Stack Developer
+            </motion.h1>
+<motion.div
+  className="hero-avatar"
+  animate={{
+    y: [0, -15, 0],
+  }}
+  transition={{
+    duration: 4,
+    repeat: Infinity,
+  }}
+>
+  <img
+    src={profileImage}
+    alt="Profile"
+  />
+</motion.div>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              I build modern, scalable and responsive web applications
+              using React.js, Node.js, Express.js and MongoDB.
+            </motion.p>
+
+            {/* HERO BUTTONS */}
+
+            <div className="hero-buttons">
+
+              <a
+                href="https://github.com/pasunutishivateja-git"
+                target="_blank"
+                rel="noreferrer"
+                className="hero-link"
+              >
+                <div className="hero-btn">
+                  <FaGithub />
+                  <span>GitHub</span>
+                </div>
+              </a>
+
+              <a
+                href="https://www.linkedin.com/in/shiva-teja-pasunuti-961286331/"
+                target="_blank"
+                rel="noreferrer"
+                className="hero-link"
+              >
+                <div className="hero-btn">
+                  <FaLinkedin />
+                  <span>LinkedIn</span>
+                </div>
+              </a>
+
+            </div>
+
+          </motion.section>
+
+          {/* ================= ABOUT ================= */}
+
+          <section className="about" id="about">
+
+            <h2 className="section-title">
+              About Me
+            </h2>
+
+            <p>
+              I am a passionate MERN Stack Developer skilled in
+              creating beautiful, modern and scalable web applications.
+              I enjoy solving real-world problems through technology
+              and building professional user experiences.
+            </p>
+
+          </section>
+
+          {/* ================= SKILLS ================= */}
+
+          <section className="skills" id="skills">
+
+            <h2 className="section-title">
+              Skills
+            </h2>
+
+            <div className="skills-container">
+
+              {[
+                "HTML",
+                "CSS",
+                "JavaScript",
+                "React",
+                "Node.js",
+                "Python",
+              ].map((skill, index) => (
+
+                <motion.div
+                  key={index}
+                  className="skill-card"
+                  whileHover={{ scale: 1.08 }}
+                >
+                  {skill}
+                </motion.div>
+
+              ))}
+
+            </div>
+
+          </section>
+
+          {/* ================= PROJECT FORM ================= */}
+
+          <section className="project-wrapper" id="projects">
+
+            <form
+              className="project-form"
+              onSubmit={handleSubmit}
+            >
+
+              <h2 className="section-title">
+                {editId ? "Update Project" : "Add New Project"}
+              </h2>
+
+              <div className="form-grid">
+
+                <input
+                  type="text"
+                  name="title"
+                  placeholder="Project Title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  required
+                />
+
+                <input
+                  type="text"
+                  name="technologies"
+                  placeholder="Technologies (React, Node.js)"
+                  value={formData.technologies}
+                  onChange={handleChange}
+                />
+
+                <input
+                  type="text"
+                  name="githubLink"
+                  placeholder="GitHub Repository Link"
+                  value={formData.githubLink}
+                  onChange={handleChange}
+                />
+
+              </div>
+
+              <textarea
+                name="description"
+                placeholder="Project Description"
+                value={formData.description}
+                onChange={handleChange}
+                required
+              />
+
+              <button type="submit">
+                {editId ? "Update Project" : "Add Project"}
+              </button>
+
+            </form>
+
+            {/* ================= PROJECTS ================= */}
+
+            {projects.length === 0 ? (
+
+              <div className="no-projects">
+                No projects added
+              </div>
+
+            ) : (
+
+              <div className="projects-grid">
+
+                {projects.map((project) => (
+
+                  <motion.div
+                    className="project-card"
+                    key={project._id}
+                    whileHover={{ y: -8 }}
+                  >
+
+                    <div>
+
+                      <h3>{project.title}</h3>
+
+                      <div className="project-line"></div>
+
+                      <p className="project-description">
+                        {project.description}
+                      </p>
+
+                    </div>
+
+                    <div>
+
+                      <div className="tech-list">
+
+                        {project.technologies.map((tech, i) => (
+
+                          <span
+                            key={i}
+                            className="tech-item"
+                          >
+                            {tech}
+                          </span>
+
+                        ))}
+
+                      </div>
+
+                      <div className="project-buttons">
+
+                        <a
+                          href={project.githubLink}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <button
+                            type="button"
+                            className="github-btn"
+                          >
+                            GitHub
+                          </button>
+                        </a>
+
+                        {isAdmin && (
+                          <>
+                            <button
+                              type="button"
+                              className="edit-btn"
+                              onClick={() => editProject(project)}
+                            >
+                              Edit
+                            </button>
+
+                            <button
+                              type="button"
+                              className="delete-btn"
+                              onClick={() => deleteProject(project._id)}
+                            >
+                              Delete
+                            </button>
+                          </>
+                        )}
+
+                      </div>
+
+                    </div>
+
+                  </motion.div>
+
+                ))}
+
+              </div>
+
+            )}
+
+          </section>
+
+          {/* ================= CONTACT ================= */}
+
+          <section className="contact" id="contact">
+
+            <div className="contact-left">
+
+              <h2 className="section-title">
+                Contact Me
+              </h2>
+
+              <p>
+                <FaEnvelope />
+                shivatejapasunuti@gmail.com
+              </p>
+
+              <a
+                href="https://github.com/pasunutishivateja-git"
+                target="_blank"
+                rel="noreferrer"
+                className="contact-link"
+              >
+                <FaGithub />
+                GitHub Profile
+              </a>
+
+              <a
+                href="https://www.linkedin.com/in/shiva-teja-pasunuti-961286331/"
+                target="_blank"
+                rel="noreferrer"
+                className="contact-link"
+              >
+                <FaLinkedin />
+                LinkedIn Profile
+              </a>
+
+            </div>
+
+            {/* CONTACT FORM */}
+
+            <form
+              className="contact-form"
+              onSubmit={sendEmail}
+            >
+
+              <input
+                type="text"
+                name="name"
+                placeholder="Your Name"
+                value={contactData.name}
+                onChange={handleContactChange}
+                required
+              />
+
+              <input
+                type="email"
+                name="email"
+                placeholder="Your Email"
+                value={contactData.email}
+                onChange={handleContactChange}
+                required
+              />
+
+              <textarea
+                name="message"
+                placeholder="Your Message"
+                value={contactData.message}
+                onChange={handleContactChange}
+                required
+              />
+
+              <button type="submit">
+                Send Message
+              </button>
+
+            </form>
+
+          </section>
+ 
+          {/* ================= FOOTER ================= */}
+
+    <footer className="footer">
+
+  <div className="footer-container">
+
+    {/* LEFT */}
+    <div className="footer-col">
+      <h2 className="logo">Shiva Teja</h2>
+      <p>
+        Built with React.js, Node.js, Express.js and MongoDB.
+      </p>
+    </div>
+
+    {/* CENTER */}
+    <div className="footer-col">
+      <h3>Quick Links</h3>
+
+      <div className="footer-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+
+    {/* RIGHT */}
+    <div className="footer-col">
+      <h3>Connect</h3>
+
+      <div className="footer-contact">
+
+        <a href="https://github.com/pasunutishivateja-git" target="_blank" rel="noreferrer">
+          <FaGithub />
+          <span>GitHub</span>
+        </a>
+
+        <a href="https://www.linkedin.com/in/shiva-teja-pasunuti-961286331/" target="_blank" rel="noreferrer">
+          <FaLinkedin />
+          <span>LinkedIn</span>
+        </a>
+
+        <a href="mailto:shivatejapasunuti@gmail.com">
+          <FaEnvelope />
+          <span>Email</span>
+        </a>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div className="footer-bottom">
+    © 2026 Shiva Teja • All Rights Reserved
+  </div>
+
+</footer>
+
+    <Route
+      path="/admin-login"
+      element={<Login />}
+    />
+
+  </Routes>
+)
+};
+export default App;

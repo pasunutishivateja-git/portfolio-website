@@ -1,3 +1,8 @@
+/* Fix for anchor links hiding behind the navbar */
+html {
+  scroll-padding-top: 80px; /* Adjust this number if your navbar is taller or shorter */
+  scroll-behavior: smooth; /* Bonus: This makes the page gracefully slide down instead of instantly jumping! */
+}
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 /* ================= GLOBAL ================= */
@@ -119,7 +124,7 @@ body{
 
   gap:34px;
 
-  margin-right:28px;
+  margin-right:30px;
 }
 
 .nav-links a{
@@ -238,6 +243,44 @@ body{
   opacity:0.18;
 }
 
+/* ================= HERO AVATAR ================= */
+
+.hero-avatar{
+  width:220px;
+  height:220px;
+
+  border-radius:50%;
+
+  padding:6px;
+
+  margin-bottom:35px;
+
+  background:linear-gradient(
+    135deg,
+    #7f5af0,
+    #2cb67d
+  );
+
+  box-shadow:
+    0 0 25px rgba(127,90,240,0.6),
+    0 0 60px rgba(44,182,125,0.35);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.hero-avatar img{
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  border-radius:50%;
+
+  border:4px solid #050816;
+}
+
 .hero *{
   position:relative;
 
@@ -296,18 +339,18 @@ body{
 
 /* ===== UPDATED GITHUB + LINKEDIN BUTTONS ===== */
 
-.hero-buttons button{
+.hero-btn{
   min-width:190px;
 
   padding:15px 30px;
 
-  border:1px solid rgba(255,255,255,0.12);
-
   border-radius:16px;
 
-  background:white;
+  background:rgba(255,255,255,0.08);
 
-  color:#111827;
+  border:1px solid rgba(255,255,255,0.15);
+
+  color:white;
 
   font-size:1rem;
 
@@ -325,12 +368,70 @@ body{
 
   transition:all 0.35s ease;
 
-  box-shadow:
-    0 0 12px rgba(255,255,255,0.18);
-
   position:relative;
 
   overflow:hidden;
+
+  backdrop-filter:blur(10px);
+
+  box-shadow:
+    0 0 12px rgba(127,90,240,0.18);
+}
+
+/* GLOW LAYER */
+
+.hero-btn::before{
+  content:"";
+
+  position:absolute;
+
+  top:-50%;
+  left:-50%;
+
+  width:200%;
+  height:200%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(127,90,240,0.25),
+      transparent 60%
+    );
+
+  transform:scale(0);
+
+  transition:0.45s ease;
+
+  z-index:0;
+}
+
+.hero-btn svg,
+.hero-btn span{
+  position:relative;
+  z-index:2;
+}
+
+/* HOVER */
+
+.hero-btn:hover{
+  transform:
+    translateY(-6px)
+    scale(1.05);
+
+  background:white;
+
+  color:#111827;
+
+  border:1px solid rgba(255,255,255,0.45);
+
+  box-shadow:
+    0 0 20px rgba(255,255,255,0.55),
+    0 0 40px rgba(127,90,240,0.45),
+    0 18px 38px rgba(127,90,240,0.35);
+}
+
+.hero-btn:hover::before{
+  transform:scale(1);
 }
 
 .hero-buttons button:hover{
@@ -484,8 +585,8 @@ body{
 
 .project-form input,
 .project-form textarea,
-.contact-form input,
-.contact-form textarea{
+.contact form input,
+.contact form textarea{
   width:100%;
 
   border:none;
@@ -510,12 +611,12 @@ body{
 }
 
 .project-form input,
-.contact-form input{
+.contact form input{
   height:58px;
 }
 
 .project-form textarea,
-.contact-form textarea{
+.contact form textarea{
   min-height:170px;
 
   resize:none;
@@ -523,15 +624,15 @@ body{
 
 .project-form input::placeholder,
 .project-form textarea::placeholder,
-.contact-form input::placeholder,
-.contact-form textarea::placeholder{
+.contact form input::placeholder,
+.contact form textarea::placeholder{
   color:#9ca3af;
 }
 
 .project-form input:focus,
 .project-form textarea:focus,
-.contact-form input:focus,
-.contact-form textarea:focus{
+.contact form input:focus,
+.contact form textarea:focus{
   border-color:#7f5af0;
 
   box-shadow:
@@ -541,7 +642,7 @@ body{
 /* BUTTONS */
 
 .project-form button,
-.contact-form button{
+.contact form button{
   height:58px;
 
   border:none;
@@ -569,7 +670,7 @@ body{
 }
 
 .project-form button:hover,
-.contact-form button:hover{
+.contact form button:hover{
   transform:translateY(-4px);
 
   box-shadow:
@@ -792,8 +893,8 @@ body{
 
   justify-content:space-between;
 
-  align-items:center;
-
+ align-items:flex-start;
+ 
   gap:70px;
 
   flex-wrap:wrap;
@@ -832,7 +933,32 @@ body{
 
 /* ===== UPDATED CONTACT BUTTON EFFECTS ===== */
 
-.contact-left p{
+/* ===== CONTACT CARDS ===== */
+
+.contact-left{
+  flex:1;
+
+  min-width:320px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+
+  align-items:flex-start;
+}
+
+.contact-left h2{
+  text-align:left;
+
+  margin-bottom:35px;
+}
+
+/* COMMON STYLE */
+
+.contact-left p,
+.contact-link{
   display:flex;
 
   align-items:center;
@@ -845,61 +971,267 @@ body{
 
   border-radius:16px;
 
+  width:100%;
+
+  max-width:340px;
+
   color:white;
-
-  background:rgba(255,255,255,0.06);
-
-  transition:all 0.35s ease;
-
-  width:fit-content;
 
   font-weight:500;
 
+  background:rgba(255,255,255,0.06);
+
   border:1px solid rgba(255,255,255,0.08);
 
+  backdrop-filter:blur(10px);
+
+  text-decoration:none;
+
+  position:relative;
+
+  overflow:hidden;
+
+  transition:all 0.35s ease;
+
   box-shadow:
-    0 0 12px rgba(255,255,255,0.08);
+    0 0 12px rgba(127,90,240,0.15);
 }
 
-.contact-left p:hover{
+/* ICON */
+
+.contact-left p svg,
+.contact-link svg{
+  font-size:1.1rem;
+
+  flex-shrink:0;
+
+  position:relative;
+
+  z-index:2;
+}
+
+/* TEXT */
+
+.contact-left p span,
+.contact-link span{
+  position:relative;
+
+  z-index:2;
+}
+
+/* GLOW EFFECT */
+
+.contact-left p::before,
+.contact-link::before{
+  content:"";
+
+  position:absolute;
+
+  top:-50%;
+  left:-50%;
+
+  width:200%;
+  height:200%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(127,90,240,0.25),
+      transparent 60%
+    );
+
+  transform:scale(0);
+
+  transition:0.45s ease;
+}
+
+/* HOVER */
+
+.contact-left p:hover,
+.contact-link:hover{
   transform:
     translateX(8px)
-    translateY(-2px);
+    translateY(-3px);
 
   background:white;
 
   color:#111827;
 
   box-shadow:
-    0 0 18px rgba(255,255,255,0.55),
-    0 0 35px rgba(127,90,240,0.35),
-    0 15px 35px rgba(127,90,240,0.25);
+    0 0 20px rgba(255,255,255,0.55),
+    0 0 38px rgba(127,90,240,0.35),
+    0 18px 35px rgba(127,90,240,0.25);
 }
 
-/* FORM */
-
-.contact-form{
-  flex:1;
-
-  min-width:350px;
-
-  display:flex;
-
-  flex-direction:column;
-
-  gap:22px;
+.contact-left p:hover::before,
+.contact-link:hover::before{
+  transform:scale(1);
 }
 
 /* ================= FOOTER ================= */
 
 .footer{
-  text-align:center;
+  margin-top:80px;
+  padding: 60px 20px 20px;
+  background:rgba(255,255,255,0.04);
+  border-top:1px solid rgba(255,255,255,0.08);
+  backdrop-filter:blur(12px);
+}
 
-  padding:30px;
+.footer-container{
+  display:flex;
+  justify-content:space-between;
+  align-items: center;
+  gap:50px;
+  flex-wrap:wrap;
+}
+
+.footer-left h2{
+  font-size:1.80rem;
+  margin-bottom:15px;
+  background:linear-gradient(
+    90deg,
+    #7f5af0,
+    #2cb67d
+  );
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.footer-left p {
+  max-width: 300px; /* Keeps the text neatly wrapped on the left */
+  line-height: 1.6; /* Slightly tighter line spacing */
+  color: #cbd5e1;
+  font-size: 0.85rem; /* Reduces the size of the description! */
+  margin: 0; /* Ensures no weird extra spacing */
+}
+
+.footer-center,
+.footer-right{
+  display:flex;
+
+  flex-direction:column;
+
+  gap:14px;
+}
+
+.footer-center h3,
+.footer-right h3{
+  margin-bottom:10px;
+
+  color:white;
+}
+
+.footer-center a{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  width:fit-content;
+  text-decoration:none;
+  color:#cbd5e1;
+  transition:0.3s ease;
+}
+
+.footer-center a:hover{
+  color:#7f5af0;
+
+  transform:translateX(5px);
+}
+
+.footer-icons{
+  display:flex;
+  gap:18px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-right: -150px !important;
+}
+
+.footer-icons a{
+  width:50px;
+  height:50px;
+
+  border-radius:50%;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  background:rgba(255,255,255,0.06);
+
+  color:white;
+
+  font-size:1.2rem;
+
+  transition:0.35s ease;
+
+  text-decoration:none;
+}
+
+.footer-icons a:hover{
+  transform:
+    translateY(-6px)
+    scale(1.08);
+
+  background:white;
+
+  color:#111827;
+
+  box-shadow:
+    0 0 20px rgba(255,255,255,0.5),
+    0 0 40px rgba(127,90,240,0.35);
+}
+
+.footer-bottom{
+  margin-top:50px;
+
+  padding-top:25px;
+
+  text-align:center;
 
   border-top:1px solid rgba(255,255,255,0.08);
 
   color:#94a3b8;
+}
+
+/* LIGHT MODE */
+
+.light .footer{
+  background:rgba(255,255,255,0.92);
+
+  border-top:1px solid rgba(0,0,0,0.08);
+}
+.light .hero-btn{
+  background:white;
+
+  color:#111827;
+
+  border:1px solid rgba(0,0,0,0.08);
+}
+
+.light .contact-link{
+  background:white;
+
+  color:#111827;
+
+  border:1px solid rgba(0,0,0,0.08);
+}
+
+.light .footer-left p,
+.light .footer-center a,
+.light .footer-bottom{
+  color:#4b5563;
+}
+
+.light .footer-center h3,
+.light .footer-right h3{
+  color:#111827;
+}
+
+.light .footer-icons a{
+  background:rgba(0,0,0,0.05);
+
+  color:#111827;
 }
 
 /* ================= LOADER ================= */
@@ -1082,6 +1414,28 @@ body{
   .hero-buttons button{
     width:100%;
   }
+.hero-avatar{
+  width:170px;
+  height:170px;
+}
+.footer-container{
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+
+.footer-center,
+.footer-right{
+  align-items:center;
+}
+
+.footer-center a{
+  justify-content:center;
+}
+
+.footer-icons{
+  justify-content:center;
+}
 }
 
 @media(max-width:600px){
@@ -1093,4 +1447,461 @@ body{
   .contact{
     padding:28px;
   }
+}
+/* =========================================
+   HAMBURGER MENU & SIDEBAR STYLES
+   ========================================= */
+
+/* --- Hamburger Icon --- */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  cursor: pointer;
+  z-index: 100;
+  margin-left: 20px;
+}
+
+.hamburger .line {
+  width: 100%;
+  height: 3px;
+  background-color: #00ffcc; /* Matches your neon green accent */
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.hamburger:hover .line {
+  background-color: #a855f7; /* Purple hover effect */
+}
+
+/* --- Sidebar Styling --- */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -300px; /* Hides it off-screen by default */
+  width: 280px;
+  height: 100vh;
+  background-color: #0f0f1b; /* Dark background matching your site */
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.7);
+  transition: right 0.4s ease-in-out;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.sidebar.open {
+  right: 0; /* Slides it in when active */
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.sidebar-header h3 {
+  color: #a855f7;
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 0;
+  line-height: 0.5; 
+  display: flex;
+}
+
+.close-btn:hover {
+  color: #ff4757; /* Red hover for the X */
+}
+
+/* --- Buttons inside the Sidebar --- */
+.sidebar-action-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.sidebar-action-btn.login {
+  background: linear-gradient(90deg, #6b21a8, #4c1d95);
+  color: white;
+}
+
+.sidebar-action-btn.logout {
+  background: transparent;
+  border: 2px solid #ff4757;
+  color: #ff4757;
+}
+
+.sidebar-action-btn.logout:hover {
+  background: #ff4757;
+  color: white;
+}
+
+/* --- Dark Background Overlay --- */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 999;
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+/* Fix alignment for the right-side navigation controls */
+.nav-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px; /* Creates a nice space between the theme button and the hamburger */
+}
+/* =========================================
+   CONTACT SECTION ALIGNMENT & SOCIALS (UPDATED)
+   ========================================= */
+
+/* 1. Put the Left Info and Right Form side by side */
+.contact {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Aligns everything to the top */
+  gap: 50px; /* Creates a nice gap between the left text and the right form */
+  width: 100%;
+}
+
+.contact-left {
+  flex: 1; /* Takes up the left half of the screen */
+}
+
+/* 2. Fix the form alignment and size */
+.contact-form {
+  flex: 1.2; /* Takes up slightly more than half for the inputs */
+  display: flex;
+  flex-direction: column;
+  gap: 20px; 
+}
+
+.contact-form input,
+.contact-form textarea,
+.submit-btn {
+  width: 100%;
+  box-sizing: border-box; 
+}
+
+.contact-form textarea {
+  min-height: 150px;
+  resize: vertical; 
+}
+/* Make the Email larger and bold to match the URL fonts */
+.email-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 18px; /* Keeps the email prominent */
+  font-weight: bold; /* Matches the thick font of the URLs */
+  margin-bottom: 10px;
+}
+/* =========================================
+   SOCIAL LINKS (TEXT & ICON ONLY - NO BOXES)
+   ========================================= */
+.contact-socials {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between each link */
+  margin-top: 35px;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px; /* Space between the icon and the word */
+  font-size: 15px; /* Slightly larger text since the box is gone */
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  width: fit-content;
+  background: transparent; 
+  border: none; 
+  padding: 0; 
+}
+
+/* --- Dark Mode --- */
+.dark-mode .social-link {
+  color: #ddd; /* Clean, slightly off-white default color */
+}
+
+.dark-mode .social-link:hover {
+  color: #ffffff; /* Bright white text and icon on hover */
+  
+  /* This creates the pure white glow! */
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8); 
+  transform: translateX(10px); /* Smooth slide to the right */
+}
+
+/* --- Light Mode --- */
+.light-mode .social-link {
+  color: #444; /* Dark grey for readability on white background */
+}
+
+.light-mode .social-link:hover {
+  color: #a855f7; /* Matches the purple from your header */
+  text-shadow: 0 0 15px rgba(168, 85, 247, 0.5); /* Purple glow */
+  transform: translateX(10px); 
+}
+
+/* 4. Keep it looking good on Mobile Phones */
+@media (max-width: 768px) {
+  .contact {
+    flex-direction: column; /* Stacks them vertically on small screens */
+    gap: 40px;
+  }
+}
+/* Fix for invisible boxes in Light Mode */
+.light-mode .contact-form input,
+.light-mode .contact-form textarea,
+.light-mode .project-form input,
+.light-mode .project-form textarea {
+  background-color: #ffffff;
+  border: 2px solid #cccccc; /* This line brings the borders back! */
+  color: #333;
+}
+
+/* Optional: Turns the border purple when you click to type */
+.light-mode .contact-form input:focus,
+.light-mode .contact-form textarea:focus,
+.light-mode .project-form input:focus,
+.light-mode .project-form textarea:focus {
+  border-color: #a855f7;
+  outline: none;
+}
+/* =========================================
+   EDUCATION TIMELINE
+   ========================================= */
+.education {
+  padding: 60px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+/* Center the Education Title to match About Me */
+.education .section-title {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 50px; /* Creates a nice gap between the title and the first timeline dot */
+}
+
+/* 1. The Long Vertical Line */
+/* 1. The Long Vertical Line */
+.timeline {
+  position: relative;
+  max-width: 750px; /* Keeps the cards from stretching too wide */
+  margin: 0 auto; /* This centers the entire timeline block perfectly! */
+  padding-left: 40px; 
+  border-left: 3px solid rgba(168, 85, 247, 0.4); 
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+/* 2. The Circular Points */
+.timeline-dot {
+  position: absolute;
+  left: -48.5px; /* Pulls the dot perfectly over the vertical border */
+  top: 20px;
+  width: 14px;
+  height: 14px;
+  background-color: #00ffcc; /* Neon green dot */
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.8); /* Glowing effect */
+}
+
+/* 3. The Horizontal Connecting Lines */
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -40px; /* Starts at the vertical line */
+  top: 26px; /* Aligns with the middle of the dot */
+  width: 40px; /* Stretches to the content card */
+  height: 2px;
+  background-color: rgba(168, 85, 247, 0.4); /* Purple horizontal branch */
+}
+
+/* 4. The Content Box */
+.timeline-content {
+  background: rgba(255, 255, 255, 0.03); /* Faint transparent card */
+  padding: 20px 25px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.timeline-content:hover {
+  border-color: #00ffcc; /* Glows neon green on hover */
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 255, 204, 0.1);
+}
+
+.timeline-content h3 {
+  margin: 0 0 8px 0;
+  color: #fff;
+  font-size: 1.3rem;
+}
+
+.timeline-date {
+  color: #00ffcc; /* Neon green text for the years */
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.timeline-grade {
+  margin-top: 10px;
+  color: #aaa;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* =========================================
+   LIGHT MODE OVERRIDES FOR TIMELINE
+   ========================================= */
+.light-mode .timeline {
+  border-left-color: rgba(168, 85, 247, 0.8);
+}
+
+.light-mode .timeline-item::before {
+  background-color: rgba(168, 85, 247, 0.8);
+}
+
+.light-mode .timeline-content {
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
+}
+
+.light-mode .timeline-content:hover {
+  border-color: #a855f7;
+  box-shadow: 0 5px 15px rgba(168, 85, 247, 0.2);
+}
+
+.light-mode .timeline-content h3 {
+  color: #333;
+}
+
+.light-mode .timeline-date {
+  color: #a855f7; /* Changes green dates to purple in light mode */
+}
+
+.light-mode .timeline-grade {
+  color: #666;
+}
+/* =========================================
+   GLOBAL SECTION TITLES (Forces all titles to match)
+   ========================================= */
+.section-title {
+  text-align: center !important;
+  font-size: 2.5rem !important; /* Makes it nice and large */
+  font-weight: bold !important;
+  width: 100%;
+  
+  /* Adds your signature Purple-to-Green Gradient */
+  background: linear-gradient(90deg, #a855f7, #00ffcc) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Ensure the Education title has enough space below it */
+.education .section-title {
+  margin-bottom: 60px !important; 
+}
+/* Left-align the Contact title to match the column layout */
+.contact-left .section-title {
+  text-align: left !important;
+  margin-bottom: 30px !important; /* Adds a nice gap before the email */
+}
+/* =========================================
+   FOOTER TEXT FORCED OVERRIDES
+   ========================================= */
+.footer-left {
+  text-align: left !important; /* Forces everything in this box to the left */
+}
+
+.footer-left h2 {
+  font-size: 1.5rem !important; /* Visibly shrinks the title */
+  margin-bottom: 8px !important; /* Tightens the gap */
+}
+
+.footer-left p {
+  font-size: 0.85rem !important; /* Visibly shrinks the description */
+  max-width: 300px !important; /* Keeps it neatly wrapped */
+  line-height: 1.5 !important; 
+  margin: 0 !important;
+}
+/* =========================================
+   FOOTER ICONS - BARE LOGO GLOW OVERRIDES
+   ========================================= */
+.footer-icons a {
+  background: transparent !important; /* Removes the circle background */
+  width: auto !important; 
+  height: auto !important;
+  color: #888 !important; /* Muted grey by default */
+  font-size: 1.5rem !important; /* Nice size for bare logos */
+  box-shadow: none !important; /* Removes any default shadow */
+}
+
+.footer-icons a:hover {
+  background: transparent !important; /* Ensures no background appears on hover */
+  color: #ffffff !important; /* Logo turns pure white */
+  
+  /* Makes the actual logo glow instead of a box */
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8) !important; 
+  box-shadow: none !important; /* Removes the old box glow */
+  transform: translateY(-5px) scale(1.1) !important; /* Gentle floating jump */
+}
+/* =========================================
+   REDUCE FOOTER BOTTOM SPACING
+   ========================================= */
+.footer-bottom {
+  margin-top: 20px !important; /* Reduced this from 50px to pull it up! */
+  padding-top: 20px !important; /* Keeps a nice little breathing room above the copyright text */
+}
+/* =========================================
+   NUCLEAR OPTION: FORCE ICONS TO RIGHT CORNER
+   ========================================= */
+.footer {
+  position: relative !important; /* This acts as the anchor for the absolute icons */
+}
+
+.footer-icons {
+  position: absolute !important;
+  right: 20px !important; /* Forces them exactly 40px from the absolute right edge of the screen */
+  bottom: 60px !important; /* Adjust this to move them up or down so they align with your text */
 }
