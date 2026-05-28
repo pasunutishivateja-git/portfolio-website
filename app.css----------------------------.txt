@@ -1,0 +1,2239 @@
+app.css-----------------------------------------------------------------------------------------------------------------------------
+
+
+/* Fix for anchor links hiding behind the navbar */
+html {
+  scroll-padding-top: 80px; /* Adjust this number if your navbar is taller or shorter */
+  scroll-behavior: smooth; /* Bonus: This makes the page gracefully slide down instead of instantly jumping! */
+}
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+/* ================= GLOBAL ================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:"Poppins",sans-serif;
+  overflow-x:hidden;
+}
+
+/* ================= APP ================= */
+
+.app{
+  min-height:100vh;
+
+  color:white;
+
+  transition:0.4s ease;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(127,90,240,0.15),
+      transparent 30%
+    ),
+
+    radial-gradient(
+      circle at bottom right,
+      rgba(44,182,125,0.12),
+      transparent 30%
+    ),
+
+    #050816;
+}
+
+/* ================= SCROLL BAR ================= */
+
+.scroll-progress{
+  position:fixed;
+
+  top:0;
+  left:0;
+
+  width:100%;
+  height:4px;
+
+  background:linear-gradient(
+    90deg,
+    #7f5af0,
+    #2cb67d
+  );
+
+  transform-origin:left;
+
+  z-index:9999;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+  width:100%;
+
+  padding:20px 6%;
+
+  display:flex;
+
+  align-items:center;
+
+  position:sticky;
+
+  top:0;
+
+  z-index:1000;
+
+  backdrop-filter:blur(14px);
+
+  background:rgba(5,8,22,0.78);
+
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+/* LOGO */
+
+.navbar h2{
+  font-size:2rem;
+
+  font-weight:700;
+
+  background:linear-gradient(
+    90deg,
+    #7f5af0,
+    #2cb67d
+  );
+
+  -webkit-background-clip:text;
+
+  -webkit-text-fill-color:transparent;
+
+  margin-right:auto;
+}
+
+/* NAV LINKS */
+
+.nav-links{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:flex-end;
+
+  gap:34px;
+
+  margin-right:30px;
+}
+
+.nav-links a{
+  color:white;
+
+  text-decoration:none;
+
+  font-size:0.96rem;
+
+  font-weight:500;
+
+  position:relative;
+
+  transition:0.3s ease;
+}
+
+.nav-links a::after{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  bottom:-6px;
+
+  width:0%;
+  height:2px;
+
+  background:#7f5af0;
+
+  transition:0.3s ease;
+}
+
+.nav-links a:hover{
+  color:#7f5af0;
+}
+
+.nav-links a:hover::after{
+  width:100%;
+}
+
+/* TOGGLE */
+
+.theme-toggle{
+  width:48px;
+  height:48px;
+
+  border:none;
+
+  border-radius:50%;
+
+  background:rgba(255,255,255,0.08);
+
+  color:white;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  cursor:pointer;
+
+  font-size:1rem;
+
+  transition:0.35s ease;
+
+  box-shadow:
+    0 0 0 transparent;
+    position: absolute;
+  left: 20px; /* Pushes it exactly 20px from the left edge */
+  top: 25px;  /* Adjust this so it aligns vertically with your name */
+  z-index: 100;
+}
+
+.theme-toggle:hover{
+  transform:rotate(180deg) scale(1.08);
+
+  background:linear-gradient(
+    135deg,
+    #7f5af0,
+    #6246ea
+  );
+
+  box-shadow:
+    0 0 25px rgba(127,90,240,0.55);
+}
+
+/* ================= HERO ================= */
+
+.hero{
+  min-height:100vh;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+
+  align-items:center;
+
+  text-align:center;
+
+  padding:0 10%;
+
+  position:relative;
+}
+
+.hero::before{
+  content:"";
+
+  position:absolute;
+
+  width:450px;
+  height:450px;
+
+  background:#7f5af0;
+
+  filter:blur(180px);
+
+  opacity:0.18;
+}
+
+/* ================= HERO AVATAR ================= */
+
+.hero-avatar{
+  width:220px;
+  height:220px;
+
+  border-radius:50%;
+
+  padding:6px;
+
+  margin-bottom:35px;
+
+  background:linear-gradient(
+    135deg,
+    #7f5af0,
+    #2cb67d
+  );
+
+  box-shadow:
+    0 0 25px rgba(127,90,240,0.6),
+    0 0 60px rgba(44,182,125,0.35);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.hero-avatar img{
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  border-radius:50%;
+
+  border:4px solid #050816;
+}
+
+.hero *{
+  position:relative;
+
+  z-index:2;
+}
+
+.animated-text{
+  font-size:5rem;
+
+  font-weight:700;
+
+  margin-bottom:22px;
+
+  background:linear-gradient(
+    90deg,
+    #7f5af0,
+    #2cb67d
+  );
+
+  -webkit-background-clip:text;
+
+  -webkit-text-fill-color:transparent;
+
+  animation:floatText 3s ease-in-out infinite;
+}
+
+.hero p{
+  max-width:720px;
+
+  line-height:1.9;
+
+  color:#cbd5e1;
+
+  font-size:1.05rem;
+}
+
+/* HERO BUTTONS */
+
+.hero-buttons{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:24px;
+
+  margin-top:45px;
+
+  flex-wrap:wrap;
+}
+
+.hero-buttons a{
+  text-decoration:none;
+}
+
+/* ===== UPDATED GITHUB + LINKEDIN BUTTONS ===== */
+
+.hero-btn{
+  min-width:190px;
+
+  padding:15px 30px;
+
+  border-radius:16px;
+
+  background:rgba(255,255,255,0.08);
+
+  border:1px solid rgba(255,255,255,0.15);
+
+  color:white;
+
+  font-size:1rem;
+
+  font-weight:600;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:12px;
+
+  cursor:pointer;
+
+  transition:all 0.35s ease;
+
+  position:relative;
+
+  overflow:hidden;
+
+  backdrop-filter:blur(10px);
+
+  box-shadow:
+    0 0 12px rgba(127,90,240,0.18);
+}
+
+/* GLOW LAYER */
+
+.hero-btn::before{
+  content:"";
+
+  position:absolute;
+
+  top:-50%;
+  left:-50%;
+
+  width:200%;
+  height:200%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(127,90,240,0.25),
+      transparent 60%
+    );
+
+  transform:scale(0);
+
+  transition:0.45s ease;
+
+  z-index:0;
+}
+
+.hero-btn svg,
+.hero-btn span{
+  position:relative;
+  z-index:2;
+}
+
+/* HOVER */
+
+.hero-btn:hover{
+  transform:
+    translateY(-6px)
+    scale(1.05);
+
+  background:white;
+
+  color:#111827;
+
+  border:1px solid rgba(255,255,255,0.45);
+
+  box-shadow:
+    0 0 20px rgba(255,255,255,0.55),
+    0 0 40px rgba(127,90,240,0.45),
+    0 18px 38px rgba(127,90,240,0.35);
+}
+
+.hero-btn:hover::before{
+  transform:scale(1);
+}
+
+.hero-buttons button:hover{
+  transform:
+    translateY(-6px)
+    scale(1.05);
+
+  box-shadow:
+    0 0 18px rgba(255,255,255,0.65),
+    0 0 38px rgba(127,90,240,0.45),
+    0 18px 38px rgba(127,90,240,0.35);
+
+  background:#ffffff;
+}
+
+/* ================= FLOAT ANIMATION ================= */
+
+@keyframes floatText{
+
+  0%{
+    transform:translateY(0px);
+  }
+
+  50%{
+    transform:translateY(-12px);
+  }
+
+  100%{
+    transform:translateY(0px);
+  }
+}
+
+/* ================= TITLES ================= */
+
+.about h2,
+.skills h2,
+.project-form h2,
+.contact h2{
+  font-size:2.8rem;
+
+  text-align:center;
+
+  margin-bottom:30px;
+
+  background:linear-gradient(
+    90deg,
+    #7f5af0,
+    #2cb67d
+  );
+
+  -webkit-background-clip:text;
+
+  -webkit-text-fill-color:transparent;
+}
+
+/* ================= ABOUT ================= */
+
+.about{
+  padding:100px 10%;
+
+  text-align:center;
+}
+
+.about p{
+  max-width:850px;
+
+  margin:auto;
+
+  line-height:1.9;
+
+  color:#cbd5e1;
+}
+
+/* ================= SKILLS ================= */
+
+.skills{
+  padding:80px 10%;
+}
+
+.skills-container{
+  display:flex;
+
+  justify-content:center;
+
+  flex-wrap:wrap;
+
+  gap:18px;
+}
+
+.skill-card{
+  padding:16px 28px;
+
+  border-radius:14px;
+
+  background:rgba(255,255,255,0.05);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  transition:0.35s ease;
+
+  cursor:pointer;
+}
+
+.skill-card:hover{
+  transform:translateY(-8px);
+
+  background:#7f5af0;
+
+  box-shadow:
+    0 14px 30px rgba(127,90,240,0.45);
+}
+
+/* ================= PROJECT FORM ================= */
+
+.project-form{
+  width:88%;
+
+  max-width:1200px;
+
+  margin:90px auto;
+
+  padding:45px;
+
+  border-radius:30px;
+
+  background:rgba(255,255,255,0.05);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  backdrop-filter:blur(14px);
+
+  box-shadow:
+    0 18px 45px rgba(0,0,0,0.35);
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:24px;
+}
+
+.form-grid{
+  display:grid;
+
+  grid-template-columns:repeat(3,1fr);
+
+  gap:20px;
+}
+
+/* INPUTS */
+
+.project-form input,
+.project-form textarea,
+.contact form input,
+.contact form textarea{
+  width:100%;
+
+  border:none;
+
+  outline:none;
+
+  background:rgba(255,255,255,0.04);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  border-radius:16px;
+
+  padding:16px 18px;
+
+  color:white;
+
+  font-size:0.95rem;
+
+  font-family:"Poppins",sans-serif;
+
+  transition:0.3s ease;
+}
+
+.project-form input,
+.contact form input{
+  height:58px;
+}
+
+.project-form textarea,
+.contact form textarea{
+  min-height:170px;
+
+  resize:none;
+}
+
+.project-form input::placeholder,
+.project-form textarea::placeholder,
+.contact form input::placeholder,
+.contact form textarea::placeholder{
+  color:#9ca3af;
+}
+
+.project-form input:focus,
+.project-form textarea:focus,
+.contact form input:focus,
+.contact form textarea:focus{
+  border-color:#7f5af0;
+
+  box-shadow:
+    0 0 18px rgba(127,90,240,0.25);
+}
+
+/* BUTTONS */
+
+.project-form button,
+.contact form button{
+  height:58px;
+
+  border:none;
+
+  border-radius:14px;
+
+  background:linear-gradient(
+    135deg,
+    #7f5af0,
+    #6246ea
+  );
+
+  color:white;
+
+  font-size:1rem;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.35s ease;
+
+  box-shadow:
+    0 12px 28px rgba(127,90,240,0.35);
+}
+
+.project-form button:hover,
+.contact form button:hover{
+  transform:translateY(-4px);
+
+  box-shadow:
+    0 18px 38px rgba(127,90,240,0.55);
+}
+
+/* ================= PROJECTS ================= */
+
+.projects-grid{
+  width:90%;
+
+  margin:auto;
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(auto-fit,minmax(340px,1fr));
+
+  gap:35px;
+
+  padding-bottom:120px;
+}
+
+/* ===== NO PROJECTS MESSAGE ===== */
+
+.no-projects{
+  width:90%;
+
+  margin:20px auto 120px auto;
+
+  padding:40px;
+
+  text-align:center;
+
+  border-radius:24px;
+
+  background:rgba(255,255,255,0.05);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  color:#cbd5e1;
+
+  font-size:1.2rem;
+
+  font-weight:500;
+
+  backdrop-filter:blur(12px);
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.25);
+}
+
+.project-card{
+  position:relative;
+
+  overflow:hidden;
+
+  min-height:420px;
+
+  padding:32px;
+
+  border-radius:28px;
+
+  background:rgba(255,255,255,0.05);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  backdrop-filter:blur(14px);
+
+  transition:0.4s ease;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:space-between;
+}
+
+.project-card::before{
+  content:"";
+
+  position:absolute;
+
+  width:240px;
+  height:240px;
+
+  background:#7f5af0;
+
+  border-radius:50%;
+
+  top:-100px;
+  right:-100px;
+
+  opacity:0.12;
+
+  filter:blur(90px);
+}
+
+.project-card:hover{
+  transform:translateY(-10px);
+
+  box-shadow:
+    0 20px 45px rgba(127,90,240,0.32);
+}
+
+.project-card h3{
+  font-size:1.5rem;
+
+  margin-bottom:18px;
+}
+
+.project-description{
+  color:#cbd5e1;
+
+  line-height:1.8;
+
+  margin-bottom:28px;
+}
+
+/* TECH */
+
+.tech-list{
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:10px;
+
+  margin-top:auto;
+}
+
+.tech-item{
+  padding:8px 16px;
+
+  border-radius:30px;
+
+  background:rgba(127,90,240,0.18);
+
+  border:1px solid rgba(127,90,240,0.2);
+
+  font-size:0.82rem;
+}
+
+/* PROJECT BUTTONS */
+
+.project-buttons{
+  display:flex;
+
+  align-items:center;
+
+  flex-wrap:wrap;
+
+  gap:14px;
+
+  margin-top:30px;
+}
+
+.project-buttons a{
+  text-decoration:none;
+}
+
+.project-buttons button{
+  padding:12px 18px;
+
+  border:none;
+
+  border-radius:12px;
+
+  color:white;
+
+  font-weight:500;
+
+  cursor:pointer;
+
+  transition:0.3s ease;
+}
+
+.github-btn{
+  background:linear-gradient(
+    135deg,
+    #7f5af0,
+    #6246ea
+  );
+
+  box-shadow:
+    0 10px 24px rgba(127,90,240,0.35);
+}
+
+.github-btn:hover{
+  transform:translateY(-4px);
+
+  box-shadow:
+    0 16px 35px rgba(127,90,240,0.55);
+}
+
+.edit-btn{
+  background:#0ea5e9;
+}
+
+.delete-btn{
+  background:#ef4444;
+}
+
+/* ================= CONTACT ================= */
+
+.contact{
+  width:90%;
+
+  margin:0 auto 110px auto;
+
+  padding:75px;
+
+  border-radius:35px;
+
+  background:rgba(255,255,255,0.05);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  display:flex;
+
+  justify-content:space-between;
+
+ align-items:flex-start;
+ 
+  gap:70px;
+
+  flex-wrap:wrap;
+
+  backdrop-filter:blur(14px);
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,0.3);
+}
+
+/* LEFT */
+
+.contact-left{
+  flex:1;
+
+  min-width:320px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+}
+
+.contact-left h2{
+  text-align:left;
+
+  margin-bottom:35px;
+}
+
+.contact-left a{
+  text-decoration:none;
+
+  width:fit-content;
+}
+
+/* ===== UPDATED CONTACT BUTTON EFFECTS ===== */
+
+/* ===== CONTACT CARDS ===== */
+
+.contact-left{
+  flex:1;
+
+  min-width:320px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:center;
+
+  align-items:flex-start;
+}
+
+.contact-left h2{
+  text-align:left;
+
+  margin-bottom:35px;
+}
+
+/* COMMON STYLE */
+
+.contact-left p,
+.contact-link{
+  display:flex;
+
+  align-items:center;
+
+  gap:14px;
+
+  padding:16px 22px;
+
+  margin-bottom:18px;
+
+  border-radius:16px;
+
+  width:100%;
+
+  max-width:340px;
+
+  color:white;
+
+  font-weight:500;
+
+  background:rgba(255,255,255,0.06);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  backdrop-filter:blur(10px);
+
+  text-decoration:none;
+
+  position:relative;
+
+  overflow:hidden;
+
+  transition:all 0.35s ease;
+
+  box-shadow:
+    0 0 12px rgba(127,90,240,0.15);
+}
+
+/* ICON */
+
+.contact-left p svg,
+.contact-link svg{
+  font-size:1.1rem;
+
+  flex-shrink:0;
+
+  position:relative;
+
+  z-index:2;
+}
+
+/* TEXT */
+
+.contact-left p span,
+.contact-link span{
+  position:relative;
+
+  z-index:2;
+}
+
+/* GLOW EFFECT */
+
+.contact-left p::before,
+.contact-link::before{
+  content:"";
+
+  position:absolute;
+
+  top:-50%;
+  left:-50%;
+
+  width:200%;
+  height:200%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(127,90,240,0.25),
+      transparent 60%
+    );
+
+  transform:scale(0);
+
+  transition:0.45s ease;
+}
+
+/* HOVER */
+
+.contact-left p:hover,
+.contact-link:hover{
+  transform:
+    translateX(8px)
+    translateY(-3px);
+
+  background:white;
+
+  color:#111827;
+
+  box-shadow:
+    0 0 20px rgba(255,255,255,0.55),
+    0 0 38px rgba(127,90,240,0.35),
+    0 18px 35px rgba(127,90,240,0.25);
+}
+
+.contact-left p:hover::before,
+.contact-link:hover::before{
+  transform:scale(1);
+}
+
+/* ================= FOOTER ================= */
+
+.footer {
+  margin-top: 80px;
+  /* Top: 60px | Left & Right: 40px (Keeps them away from the edge) | Bottom: 25px */
+  padding: 60px 40px 25px !important; 
+  background: rgba(255, 255, 255, 0.04);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  position: static !important; /* Removes the absolute anchor */
+}
+
+.footer-container {
+  display: flex !important;
+  justify-content: space-between !important; /* Pushes text left, icons right */
+  align-items: center !important;
+  max-width: 1200px !important; /* Prevents the footer from stretching too far on giant monitors */
+  margin: 0 auto !important; /* Centers the container */
+  width: 100% !important;
+}
+
+.footer-left h2{
+  font-size:1.80rem;
+  margin-bottom:15px;
+  background:linear-gradient(
+    90deg,
+    #7f5af0,
+    #2cb67d
+  );
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.footer-left p {
+  max-width: 300px; /* Keeps the text neatly wrapped on the left */
+  line-height: 1.6; /* Slightly tighter line spacing */
+  color: #cbd5e1;
+  font-size: 0.85rem; /* Reduces the size of the description! */
+  margin: 0; /* Ensures no weird extra spacing */
+}
+
+.footer-center,
+.footer-right{
+  display:flex;
+
+  flex-direction:column;
+
+  gap:14px;
+}
+
+.footer-center h3,
+.footer-right h3{
+  margin-bottom:10px;
+
+  color:white;
+}
+
+.footer-center a{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  width:fit-content;
+  text-decoration:none;
+  color:#cbd5e1;
+  transition:0.3s ease;
+}
+
+.footer-center a:hover{
+  color:#7f5af0;
+
+  transform:translateX(5px);
+}
+
+.footer-icons {
+  display: flex !important;
+  gap: 20px !important;
+  align-items: center !important;
+  /* CRITICAL: Resets any old layout tricks that pushed them off screen */
+  position: static !important; 
+  transform: none !important;
+  margin: 0 !important; 
+}
+
+.footer-icons a{
+  width:50px;
+  height:50px;
+
+  border-radius:50%;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  background:rgba(255,255,255,0.06);
+
+  color:white;
+
+  font-size:1.2rem;
+
+  transition:0.35s ease;
+
+  text-decoration:none;
+}
+
+.footer-icons a:hover{
+  transform:
+    translateY(-6px)
+    scale(1.08);
+
+  background:white;
+
+  color:#111827;
+
+  box-shadow:
+    0 0 20px rgba(255,255,255,0.5),
+    0 0 40px rgba(127,90,240,0.35);
+}
+
+.footer-bottom{
+  margin-top:50px;
+
+  padding-top:25px;
+
+  text-align:center;
+
+  border-top:1px solid rgba(255,255,255,0.08);
+
+  color:#94a3b8;
+}
+
+/* LIGHT MODE */
+
+.light .footer{
+  background:rgba(255,255,255,0.92);
+
+  border-top:1px solid rgba(0,0,0,0.08);
+}
+.light .hero-btn{
+  background:white;
+
+  color:#111827;
+
+  border:1px solid rgba(0,0,0,0.08);
+}
+
+.light .contact-link{
+  background:white;
+
+  color:#111827;
+
+  border:1px solid rgba(0,0,0,0.08);
+}
+
+.light .footer-left p,
+.light .footer-center a,
+.light .footer-bottom{
+  color:#4b5563;
+}
+
+.light .footer-center h3,
+.light .footer-right h3{
+  color:#111827;
+}
+
+.light .footer-icons a{
+  background:rgba(0,0,0,0.05);
+
+  color:#111827;
+}
+
+/* ================= LOADER ================= */
+
+.loader{
+  height:100vh;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  background:#050816;
+}
+
+.loader h1{
+  font-size:4rem;
+
+  color:#7f5af0;
+
+  animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+
+  0%{
+    opacity:0.4;
+  }
+
+  50%{
+    opacity:1;
+  }
+
+  100%{
+    opacity:0.4;
+  }
+}
+
+/* ================= LIGHT MODE ================= */
+
+.light{
+  background:#f4f7fb;
+
+  color:#111827;
+}
+
+.light .navbar{
+  background:rgba(255,255,255,0.85);
+
+  border-bottom:1px solid rgba(0,0,0,0.08);
+}
+
+.light .nav-links a{
+  color:#111827;
+}
+
+.light .hero p,
+.light .about p,
+.light .project-description{
+  color:#4b5563;
+}
+
+.light .project-card,
+.light .project-form,
+.light .contact,
+.light .skill-card,
+.light .no-projects{
+  background:rgba(255,255,255,0.92);
+
+  border:1px solid rgba(0,0,0,0.08);
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.08);
+}
+
+.light input,
+.light textarea{
+  background:white;
+
+  color:#111827;
+
+  border:1px solid rgba(0,0,0,0.08);
+}
+
+.light input::placeholder,
+.light textarea::placeholder{
+  color:#6b7280;
+}
+
+.light .theme-toggle{
+  background:#111827;
+
+  color:white;
+}
+
+.light .footer{
+  color:#4b5563;
+
+  border-top:1px solid rgba(0,0,0,0.08);
+}
+
+.light .no-projects{
+  background:rgba(255,255,255,0.92);
+
+  color:#374151;
+
+  border:1px solid rgba(0,0,0,0.08);
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:1100px){
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:900px){
+
+  .navbar{
+    flex-direction:column;
+
+    gap:20px;
+  }
+
+  .nav-links{
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+    gap:18px;
+  }
+
+  .animated-text{
+    font-size:3rem;
+  }
+
+  .project-form{
+    width:92%;
+
+    padding:30px;
+  }
+
+  .project-card{
+    min-height:auto;
+  }
+
+  .contact{
+    padding:40px;
+
+    gap:40px;
+  }
+
+  .contact-left{
+    align-items:center;
+
+    text-align:center;
+  }
+
+  .contact-left h2{
+    text-align:center;
+  }
+
+  .contact-left p{
+    width:100%;
+
+    justify-content:center;
+  }
+
+  .contact-form{
+    width:100%;
+  }
+
+  .hero-buttons{
+    flex-direction:column;
+  }
+
+  .hero-buttons button{
+    width:100%;
+  }
+.hero-avatar{
+  width:170px;
+  height:170px;
+}
+.footer-container{
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+
+.footer-center,
+.footer-right{
+  align-items:center;
+}
+
+.footer-center a{
+  justify-content:center;
+}
+
+.footer-icons{
+  justify-content:center;
+}
+}
+
+@media(max-width:600px){
+
+  .animated-text{
+    font-size:2.4rem;
+  }
+
+  .contact{
+    padding:28px;
+  }
+}
+/* =========================================
+   HAMBURGER MENU & SIDEBAR STYLES
+   ========================================= */
+
+/* --- Hamburger Icon --- */
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  cursor: pointer;
+  z-index: 100;
+  margin-left: 20px;
+}
+
+.hamburger .line {
+  width: 100%;
+  height: 3px;
+  background-color: #00ffcc; /* Matches your neon green accent */
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.hamburger:hover .line {
+  background-color: #a855f7; /* Purple hover effect */
+}
+
+/* --- Sidebar Styling --- */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -300px; /* Hides it off-screen by default */
+  width: 280px;
+  height: 100vh;
+  background-color: #0f0f1b; /* Dark background matching your site */
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.7);
+  transition: right 0.4s ease-in-out;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.sidebar.open {
+  right: 0; /* Slides it in when active */
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.sidebar-header h3 {
+  color: #a855f7;
+  margin: 0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 0;
+  line-height: 0.5; 
+  display: flex;
+}
+
+.close-btn:hover {
+  color: #ff4757; /* Red hover for the X */
+}
+
+/* --- Buttons inside the Sidebar --- */
+.sidebar-action-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.sidebar-action-btn.login {
+  background: linear-gradient(90deg, #6b21a8, #4c1d95);
+  color: white;
+}
+
+.sidebar-action-btn.logout {
+  background: transparent;
+  border: 2px solid #ff4757;
+  color: #ff4757;
+}
+
+.sidebar-action-btn.logout:hover {
+  background: #ff4757;
+  color: white;
+}
+
+/* --- Dark Background Overlay --- */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 999;
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+/* Fix alignment for the right-side navigation controls */
+.nav-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px; /* Creates a nice space between the theme button and the hamburger */
+}
+/* =========================================
+   CONTACT SECTION ALIGNMENT & SOCIALS (UPDATED)
+   ========================================= */
+
+/* 1. Put the Left Info and Right Form side by side */
+.contact {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Aligns everything to the top */
+  gap: 50px; /* Creates a nice gap between the left text and the right form */
+  width: 100%;
+}
+
+.contact-left {
+  flex: 1; /* Takes up the left half of the screen */
+}
+
+/* 2. Fix the form alignment and size */
+.contact-form {
+  flex: 1.2; /* Takes up slightly more than half for the inputs */
+  display: flex;
+  flex-direction: column;
+  gap: 20px; 
+}
+
+.contact-form input,
+.contact-form textarea,
+.submit-btn {
+  width: 100%;
+  box-sizing: border-box; 
+}
+
+.contact-form textarea {
+  min-height: 150px;
+  resize: vertical; 
+}
+/* Make the Email larger and bold to match the URL fonts */
+.email-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 18px; /* Keeps the email prominent */
+  font-weight: bold; /* Matches the thick font of the URLs */
+  margin-bottom: 10px;
+}
+/* =========================================
+   SOCIAL LINKS (TEXT & ICON ONLY - NO BOXES)
+   ========================================= */
+.contact-socials {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between each link */
+  margin-top: 35px;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px; /* Space between the icon and the word */
+  font-size: 15px; /* Slightly larger text since the box is gone */
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  width: fit-content;
+  background: transparent; 
+  border: none; 
+  padding: 0; 
+}
+
+/* --- Dark Mode --- */
+.dark-mode .social-link {
+  color: #ddd; /* Clean, slightly off-white default color */
+}
+
+.dark-mode .social-link:hover {
+  color: #ffffff; /* Bright white text and icon on hover */
+  
+  /* This creates the pure white glow! */
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8); 
+  transform: translateX(10px); /* Smooth slide to the right */
+}
+
+/* --- Light Mode --- */
+.light-mode .social-link {
+  color: #444; /* Dark grey for readability on white background */
+}
+
+.light-mode .social-link:hover {
+  color: #a855f7; /* Matches the purple from your header */
+  text-shadow: 0 0 15px rgba(168, 85, 247, 0.5); /* Purple glow */
+  transform: translateX(10px); 
+}
+
+/* 4. Keep it looking good on Mobile Phones */
+@media (max-width: 768px) {
+  .contact {
+    flex-direction: column; /* Stacks them vertically on small screens */
+    gap: 40px;
+  }
+}
+/* Fix for invisible boxes in Light Mode */
+.light-mode .contact-form input,
+.light-mode .contact-form textarea,
+.light-mode .project-form input,
+.light-mode .project-form textarea {
+  background-color: #ffffff;
+  border: 2px solid #cccccc; /* This line brings the borders back! */
+  color: #333;
+}
+
+/* Optional: Turns the border purple when you click to type */
+.light-mode .contact-form input:focus,
+.light-mode .contact-form textarea:focus,
+.light-mode .project-form input:focus,
+.light-mode .project-form textarea:focus {
+  border-color: #a855f7;
+  outline: none;
+}
+/* =========================================
+   EDUCATION TIMELINE
+   ========================================= */
+.education {
+  padding: 60px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+/* Center the Education Title to match About Me */
+.education .section-title {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 50px; /* Creates a nice gap between the title and the first timeline dot */
+}
+
+/* 1. The Long Vertical Line */
+/* 1. The Long Vertical Line */
+.timeline {
+  position: relative;
+  max-width: 750px; /* Keeps the cards from stretching too wide */
+  margin: 0 auto; /* This centers the entire timeline block perfectly! */
+  padding-left: 40px; 
+  border-left: 3px solid rgba(168, 85, 247, 0.4); 
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+/* 2. The Circular Points */
+.timeline-dot {
+  position: absolute;
+  left: -48.5px; /* Pulls the dot perfectly over the vertical border */
+  top: 20px;
+  width: 14px;
+  height: 14px;
+  background-color: #00ffcc; /* Neon green dot */
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.8); /* Glowing effect */
+}
+
+/* 3. The Horizontal Connecting Lines */
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -40px; /* Starts at the vertical line */
+  top: 26px; /* Aligns with the middle of the dot */
+  width: 40px; /* Stretches to the content card */
+  height: 2px;
+  background-color: rgba(168, 85, 247, 0.4); /* Purple horizontal branch */
+}
+
+/* 4. The Content Box */
+.timeline-content {
+  background: rgba(255, 255, 255, 0.03); /* Faint transparent card */
+  padding: 20px 25px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.timeline-content:hover {
+  border-color: #00ffcc; /* Glows neon green on hover */
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 255, 204, 0.1);
+}
+
+.timeline-content h3 {
+  margin: 0 0 8px 0;
+  color: #fff;
+  font-size: 1.3rem;
+}
+
+.timeline-date {
+  color: #00ffcc; /* Neon green text for the years */
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.timeline-grade {
+  margin-top: 10px;
+  color: #aaa;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* =========================================
+   LIGHT MODE OVERRIDES FOR TIMELINE
+   ========================================= */
+.light-mode .timeline {
+  border-left-color: rgba(168, 85, 247, 0.8);
+}
+
+.light-mode .timeline-item::before {
+  background-color: rgba(168, 85, 247, 0.8);
+}
+
+.light-mode .timeline-content {
+  background: #ffffff;
+  border: 2px solid #e0e0e0;
+}
+
+.light-mode .timeline-content:hover {
+  border-color: #a855f7;
+  box-shadow: 0 5px 15px rgba(168, 85, 247, 0.2);
+}
+
+.light-mode .timeline-content h3 {
+  color: #333;
+}
+
+.light-mode .timeline-date {
+  color: #a855f7; /* Changes green dates to purple in light mode */
+}
+
+.light-mode .timeline-grade {
+  color: #666;
+}
+/* =========================================
+   GLOBAL SECTION TITLES (Forces all titles to match)
+   ========================================= */
+.section-title {
+  text-align: center !important;
+  font-size: 2.5rem !important; /* Makes it nice and large */
+  font-weight: bold !important;
+  width: 100%;
+  
+  /* Adds your signature Purple-to-Green Gradient */
+  background: linear-gradient(90deg, #a855f7, #00ffcc) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Ensure the Education title has enough space below it */
+.education .section-title {
+  margin-bottom: 60px !important; 
+}
+/* Left-align the Contact title to match the column layout */
+.contact-left .section-title {
+  text-align: left !important;
+  margin-bottom: 30px !important; /* Adds a nice gap before the email */
+}
+/* =========================================
+   FOOTER TEXT FORCED OVERRIDES
+   ========================================= */
+.footer-left {
+  text-align: left !important; /* Forces everything in this box to the left */
+}
+
+.footer-left h2 {
+  font-size: 1.5rem !important; /* Visibly shrinks the title */
+  margin-bottom: 8px !important; /* Tightens the gap */
+}
+
+.footer-left p {
+  font-size: 0.85rem !important; /* Visibly shrinks the description */
+  max-width: 300px !important; /* Keeps it neatly wrapped */
+  line-height: 1.5 !important; 
+  margin: 0 !important;
+}
+/* =========================================
+   FOOTER ICONS - BARE LOGO GLOW OVERRIDES
+   ========================================= */
+.footer-icons a {
+  background: transparent !important; /* Removes the circle background */
+  width: auto !important; 
+  height: auto !important;
+  color: #888 !important; /* Muted grey by default */
+  font-size: 1.5rem !important; /* Nice size for bare logos */
+  box-shadow: none !important; /* Removes any default shadow */
+}
+
+.footer-icons a:hover {
+  background: transparent !important; /* Ensures no background appears on hover */
+  color: #ffffff !important; /* Logo turns pure white */
+  
+  /* Makes the actual logo glow instead of a box */
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8) !important; 
+  box-shadow: none !important; /* Removes the old box glow */
+  transform: translateY(-5px) scale(1.1) !important; /* Gentle floating jump */
+}
+/* =========================================
+   REDUCE FOOTER BOTTOM SPACING
+   ========================================= */
+.footer-bottom {
+  margin-top: 20px !important; /* Reduced this from 50px to pull it up! */
+  padding-top: 20px !important; /* Keeps a nice little breathing room above the copyright text */
+}
+/* =========================================
+   NUCLEAR OPTION: FORCE ICONS TO RIGHT CORNER
+   ========================================= */
+.footer {
+  position: relative !important; /* This acts as the anchor for the absolute icons */
+}
+
+.footer-icons {
+  position: absolute !important;
+  right: 20px !important; /* Forces them exactly 40px from the absolute right edge of the screen */
+  bottom: 60px !important; /* Adjust this to move them up or down so they align with your text */
+}
+/* =========================================
+   MOBILE RESPONSIVENESS FIXES (Phones & Tablets)
+   ========================================= */
+@media (max-width: 768px) {
+  
+  /* 1. Navbar Clean Up */
+  .nav-links {
+    display: none !important; 
+  }
+
+  /* 2. Education Timeline (Stop the squish & off-screen cutting) */
+  .timeline {
+    margin-left: 15px !important; /* Pushes the vertical line safely onto the screen */
+    padding-left: 20px !important; /* Space between line and cards */
+  }
+  
+  .timeline-dot {
+    left: -8.5px !important; /* Snaps the dot perfectly onto the vertical line */
+  }
+  
+  .timeline-item::before {
+    display: none !important; /* Hides horizontal branches on mobile to give your text maximum space! */
+  }
+  
+  .timeline-content {
+    padding: 15px !important;
+  }
+
+  /* 3. Contact Section (Stop touching the edges!) */
+  .contact-container {
+    flex-direction: column !important;
+    gap: 40px !important;
+    padding: 0 15px !important; /* Adds breathing room to the sides */
+  }
+
+  .contact-left {
+    margin-left: 0 !important; 
+  }
+  
+  .email-pill {
+    font-size: 14px !important; /* Shrinks your long email slightly so it fits */
+    word-break: break-word !important; /* Allows the email to wrap if the phone is super narrow */
+  }
+
+  /* 4. Global Section Margins */
+  section {
+    padding: 50px 15px !important; 
+  }
+
+  /* 5. Footer (Center everything perfectly) */
+  .footer {
+    padding: 40px 20px 20px !important;
+  }
+  
+  .footer-container {
+    flex-direction: column !important;
+    align-items: center !important; /* Centers the entire block */
+    gap: 20px !important;
+  }
+  
+  .footer-left {
+    margin-left: 0 !important; /* Strips away the 80px desktop margin */
+    text-align: center !important; 
+  }
+  
+  .footer-left p {
+    margin: 0 auto !important;
+  }
+
+  .footer-icons {
+    position: static !important;
+    transform: none !important;
+    margin: 15px 0 0 0 !important; /* Adds space above icons, zero on sides */
+    justify-content: center !important; /* Centers them */
+    width: 100% !important;
+  }
+}
+/* =========================================
+   FORCE FOOTER ICONS TO APPEAR
+   ========================================= */
+.footer-icons {
+  display: flex !important;
+  gap: 25px !important;
+  z-index: 10 !important; /* Guarantees they sit on top of the background */
+}
+
+/* Give the links a clickable area without a background */
+.footer-icons a {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 40px !important; 
+  height: 40px !important;
+  background: transparent !important; 
+  box-shadow: none !important;
+  text-decoration: none !important;
+}
+
+/* Force the actual React Icons to have a specific size and color */
+.footer-icons a svg {
+  width: 28px !important; 
+  height: 28px !important;
+  color: #888 !important; /* Default grey */
+  transition: all 0.3s ease !important;
+}
+
+/* The Hover Glow Effect on the bare icons */
+.footer-icons a:hover svg {
+  color: #ffffff !important; /* Turns white */
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.8)) !important; /* Creates the glow */
+  transform: translateY(-5px) scale(1.1) !important; /* Gentle jump */
+}
+
+/* =========================================
+   FOOTER BARE LOGOS (Tuned Size, No Glow, Centered)
+   ========================================= */
+.footer-icons {
+  display: flex !important;
+  gap: 30px !important; 
+  z-index: 10 !important; 
+  align-items: center !important;
+}
+
+/* 1. Tuned Logo Size */
+.footer-logo {
+  width: 30px !important;  /* Dialed back down so they aren't massive */
+  height: 30px !important; 
+  color: #888 !important; 
+  transition: all 0.3s ease !important;
+  cursor: pointer !important; 
+}
+
+/* 2. Clean Hover (No Glow) */
+.footer-logo:hover {
+  color: #ffffff !important; /* Just turns crisp white */
+  transform: translateY(-4px) !important; /* Gentle jump only, no glow or zooming */
+}
+
+/* 3. Stronger Upward Nudge (Desktop Only) */
+@media (min-width: 769px) {
+  .footer-icons {
+    /* A much stronger pull upward to align with the text block */
+    transform: translateY(-35px) !important; 
+  }
+}
+/* =========================================
+   NAVBAR LEFT ALIGNMENT FIX
+   ========================================= */
+.nav-left {
+  display: flex !important;
+  flex-direction: row !important; /* Forces them side-by-side horizontally */
+  align-items: center !important; /* Vertically centers the icon with the text */
+  gap: 15px !important; 
+  margin-right: auto !important;
+}
+
+/* Strips away any old margins pushing the items apart */
+.nav-left .theme-toggle {
+  margin: 0 !important; 
+  position: static !important; /* Removes any absolute positioning if it had any */
+}
+
+.nav-left .logo {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1 !important; /* Keeps the text block completely flat */
+}
+/* Hide the hamburger menu on Desktop so it doesn't crowd your links */
+@media (min-width: 769px) {
+  .hamburger, .nav-controls {
+    display: none !important;
+  }
+}
+/* =========================================
+   NAVBAR LOGIN / LOGOUT BUTTON
+   ========================================= */
+.auth-btn {
+  background: rgba(255, 255, 255, 0.05); /* Slight glass background */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  padding: 8px 22px;
+  border-radius: 20px; /* Gives it the nice pill-shaped box */
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 20px; /* Pushes it slightly away from the Contact link */
+}
+
+/* Hover & Glow Effect (Default / Login state) */
+.auth-btn:hover {
+  background: rgba(127, 90, 240, 0.1); /* Subtle purple background */
+  color: #ffffff;
+  border-color: #7f5af0;
+  box-shadow: 0 0 15px rgba(127, 90, 240, 0.5); /* Purple Glow */
+  transform: translateY(-2px); /* Gentle float up */
+}
+
+/* The Logout State Hover (Red Glow) */
+.auth-btn.logged-in:hover {
+  background: rgba(239, 68, 68, 0.1); /* Subtle red background */
+  border-color: #ef4444;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.5); /* Red Glow */
+}
+
+/* --- Mobile Fix for the Auth Button --- */
+@media (max-width: 768px) {
+  .auth-btn {
+    display: none !important; /* Hides it on mobile since we hide the links anyway */
+  }
+}
+/* Normal state for your inputs (assuming you already have this) */
+input {
+  background-color: #1a1a2e; /* Your dark background */
+  color: #a0a0b0; /* Dimmer text before they type */
+  border: 1px solid #333;
+  transition: all 0.3s ease;
+}
+
+/* The new "Filled" state */
+input.filled-box,
+textarea.filled-box{
+  background-color: #ffffff !important; /* Pure white background */
+  color: #000000 !important; /* Black text so you can read it */
+  border: 2px solid #8a2be2 !important; /* Purple border */
+}
+/* Container must be relative so the dropdown knows where to anchor */
+.tech-input-container {
+  position: relative;
+  width: 100%;
+}
+
+/* The floating suggestion box */
+.suggestions-list {
+  position: absolute;
+  top: 100%; /* Pushes it right below the input */
+  left: 0;
+  width: 100%;
+  margin-top: 4px;
+  padding: 0;
+  list-style-type: none;
+  background-color: #1a1a2e; /* Matches your dark theme */
+  border: 1px solid #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  z-index: 10; /* Keeps it on top of other form fields */
+  max-height: 150px;
+  overflow-y: auto; /* Adds a scrollbar if you have a ton of suggestions */
+}
+
+/* Individual suggestion items */
+.suggestions-list li {
+  padding: 12px 16px;
+  color: #a0a0b0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* Hover effect so they know it's clickable */
+.suggestions-list li:hover {
+  background-color: #242442;
+  color: #ffffff;
+}
+/* Hide the default datalist dropdown button in Chrome/Brave */
+input::-webkit-calendar-picker-indicator {
+  display: none !important;
+  opacity: 0 !important;
+}
+/* Normal Dark Mode styles (you probably already have something like this) */
+.logout-btn {
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+
+/* Override for Light Mode */
+.light-mode .logout-btn {
+  color: #1a1a2e; /* Dark text so it shows up */
+  border: 2px solid #1a1a2e; /* Thicker dark border for visibility */
+  background-color: transparent;
+}
+
+/* Optional hover effect for Light Mode */
+.light-mode .logout-btn:hover {
+  background-color: #1a1a2e;
+  color: #ffffff;
+}
+/* Force the Description box to obey the filled state */
+textarea[name="description"].filled-box {
+  background-color: #ffffff !important; 
+  color: #000000 !important; 
+  border: 2px solid #8a2be2 !important; 
+}
+/* 1. Perfectly align the button and logo side-by-side */
+.nav-left {
+  display: flex;
+  align-items: center; /* Vertically centers the moon/sun with your name */
+  gap: 15px; /* Adds a clean gap between the button and the text */
+}
+
+/* 2. Fix the chopped off 'j' in Shiva Teja */
+.logo {
+  padding-bottom: 8px; /* Adds invisible space underneath the text */
+  display: inline-block;
+  line-height: 1.2; 
+  margin: 0; /* Removes any default margin that might push it out of alignment */
+}
+
+/* 3. Make sure the toggle button looks clean */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem; /* Makes the moon/sun icon a good size */
+  color: inherit; /* Forces the icon to match your current theme text color */
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

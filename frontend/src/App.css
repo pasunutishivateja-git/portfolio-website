@@ -1,1458 +1,915 @@
-/* Fix for anchor links hiding behind the navbar */
-html {
-  scroll-padding-top: 80px; /* Adjust this number if your navbar is taller or shorter */
-  scroll-behavior: smooth; /* Bonus: This makes the page gracefully slide down instead of instantly jumping! */
-}
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
-/* ================= GLOBAL ================= */
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+/* ================= GLOBAL & SETUP ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html{
-  scroll-behavior:smooth;
+html {
+  scroll-padding-top: 80px; /* Fix for anchor links hiding behind the navbar */
+  scroll-behavior: smooth; /* Graceful slide down */
 }
 
-body{
-  font-family:"Poppins",sans-serif;
-  overflow-x:hidden;
+body {
+  font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
 }
 
-/* ================= APP ================= */
-
-.app{
-  min-height:100vh;
-
-  color:white;
-
-  transition:0.4s ease;
-
+/* ================= APP CONTAINER ================= */
+.app {
+  min-height: 100vh;
+  color: white;
+  transition: 0.4s ease;
   background:
-    radial-gradient(
-      circle at top left,
-      rgba(127,90,240,0.15),
-      transparent 30%
-    ),
-
-    radial-gradient(
-      circle at bottom right,
-      rgba(44,182,125,0.12),
-      transparent 30%
-    ),
-
+    radial-gradient(circle at top left, rgba(127,90,240,0.15), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(44,182,125,0.12), transparent 30%),
     #050816;
 }
 
-/* ================= SCROLL BAR ================= */
-
-.scroll-progress{
-  position:fixed;
-
-  top:0;
-  left:0;
-
-  width:100%;
-  height:4px;
-
-  background:linear-gradient(
-    90deg,
-    #7f5af0,
-    #2cb67d
-  );
-
-  transform-origin:left;
-
-  z-index:9999;
+/* ================= SCROLL BAR PROGRESS ================= */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #7f5af0, #2cb67d);
+  transform-origin: left;
+  z-index: 9999;
 }
 
 /* ================= NAVBAR ================= */
-
-.navbar{
-  width:100%;
-
-  padding:20px 6%;
-
-  display:flex;
-
-  align-items:center;
-
-  position:sticky;
-
-  top:0;
-
-  z-index:1000;
-
-  backdrop-filter:blur(14px);
-
-  background:rgba(5,8,22,0.78);
-
-  border-bottom:1px solid rgba(255,255,255,0.08);
+.navbar {
+  width: 100%;
+  padding: 20px 6%;
+  display: flex;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(14px);
+  background: rgba(5,8,22,0.78);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
-/* LOGO */
+/* NAV LEFT (Theme Toggle & Logo Alignment) */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 15px; 
+  margin-right: auto; /* Pushes the right-side links away */
+}
 
-.navbar h2{
-  font-size:2rem;
-
-  font-weight:700;
-
-  background:linear-gradient(
-    90deg,
-    #7f5af0,
-    #2cb67d
-  );
-
-  -webkit-background-clip:text;
-
-  -webkit-text-fill-color:transparent;
-
-  margin-right:auto;
+/* LOGO (With Descender Fix for 'j') */
+.logo, .navbar h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #7f5af0, #2cb67d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+  padding-bottom: 8px; /* Fixes chopped 'j' tail */
+  display: inline-block;
+  line-height: 1.2;
 }
 
 /* NAV LINKS */
-
-.nav-links{
-  display:flex;
-
-  align-items:center;
-
-  justify-content:flex-end;
-
-  gap:34px;
-
-  margin-right:30px;
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 34px;
+  margin-right: 30px;
 }
 
-.nav-links a{
-  color:white;
-
-  text-decoration:none;
-
-  font-size:0.96rem;
-
-  font-weight:500;
-
-  position:relative;
-
-  transition:0.3s ease;
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 0.96rem;
+  font-weight: 500;
+  position: relative;
+  transition: 0.3s ease;
 }
 
-.nav-links a::after{
-  content:"";
-
-  position:absolute;
-
-  left:0;
-  bottom:-6px;
-
-  width:0%;
-  height:2px;
-
-  background:#7f5af0;
-
-  transition:0.3s ease;
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: #7f5af0;
+  transition: 0.3s ease;
 }
 
-.nav-links a:hover{
-  color:#7f5af0;
+.nav-links a:hover {
+  color: #7f5af0;
 }
 
-.nav-links a:hover::after{
-  width:100%;
+.nav-links a:hover::after {
+  width: 100%;
 }
 
-/* TOGGLE */
-
-.theme-toggle{
-  width:48px;
-  height:48px;
-
-  border:none;
-
-  border-radius:50%;
-
-  background:rgba(255,255,255,0.08);
-
-  color:white;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  cursor:pointer;
-
-  font-size:1rem;
-
-  transition:0.35s ease;
-
-  box-shadow:
-    0 0 0 transparent;
+/* THEME TOGGLE BUTTON */
+.theme-toggle {
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  color: inherit; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.5rem; 
+  transition: 0.35s ease;
+  padding: 0;
 }
 
-.theme-toggle:hover{
-  transform:rotate(180deg) scale(1.08);
-
-  background:linear-gradient(
-    135deg,
-    #7f5af0,
-    #6246ea
-  );
-
-  box-shadow:
-    0 0 25px rgba(127,90,240,0.55);
+.theme-toggle:hover {
+  transform: rotate(180deg) scale(1.08);
+  background: linear-gradient(135deg, #7f5af0, #6246ea);
+  box-shadow: 0 0 25px rgba(127,90,240,0.55);
+  color: white; 
 }
 
-/* ================= HERO ================= */
-
-.hero{
-  min-height:100vh;
-
-  display:flex;
-
-  flex-direction:column;
-
-  justify-content:center;
-
-  align-items:center;
-
-  text-align:center;
-
-  padding:0 10%;
-
-  position:relative;
+/* ================= HERO SECTION ================= */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 10%;
+  position: relative;
 }
 
-.hero::before{
-  content:"";
-
-  position:absolute;
-
-  width:450px;
-  height:450px;
-
-  background:#7f5af0;
-
-  filter:blur(180px);
-
-  opacity:0.18;
+/* Hero Background Glow */
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 450px;
+  height: 450px;
+  background: #7f5af0;
+  filter: blur(180px);
+  opacity: 0.18;
+  z-index: 0;
 }
 
-/* ================= HERO AVATAR ================= */
-
-.hero-avatar{
-  width:220px;
-  height:220px;
-
-  border-radius:50%;
-
-  padding:6px;
-
-  margin-bottom:35px;
-
-  background:linear-gradient(
-    135deg,
-    #7f5af0,
-    #2cb67d
-  );
-
-  box-shadow:
-    0 0 25px rgba(127,90,240,0.6),
-    0 0 60px rgba(44,182,125,0.35);
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.hero * {
+  position: relative;
+  z-index: 2;
 }
 
-.hero-avatar img{
-  width:100%;
-  height:100%;
-
-  object-fit:cover;
-
-  border-radius:50%;
-
-  border:4px solid #050816;
+/* HERO AVATAR */
+.hero-avatar {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  padding: 6px;
+  margin-bottom: 35px;
+  background: linear-gradient(135deg, #7f5af0, #2cb67d);
+  box-shadow: 0 0 25px rgba(127,90,240,0.6), 0 0 60px rgba(44,182,125,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.hero *{
-  position:relative;
-
-  z-index:2;
+.hero-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #050816;
 }
 
-.animated-text{
-  font-size:5rem;
-
-  font-weight:700;
-
-  margin-bottom:22px;
-
-  background:linear-gradient(
-    90deg,
-    #7f5af0,
-    #2cb67d
-  );
-
-  -webkit-background-clip:text;
-
-  -webkit-text-fill-color:transparent;
-
-  animation:floatText 3s ease-in-out infinite;
+/* HERO TYPOGRAPHY */
+.animated-text {
+  font-size: 5rem;
+  font-weight: 700;
+  margin-bottom: 22px;
+  background: linear-gradient(90deg, #7f5af0, #2cb67d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: floatText 3s ease-in-out infinite;
 }
 
-.hero p{
-  max-width:720px;
-
-  line-height:1.9;
-
-  color:#cbd5e1;
-
-  font-size:1.05rem;
+.hero p {
+  max-width: 720px;
+  line-height: 1.9;
+  color: #cbd5e1;
+  font-size: 1.05rem;
 }
 
-/* HERO BUTTONS */
-
-.hero-buttons{
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  gap:24px;
-
-  margin-top:45px;
-
-  flex-wrap:wrap;
+/* ================= HERO BUTTONS ================= */
+.hero-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 45px;
+  flex-wrap: wrap;
 }
 
-.hero-buttons a{
-  text-decoration:none;
+.hero-buttons a {
+  text-decoration: none;
 }
 
-/* ===== UPDATED GITHUB + LINKEDIN BUTTONS ===== */
-
-.hero-btn{
-  min-width:190px;
-
-  padding:15px 30px;
-
-  border-radius:16px;
-
-  background:rgba(255,255,255,0.08);
-
-  border:1px solid rgba(255,255,255,0.15);
-
-  color:white;
-
-  font-size:1rem;
-
-  font-weight:600;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  gap:12px;
-
-  cursor:pointer;
-
-  transition:all 0.35s ease;
-
-  position:relative;
-
-  overflow:hidden;
-
-  backdrop-filter:blur(10px);
-
-  box-shadow:
-    0 0 12px rgba(127,90,240,0.18);
+.hero-btn {
+  min-width: 190px;
+  padding: 15px 30px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all 0.35s ease;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 12px rgba(127,90,240,0.18);
 }
 
 /* GLOW LAYER */
-
-.hero-btn::before{
-  content:"";
-
-  position:absolute;
-
-  top:-50%;
-  left:-50%;
-
-  width:200%;
-  height:200%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(127,90,240,0.25),
-      transparent 60%
-    );
-
-  transform:scale(0);
-
-  transition:0.45s ease;
-
-  z-index:0;
+.hero-btn::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(127,90,240,0.25), transparent 60%);
+  transform: scale(0);
+  transition: 0.45s ease;
+  z-index: 0;
 }
 
 .hero-btn svg,
-.hero-btn span{
-  position:relative;
-  z-index:2;
+.hero-btn span {
+  position: relative;
+  z-index: 2;
 }
 
-/* HOVER */
-
-.hero-btn:hover{
-  transform:
-    translateY(-6px)
-    scale(1.05);
-
-  background:white;
-
-  color:#111827;
-
-  border:1px solid rgba(255,255,255,0.45);
-
+/* HERO BUTTON HOVER */
+.hero-btn:hover {
+  transform: translateY(-6px) scale(1.05);
+  background: white;
+  color: #111827;
+  border: 1px solid rgba(255,255,255,0.45);
   box-shadow:
     0 0 20px rgba(255,255,255,0.55),
     0 0 40px rgba(127,90,240,0.45),
     0 18px 38px rgba(127,90,240,0.35);
 }
 
-.hero-btn:hover::before{
-  transform:scale(1);
+.hero-btn:hover::before {
+  transform: scale(1);
 }
 
-.hero-buttons button:hover{
-  transform:
-    translateY(-6px)
-    scale(1.05);
-
-  box-shadow:
-    0 0 18px rgba(255,255,255,0.65),
-    0 0 38px rgba(127,90,240,0.45),
-    0 18px 38px rgba(127,90,240,0.35);
-
-  background:#ffffff;
+/* ================= ANIMATIONS ================= */
+@keyframes floatText {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+  100% { transform: translateY(0px); }
 }
 
-/* ================= FLOAT ANIMATION ================= */
-
-@keyframes floatText{
-
-  0%{
-    transform:translateY(0px);
-  }
-
-  50%{
-    transform:translateY(-12px);
-  }
-
-  100%{
-    transform:translateY(0px);
-  }
-}
-
-/* ================= TITLES ================= */
-
+/* ================= SECTION TITLES ================= */
 .about h2,
 .skills h2,
 .project-form h2,
-.contact h2{
-  font-size:2.8rem;
-
-  text-align:center;
-
-  margin-bottom:30px;
-
-  background:linear-gradient(
-    90deg,
-    #7f5af0,
-    #2cb67d
-  );
-
-  -webkit-background-clip:text;
-
-  -webkit-text-fill-color:transparent;
+.contact h2 {
+  font-size: 2.8rem;
+  text-align: center;
+  margin-bottom: 30px;
+  background: linear-gradient(90deg, #7f5af0, #2cb67d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* ================= ABOUT ================= */
-
-.about{
-  padding:100px 10%;
-
-  text-align:center;
+.about {
+  padding: 100px 10%;
+  text-align: center;
 }
 
-.about p{
-  max-width:850px;
-
-  margin:auto;
-
-  line-height:1.9;
-
-  color:#cbd5e1;
+.about p {
+  max-width: 850px;
+  margin: auto;
+  line-height: 1.9;
+  color: #cbd5e1;
 }
 
 /* ================= SKILLS ================= */
-
-.skills{
-  padding:80px 10%;
+.skills {
+  padding: 80px 10%;
 }
 
-.skills-container{
-  display:flex;
-
-  justify-content:center;
-
-  flex-wrap:wrap;
-
-  gap:18px;
+.skills-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 18px;
 }
 
-.skill-card{
-  padding:16px 28px;
-
-  border-radius:14px;
-
-  background:rgba(255,255,255,0.05);
-
-  border:1px solid rgba(255,255,255,0.08);
-
-  transition:0.35s ease;
-
-  cursor:pointer;
+.skill-card {
+  padding: 16px 28px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: 0.35s ease;
+  cursor: pointer;
 }
 
-.skill-card:hover{
-  transform:translateY(-8px);
-
-  background:#7f5af0;
-
-  box-shadow:
-    0 14px 30px rgba(127,90,240,0.45);
+.skill-card:hover {
+  transform: translateY(-8px);
+  background: #7f5af0;
+  box-shadow: 0 14px 30px rgba(127,90,240,0.45);
 }
 
-/* ================= PROJECT FORM ================= */
-
-.project-form{
-  width:88%;
-
-  max-width:1200px;
-
-  margin:90px auto;
-
-  padding:45px;
-
-  border-radius:30px;
-
-  background:rgba(255,255,255,0.05);
-
-  border:1px solid rgba(255,255,255,0.08);
-
-  backdrop-filter:blur(14px);
-
-  box-shadow:
-    0 18px 45px rgba(0,0,0,0.35);
-
-  display:flex;
-
-  flex-direction:column;
-
-  gap:24px;
+/* ================= PROJECT FORM & INPUTS ================= */
+.project-form {
+  width: 88%;
+  max-width: 1200px;
+  margin: 90px auto;
+  padding: 45px;
+  border-radius: 30px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.form-grid{
-  display:grid;
-
-  grid-template-columns:repeat(3,1fr);
-
-  gap:20px;
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 }
 
-/* INPUTS */
-
+/* Default Input Styles (Form & Contact) */
 .project-form input,
 .project-form textarea,
 .contact form input,
-.contact form textarea{
-  width:100%;
-
-  border:none;
-
-  outline:none;
-
-  background:rgba(255,255,255,0.04);
-
-  border:1px solid rgba(255,255,255,0.08);
-
-  border-radius:16px;
-
-  padding:16px 18px;
-
-  color:white;
-
-  font-size:0.95rem;
-
-  font-family:"Poppins",sans-serif;
-
-  transition:0.3s ease;
+.contact form textarea {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 16px 18px;
+  color: white;
+  font-size: 0.95rem;
+  font-family: "Poppins", sans-serif;
+  transition: 0.3s ease;
 }
 
 .project-form input,
-.contact form input{
-  height:58px;
+.contact form input {
+  height: 58px;
 }
 
 .project-form textarea,
-.contact form textarea{
-  min-height:170px;
-
-  resize:none;
+.contact form textarea {
+  min-height: 170px;
+  resize: none;
 }
 
 .project-form input::placeholder,
 .project-form textarea::placeholder,
 .contact form input::placeholder,
-.contact form textarea::placeholder{
-  color:#9ca3af;
+.contact form textarea::placeholder {
+  color: #9ca3af;
 }
 
 .project-form input:focus,
 .project-form textarea:focus,
 .contact form input:focus,
-.contact form textarea:focus{
-  border-color:#7f5af0;
-
-  box-shadow:
-    0 0 18px rgba(127,90,240,0.25);
+.contact form textarea:focus {
+  border-color: #7f5af0;
+  box-shadow: 0 0 18px rgba(127,90,240,0.25);
 }
 
-/* BUTTONS */
+/* === THE CUSTOM FILLED-BOX LOGIC === */
+/* This ensures boxes turn white when text is typed in! */
+input.filled-box, 
+textarea.filled-box,
+textarea[name="description"].filled-box {
+  background-color: #ffffff !important; 
+  color: #000000 !important; 
+  border: 2px solid #8a2be2 !important; 
+}
 
+/* FORM BUTTONS */
 .project-form button,
-.contact form button{
-  height:58px;
-
-  border:none;
-
-  border-radius:14px;
-
-  background:linear-gradient(
-    135deg,
-    #7f5af0,
-    #6246ea
-  );
-
-  color:white;
-
-  font-size:1rem;
-
-  font-weight:600;
-
-  cursor:pointer;
-
-  transition:0.35s ease;
-
-  box-shadow:
-    0 12px 28px rgba(127,90,240,0.35);
+.contact form button {
+  height: 58px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #7f5af0, #6246ea);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.35s ease;
+  box-shadow: 0 12px 28px rgba(127,90,240,0.35);
 }
 
 .project-form button:hover,
-.contact form button:hover{
-  transform:translateY(-4px);
-
-  box-shadow:
-    0 18px 38px rgba(127,90,240,0.55);
+.contact form button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 38px rgba(127,90,240,0.55);
 }
 
-/* ================= PROJECTS ================= */
-
-.projects-grid{
-  width:90%;
-
-  margin:auto;
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(auto-fit,minmax(340px,1fr));
-
-  gap:35px;
-
-  padding-bottom:120px;
+/* ================= PROJECTS DISPLAY ================= */
+.projects-grid {
+  width: 90%;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 35px;
+  padding-bottom: 120px;
 }
 
-/* ===== NO PROJECTS MESSAGE ===== */
-
-.no-projects{
-  width:90%;
-
-  margin:20px auto 120px auto;
-
-  padding:40px;
-
-  text-align:center;
-
-  border-radius:24px;
-
-  background:rgba(255,255,255,0.05);
-
-  border:1px solid rgba(255,255,255,0.08);
-
-  color:#cbd5e1;
-
-  font-size:1.2rem;
-
-  font-weight:500;
-
-  backdrop-filter:blur(12px);
-
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.25);
+.no-projects {
+  width: 90%;
+  margin: 20px auto 120px auto;
+  padding: 40px;
+  text-align: center;
+  border-radius: 24px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #cbd5e1;
+  font-size: 1.2rem;
+  font-weight: 500;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
 
-.project-card{
-  position:relative;
-
-  overflow:hidden;
-
-  min-height:420px;
-
-  padding:32px;
-
-  border-radius:28px;
-
-  background:rgba(255,255,255,0.05);
-
-  border:1px solid rgba(255,255,255,0.08);
-
-  backdrop-filter:blur(14px);
-
-  transition:0.4s ease;
-
-  display:flex;
-
-  flex-direction:column;
-
-  justify-content:space-between;
+.project-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+  padding: 32px;
+  border-radius: 28px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(14px);
+  transition: 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.project-card::before{
-  content:"";
-
-  position:absolute;
-
-  width:240px;
-  height:240px;
-
-  background:#7f5af0;
-
-  border-radius:50%;
-
-  top:-100px;
-  right:-100px;
-
-  opacity:0.12;
-
-  filter:blur(90px);
+/* Project Card Glow */
+.project-card::before {
+  content: "";
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  background: #7f5af0;
+  border-radius: 50%;
+  top: -100px;
+  right: -100px;
+  opacity: 0.12;
+  filter: blur(90px);
 }
 
-.project-card:hover{
-  transform:translateY(-10px);
-
-  box-shadow:
-    0 20px 45px rgba(127,90,240,0.32);
+.project-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 45px rgba(127,90,240,0.32);
 }
 
-.project-card h3{
-  font-size:1.5rem;
-
-  margin-bottom:18px;
+.project-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 18px;
 }
 
-.project-description{
-  color:#cbd5e1;
-
-  line-height:1.8;
-
-  margin-bottom:28px;
+.project-description {
+  color: #cbd5e1;
+  line-height: 1.8;
+  margin-bottom: 28px;
 }
 
-/* TECH */
-
-.tech-list{
-  display:flex;
-
-  flex-wrap:wrap;
-
-  gap:10px;
-
-  margin-top:auto;
+/* TECH TAGS */
+.tech-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: auto;
 }
 
-.tech-item{
-  padding:8px 16px;
-
-  border-radius:30px;
-
-  background:rgba(127,90,240,0.18);
-
-  border:1px solid rgba(127,90,240,0.2);
-
-  font-size:0.82rem;
+.tech-item {
+  padding: 8px 16px;
+  border-radius: 30px;
+  background: rgba(127,90,240,0.18);
+  border: 1px solid rgba(127,90,240,0.2);
+  font-size: 0.82rem;
 }
 
-/* PROJECT BUTTONS */
-
-.project-buttons{
-  display:flex;
-
-  align-items:center;
-
-  flex-wrap:wrap;
-
-  gap:14px;
-
-  margin-top:30px;
+/* PROJECT CARD BUTTONS */
+.project-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 30px;
 }
 
-.project-buttons a{
-  text-decoration:none;
+.project-buttons a {
+  text-decoration: none;
 }
 
-.project-buttons button{
-  padding:12px 18px;
-
-  border:none;
-
-  border-radius:12px;
-
-  color:white;
-
-  font-weight:500;
-
-  cursor:pointer;
-
-  transition:0.3s ease;
+.project-buttons button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease;
 }
 
-.github-btn{
-  background:linear-gradient(
-    135deg,
-    #7f5af0,
-    #6246ea
-  );
-
-  box-shadow:
-    0 10px 24px rgba(127,90,240,0.35);
+.github-btn {
+  background: linear-gradient(135deg, #7f5af0, #6246ea);
+  box-shadow: 0 10px 24px rgba(127,90,240,0.35);
 }
 
-.github-btn:hover{
-  transform:translateY(-4px);
-
-  box-shadow:
-    0 16px 35px rgba(127,90,240,0.55);
+.github-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 35px rgba(127,90,240,0.55);
 }
 
-.edit-btn{
-  background:#0ea5e9;
+.edit-btn { background: #0ea5e9; }
+.delete-btn { background: #ef4444; }
+
+/* Added simple hover effects to edit/delete buttons for better UI */
+.edit-btn:hover, .delete-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
 }
 
-.delete-btn{
-  background:#ef4444;
+/* ================= CONTACT SECTION ================= */
+.contact {
+  width: 90%;
+  margin: 0 auto 110px auto;
+  padding: 75px;
+  border-radius: 35px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 70px;
+  flex-wrap: wrap;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
 }
 
-/* ================= CONTACT ================= */
-
-.contact{
-  width:90%;
-
-  margin:0 auto 110px auto;
-
-  padding:75px;
-
-  border-radius:35px;
-
-  background:rgba(255,255,255,0.05);
-
-  border:1px solid rgba(255,255,255,0.08);
-
-  display:flex;
-
-  justify-content:space-between;
-
- align-items:flex-start;
- 
-  gap:70px;
-
-  flex-wrap:wrap;
-
-  backdrop-filter:blur(14px);
-
-  box-shadow:
-    0 15px 40px rgba(0,0,0,0.3);
+/* ================= CONTACT LAYOUT (LEFT SIDE) ================= */
+.contact-left {
+  flex: 1;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
-/* LEFT */
-
-.contact-left{
-  flex:1;
-
-  min-width:320px;
-
-  display:flex;
-
-  flex-direction:column;
-
-  justify-content:center;
+.contact-left h2 {
+  text-align: left;
+  margin-bottom: 35px;
 }
 
-.contact-left h2{
-  text-align:left;
-
-  margin-bottom:35px;
+.contact-left a {
+  text-decoration: none;
+  width: fit-content;
 }
 
-.contact-left a{
-  text-decoration:none;
-
-  width:fit-content;
-}
-
-/* ===== UPDATED CONTACT BUTTON EFFECTS ===== */
-
-/* ===== CONTACT CARDS ===== */
-
-.contact-left{
-  flex:1;
-
-  min-width:320px;
-
-  display:flex;
-
-  flex-direction:column;
-
-  justify-content:center;
-
-  align-items:flex-start;
-}
-
-.contact-left h2{
-  text-align:left;
-
-  margin-bottom:35px;
-}
-
-/* COMMON STYLE */
-
+/* CONTACT CARDS / LINKS */
 .contact-left p,
-.contact-link{
-  display:flex;
-
-  align-items:center;
-
-  gap:14px;
-
-  padding:16px 22px;
-
-  margin-bottom:18px;
-
-  border-radius:16px;
-
-  width:100%;
-
-  max-width:340px;
-
-  color:white;
-
-  font-weight:500;
-
-  background:rgba(255,255,255,0.06);
-
-  border:1px solid rgba(255,255,255,0.08);
-
-  backdrop-filter:blur(10px);
-
-  text-decoration:none;
-
-  position:relative;
-
-  overflow:hidden;
-
-  transition:all 0.35s ease;
-
-  box-shadow:
-    0 0 12px rgba(127,90,240,0.15);
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 22px;
+  margin-bottom: 18px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 340px;
+  color: white;
+  font-weight: 500;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s ease;
+  box-shadow: 0 0 12px rgba(127,90,240,0.15);
 }
-
-/* ICON */
 
 .contact-left p svg,
-.contact-link svg{
-  font-size:1.1rem;
-
-  flex-shrink:0;
-
-  position:relative;
-
-  z-index:2;
+.contact-link svg {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
 }
-
-/* TEXT */
 
 .contact-left p span,
-.contact-link span{
-  position:relative;
-
-  z-index:2;
+.contact-link span {
+  position: relative;
+  z-index: 2;
 }
 
-/* GLOW EFFECT */
-
+/* CONTACT CARD GLOW & HOVER */
 .contact-left p::before,
-.contact-link::before{
-  content:"";
-
-  position:absolute;
-
-  top:-50%;
-  left:-50%;
-
-  width:200%;
-  height:200%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(127,90,240,0.25),
-      transparent 60%
-    );
-
-  transform:scale(0);
-
-  transition:0.45s ease;
+.contact-link::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(127,90,240,0.25), transparent 60%);
+  transform: scale(0);
+  transition: 0.45s ease;
 }
-
-/* HOVER */
 
 .contact-left p:hover,
-.contact-link:hover{
-  transform:
-    translateX(8px)
-    translateY(-3px);
-
-  background:white;
-
-  color:#111827;
-
-  box-shadow:
+.contact-link:hover {
+  transform: translateX(8px) translateY(-3px);
+  background: white;
+  color: #111827;
+  box-shadow: 
     0 0 20px rgba(255,255,255,0.55),
     0 0 38px rgba(127,90,240,0.35),
     0 18px 35px rgba(127,90,240,0.25);
 }
 
 .contact-left p:hover::before,
-.contact-link:hover::before{
-  transform:scale(1);
+.contact-link:hover::before {
+  transform: scale(1);
 }
 
 /* ================= FOOTER ================= */
-
-.footer{
-  margin-top:80px;
-  padding: 60px 20px 20px;
-  background:rgba(255,255,255,0.04);
-  border-top:1px solid rgba(255,255,255,0.08);
-  backdrop-filter:blur(12px);
+.footer {
+  margin-top: 80px;
+  padding: 60px 40px 25px !important; 
+  background: rgba(255, 255, 255, 0.04);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  position: static !important;
 }
 
-.footer-container{
-  display:flex;
-  justify-content:space-between;
-  align-items: center;
-  gap:50px;
-  flex-wrap:wrap;
+.footer-container {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  width: 100% !important;
 }
 
-.footer-left h2{
-  font-size:1.80rem;
-  margin-bottom:15px;
-  background:linear-gradient(
-    90deg,
-    #7f5af0,
-    #2cb67d
-  );
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+.footer-left h2 {
+  font-size: 1.80rem;
+  margin-bottom: 15px;
+  background: linear-gradient(90deg, #7f5af0, #2cb67d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .footer-left p {
-  max-width: 300px; /* Keeps the text neatly wrapped on the left */
-  line-height: 1.6; /* Slightly tighter line spacing */
+  max-width: 300px;
+  line-height: 1.6;
   color: #cbd5e1;
-  font-size: 0.85rem; /* Reduces the size of the description! */
-  margin: 0; /* Ensures no weird extra spacing */
+  font-size: 0.85rem;
+  margin: 0;
 }
 
 .footer-center,
-.footer-right{
-  display:flex;
-
-  flex-direction:column;
-
-  gap:14px;
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .footer-center h3,
-.footer-right h3{
-  margin-bottom:10px;
-
-  color:white;
+.footer-right h3 {
+  margin-bottom: 10px;
+  color: white;
 }
 
-.footer-center a{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  width:fit-content;
-  text-decoration:none;
-  color:#cbd5e1;
-  transition:0.3s ease;
+.footer-center a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  text-decoration: none;
+  color: #cbd5e1;
+  transition: 0.3s ease;
 }
 
-.footer-center a:hover{
-  color:#7f5af0;
-
-  transform:translateX(5px);
+.footer-center a:hover {
+  color: #7f5af0;
+  transform: translateX(5px);
 }
 
-.footer-icons{
-  display:flex;
-  gap:18px;
-  align-items:center;
-  flex-wrap:wrap;
-  margin-right: -150px !important;
+/* FOOTER ICONS */
+.footer-icons {
+  display: flex !important;
+  gap: 20px !important;
+  align-items: center !important;
+  position: static !important; 
+  transform: none !important;
+  margin: 0 !important; 
 }
 
-.footer-icons a{
-  width:50px;
-  height:50px;
-
-  border-radius:50%;
-
-  display:flex;
-
-  align-items:center;
-  justify-content:center;
-
-  background:rgba(255,255,255,0.06);
-
-  color:white;
-
-  font-size:1.2rem;
-
-  transition:0.35s ease;
-
-  text-decoration:none;
+.footer-icons a {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.06);
+  color: white;
+  font-size: 1.2rem;
+  transition: 0.35s ease;
+  text-decoration: none;
 }
 
-.footer-icons a:hover{
-  transform:
-    translateY(-6px)
-    scale(1.08);
-
-  background:white;
-
-  color:#111827;
-
-  box-shadow:
-    0 0 20px rgba(255,255,255,0.5),
-    0 0 40px rgba(127,90,240,0.35);
+.footer-icons a:hover {
+  transform: translateY(-6px) scale(1.08);
+  background: white;
+  color: #111827;
+  box-shadow: 0 0 20px rgba(255,255,255,0.5), 0 0 40px rgba(127,90,240,0.35);
 }
 
-.footer-bottom{
-  margin-top:50px;
-
-  padding-top:25px;
-
-  text-align:center;
-
-  border-top:1px solid rgba(255,255,255,0.08);
-
-  color:#94a3b8;
-}
-
-/* LIGHT MODE */
-
-.light .footer{
-  background:rgba(255,255,255,0.92);
-
-  border-top:1px solid rgba(0,0,0,0.08);
-}
-.light .hero-btn{
-  background:white;
-
-  color:#111827;
-
-  border:1px solid rgba(0,0,0,0.08);
-}
-
-.light .contact-link{
-  background:white;
-
-  color:#111827;
-
-  border:1px solid rgba(0,0,0,0.08);
-}
-
-.light .footer-left p,
-.light .footer-center a,
-.light .footer-bottom{
-  color:#4b5563;
-}
-
-.light .footer-center h3,
-.light .footer-right h3{
-  color:#111827;
-}
-
-.light .footer-icons a{
-  background:rgba(0,0,0,0.05);
-
-  color:#111827;
+.footer-bottom {
+  margin-top: 50px;
+  padding-top: 25px;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  color: #94a3b8;
 }
 
 /* ================= LOADER ================= */
-
-.loader{
-  height:100vh;
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
-
-  background:#050816;
+.loader {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #050816;
 }
 
-.loader h1{
-  font-size:4rem;
-
-  color:#7f5af0;
-
-  animation:pulse 1.5s infinite;
+.loader h1 {
+  font-size: 4rem;
+  color: #7f5af0;
+  animation: pulse 1.5s infinite;
 }
 
-@keyframes pulse{
-
-  0%{
-    opacity:0.4;
-  }
-
-  50%{
-    opacity:1;
-  }
-
-  100%{
-    opacity:0.4;
-  }
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
 }
 
-/* ================= LIGHT MODE ================= */
-
-.light{
-  background:#f4f7fb;
-
-  color:#111827;
+/* ================= THE UNIFIED LIGHT MODE ================= */
+/* All light mode overrides consolidated into one block */
+.light {
+  background: #f4f7fb;
+  color: #111827;
 }
 
-.light .navbar{
-  background:rgba(255,255,255,0.85);
-
-  border-bottom:1px solid rgba(0,0,0,0.08);
+.light .navbar {
+  background: rgba(255,255,255,0.85);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
 }
 
-.light .nav-links a{
-  color:#111827;
-}
+.light .nav-links a { color: #111827; }
+.light .theme-toggle { background: #111827; color: white; }
 
 .light .hero p,
 .light .about p,
-.light .project-description{
-  color:#4b5563;
+.light .project-description,
+.light .footer-left p,
+.light .footer-center a,
+.light .footer-bottom {
+  color: #4b5563;
 }
 
 .light .project-card,
 .light .project-form,
 .light .contact,
 .light .skill-card,
-.light .no-projects{
-  background:rgba(255,255,255,0.92);
-
-  border:1px solid rgba(0,0,0,0.08);
-
-  box-shadow:
-    0 12px 30px rgba(0,0,0,0.08);
+.light .no-projects {
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
 }
 
 .light input,
-.light textarea{
-  background:white;
-
-  color:#111827;
-
-  border:1px solid rgba(0,0,0,0.08);
+.light textarea {
+  background: white;
+  color: #111827;
+  border: 1px solid rgba(0,0,0,0.08);
 }
 
 .light input::placeholder,
-.light textarea::placeholder{
-  color:#6b7280;
+.light textarea::placeholder {
+  color: #6b7280;
 }
 
-.light .theme-toggle{
-  background:#111827;
-
-  color:white;
+.light .hero-btn,
+.light .contact-link {
+  background: white;
+  color: #111827;
+  border: 1px solid rgba(0,0,0,0.08);
 }
 
-.light .footer{
-  color:#4b5563;
-
-  border-top:1px solid rgba(0,0,0,0.08);
+.light .footer {
+  background: rgba(255,255,255,0.92);
+  border-top: 1px solid rgba(0,0,0,0.08);
 }
 
-.light .no-projects{
-  background:rgba(255,255,255,0.92);
-
-  color:#374151;
-
-  border:1px solid rgba(0,0,0,0.08);
+.light .footer-center h3,
+.light .footer-right h3 {
+  color: #111827;
 }
 
-/* ================= MOBILE ================= */
+.light .footer-icons a {
+  background: rgba(0,0,0,0.05);
+  color: #111827;
+}
 
-@media(max-width:1100px){
-
-  .form-grid{
-    grid-template-columns:1fr;
+/* ================= MOBILE RESPONSIVE ================= */
+@media(max-width: 1100px) {
+  .form-grid {
+    grid-template-columns: 1fr;
   }
 }
 
-@media(max-width:900px){
-
-  .navbar{
-    flex-direction:column;
-
-    gap:20px;
+@media(max-width: 900px) {
+  .navbar {
+    flex-direction: column;
+    gap: 20px;
   }
-
-  .nav-links{
-    flex-wrap:wrap;
-
-    justify-content:center;
-
-    gap:18px;
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 18px;
   }
-
-  .animated-text{
-    font-size:3rem;
+  .animated-text {
+    font-size: 3rem;
   }
-
-  .project-form{
-    width:92%;
-
-    padding:30px;
+  .project-form {
+    width: 92%;
+    padding: 30px;
   }
-
-  .project-card{
-    min-height:auto;
+  .project-card {
+    min-height: auto;
   }
-
-  .contact{
-    padding:40px;
-
-    gap:40px;
+  .contact {
+    padding: 40px;
+    gap: 40px;
   }
-
-  .contact-left{
-    align-items:center;
-
-    text-align:center;
+  .contact-left {
+    align-items: center;
+    text-align: center;
   }
-
-  .contact-left h2{
-    text-align:center;
+  .contact-left h2 {
+    text-align: center;
   }
-
-  .contact-left p{
-    width:100%;
-
-    justify-content:center;
-  }
-
-  .contact-form{
-    width:100%;
-  }
-
-  .hero-buttons{
-    flex-direction:column;
-  }
-
-  .hero-buttons button{
-    width:100%;
-  }
-.hero-avatar{
-  width:170px;
-  height:170px;
-}
-.footer-container{
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-}
-
-.footer-center,
-.footer-right{
-  align-items:center;
-}
-
-.footer-center a{
-  justify-content:center;
-}
-
-.footer-icons{
-  justify-content:center;
-}
-}
-
-@media(max-width:600px){
-
-  .animated-text{
-    font-size:2.4rem;
-  }
-
-  .contact{
-    padding:28px;
+  .contact-left p {
+    width: 100%;
+    justify-content: center;
   }
 }
+
 /* =========================================
-   HAMBURGER MENU & SIDEBAR STYLES
+   SIDEBAR & HAMBURGER MENU
    ========================================= */
+.nav-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px; 
+}
 
-/* --- Hamburger Icon --- */
 .hamburger {
   display: flex;
   flex-direction: column;
@@ -1467,23 +924,22 @@ body{
 .hamburger .line {
   width: 100%;
   height: 3px;
-  background-color: #00ffcc; /* Matches your neon green accent */
+  background-color: #00ffcc; 
   border-radius: 5px;
   transition: all 0.3s ease;
 }
 
 .hamburger:hover .line {
-  background-color: #a855f7; /* Purple hover effect */
+  background-color: #a855f7; 
 }
 
-/* --- Sidebar Styling --- */
 .sidebar {
   position: fixed;
   top: 0;
-  right: -300px; /* Hides it off-screen by default */
+  right: -300px;
   width: 280px;
   height: 100vh;
-  background-color: #0f0f1b; /* Dark background matching your site */
+  background-color: #0f0f1b;
   box-shadow: -5px 0 15px rgba(0, 0, 0, 0.7);
   transition: right 0.4s ease-in-out;
   z-index: 1000;
@@ -1493,7 +949,7 @@ body{
 }
 
 .sidebar.open {
-  right: 0; /* Slides it in when active */
+  right: 0; 
 }
 
 .sidebar-header {
@@ -1523,10 +979,9 @@ body{
 }
 
 .close-btn:hover {
-  color: #ff4757; /* Red hover for the X */
+  color: #ff4757; 
 }
 
-/* --- Buttons inside the Sidebar --- */
 .sidebar-action-btn {
   width: 100%;
   padding: 12px;
@@ -1554,7 +1009,6 @@ body{
   color: white;
 }
 
-/* --- Dark Background Overlay --- */
 .sidebar-overlay {
   position: fixed;
   top: 0;
@@ -1573,33 +1027,110 @@ body{
   opacity: 1;
   pointer-events: all;
 }
-/* Fix alignment for the right-side navigation controls */
-.nav-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px; /* Creates a nice space between the theme button and the hamburger */
-}
-/* =========================================
-   CONTACT SECTION ALIGNMENT & SOCIALS (UPDATED)
-   ========================================= */
 
-/* 1. Put the Left Info and Right Form side by side */
+/* =========================================
+   EDUCATION TIMELINE
+   ========================================= */
+.education {
+  padding: 60px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.education .section-title {
+  margin-bottom: 60px !important; 
+}
+
+.timeline {
+  position: relative;
+  max-width: 750px;
+  margin: 0 auto; 
+  padding-left: 40px; 
+  border-left: 3px solid rgba(168, 85, 247, 0.4); 
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -48.5px; 
+  top: 20px;
+  width: 14px;
+  height: 14px;
+  background-color: #00ffcc; 
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.8); 
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -40px; 
+  top: 26px; 
+  width: 40px; 
+  height: 2px;
+  background-color: rgba(168, 85, 247, 0.4); 
+}
+
+.timeline-content {
+  background: rgba(255, 255, 255, 0.03); 
+  padding: 20px 25px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.timeline-content:hover {
+  border-color: #00ffcc; 
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 255, 204, 0.1);
+}
+
+.timeline-content h3 {
+  margin: 0 0 8px 0;
+  color: #fff;
+  font-size: 1.3rem;
+}
+
+.timeline-date {
+  color: #00ffcc; 
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+
+.timeline-grade {
+  margin-top: 10px;
+  color: #aaa;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* =========================================
+   CONTACT SECTION & SOCIALS
+   ========================================= */
 .contact {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start; /* Aligns everything to the top */
-  gap: 50px; /* Creates a nice gap between the left text and the right form */
+  align-items: flex-start;
+  gap: 50px; 
   width: 100%;
 }
 
 .contact-left {
-  flex: 1; /* Takes up the left half of the screen */
+  flex: 1; 
 }
 
-/* 2. Fix the form alignment and size */
 .contact-form {
-  flex: 1.2; /* Takes up slightly more than half for the inputs */
+  flex: 1.2; 
   display: flex;
   flex-direction: column;
   gap: 20px; 
@@ -1616,30 +1147,28 @@ body{
   min-height: 150px;
   resize: vertical; 
 }
-/* Make the Email larger and bold to match the URL fonts */
+
 .email-pill {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  font-size: 18px; /* Keeps the email prominent */
-  font-weight: bold; /* Matches the thick font of the URLs */
+  font-size: 18px; 
+  font-weight: bold; 
   margin-bottom: 10px;
 }
-/* =========================================
-   SOCIAL LINKS (TEXT & ICON ONLY - NO BOXES)
-   ========================================= */
+
 .contact-socials {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Space between each link */
+  gap: 20px; 
   margin-top: 35px;
 }
 
 .social-link {
   display: inline-flex;
   align-items: center;
-  gap: 15px; /* Space between the icon and the word */
-  font-size: 15px; /* Slightly larger text since the box is gone */
+  gap: 15px; 
+  font-size: 15px; 
   font-weight: bold;
   text-decoration: none;
   transition: all 0.3s ease;
@@ -1647,50 +1176,115 @@ body{
   background: transparent; 
   border: none; 
   padding: 0; 
+  color: #ddd; /* Dark mode default */
 }
 
-/* --- Dark Mode --- */
-.dark-mode .social-link {
-  color: #ddd; /* Clean, slightly off-white default color */
-}
-
-.dark-mode .social-link:hover {
-  color: #ffffff; /* Bright white text and icon on hover */
-  
-  /* This creates the pure white glow! */
+.social-link:hover {
+  color: #ffffff; 
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.8); 
-  transform: translateX(10px); /* Smooth slide to the right */
-}
-
-/* --- Light Mode --- */
-.light-mode .social-link {
-  color: #444; /* Dark grey for readability on white background */
-}
-
-.light-mode .social-link:hover {
-  color: #a855f7; /* Matches the purple from your header */
-  text-shadow: 0 0 15px rgba(168, 85, 247, 0.5); /* Purple glow */
   transform: translateX(10px); 
 }
 
-/* 4. Keep it looking good on Mobile Phones */
-@media (max-width: 768px) {
-  .contact {
-    flex-direction: column; /* Stacks them vertically on small screens */
-    gap: 40px;
-  }
+/* =========================================
+   GLOBAL TITLES & FOOTER OVERRIDES
+   ========================================= */
+.section-title {
+  text-align: center !important;
+  font-size: 2.5rem !important; 
+  font-weight: bold !important;
+  width: 100%;
+  background: linear-gradient(90deg, #a855f7, #00ffcc) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
 }
-/* Fix for invisible boxes in Light Mode */
+
+.contact-left .section-title {
+  text-align: left !important;
+  margin-bottom: 30px !important; 
+}
+
+/* Footer Alignment Override */
+.footer {
+  position: relative !important; 
+}
+
+.footer-left {
+  text-align: left !important; 
+}
+
+.footer-left h2 {
+  font-size: 1.5rem !important; 
+  margin-bottom: 8px !important; 
+}
+
+.footer-left p {
+  font-size: 0.85rem !important; 
+  max-width: 300px !important; 
+  line-height: 1.5 !important; 
+  margin: 0 !important;
+}
+
+.footer-bottom {
+  margin-top: 20px !important; 
+  padding-top: 20px !important; 
+}
+
+/* Naked Footer Icons (Anchored to the right) */
+.footer-icons {
+  position: absolute !important;
+  right: 40px !important; 
+  bottom: 60px !important; 
+}
+
+.footer-icons a {
+  background: transparent !important; 
+  width: auto !important; 
+  height: auto !important;
+  color: #888 !important; 
+  font-size: 1.5rem !important; 
+  box-shadow: none !important; 
+}
+
+.footer-icons a:hover {
+  background: transparent !important; 
+  color: #ffffff !important; 
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8) !important; 
+  box-shadow: none !important; 
+  transform: translateY(-5px) scale(1.1) !important; 
+}
+
+/* =========================================
+   UNIFIED LIGHT MODE EXTRAS
+   ========================================= */
+/* Targets both .light and .light-mode safely */
+.light .social-link,
+.light-mode .social-link {
+  color: #444; 
+}
+
+.light .social-link:hover,
+.light-mode .social-link:hover {
+  color: #a855f7; 
+  text-shadow: 0 0 15px rgba(168, 85, 247, 0.5); 
+}
+
+.light .contact-form input,
+.light .contact-form textarea,
+.light .project-form input,
+.light .project-form textarea,
 .light-mode .contact-form input,
 .light-mode .contact-form textarea,
 .light-mode .project-form input,
 .light-mode .project-form textarea {
   background-color: #ffffff;
-  border: 2px solid #cccccc; /* This line brings the borders back! */
+  border: 2px solid #cccccc; 
   color: #333;
 }
 
-/* Optional: Turns the border purple when you click to type */
+.light .contact-form input:focus,
+.light .contact-form textarea:focus,
+.light .project-form input:focus,
+.light .project-form textarea:focus,
 .light-mode .contact-form input:focus,
 .light-mode .contact-form textarea:focus,
 .light-mode .project-form input:focus,
@@ -1698,210 +1292,336 @@ body{
   border-color: #a855f7;
   outline: none;
 }
-/* =========================================
-   EDUCATION TIMELINE
-   ========================================= */
-.education {
-  padding: 60px 20px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-/* Center the Education Title to match About Me */
-.education .section-title {
-  text-align: center;
-  width: 100%;
-  margin-bottom: 50px; /* Creates a nice gap between the title and the first timeline dot */
-}
 
-/* 1. The Long Vertical Line */
-/* 1. The Long Vertical Line */
-.timeline {
-  position: relative;
-  max-width: 750px; /* Keeps the cards from stretching too wide */
-  margin: 0 auto; /* This centers the entire timeline block perfectly! */
-  padding-left: 40px; 
-  border-left: 3px solid rgba(168, 85, 247, 0.4); 
-}
-
-.timeline-item {
-  position: relative;
-  margin-bottom: 40px;
-}
-
-.timeline-item:last-child {
-  margin-bottom: 0;
-}
-
-/* 2. The Circular Points */
-.timeline-dot {
-  position: absolute;
-  left: -48.5px; /* Pulls the dot perfectly over the vertical border */
-  top: 20px;
-  width: 14px;
-  height: 14px;
-  background-color: #00ffcc; /* Neon green dot */
-  border-radius: 50%;
-  box-shadow: 0 0 10px rgba(0, 255, 204, 0.8); /* Glowing effect */
-}
-
-/* 3. The Horizontal Connecting Lines */
-.timeline-item::before {
-  content: '';
-  position: absolute;
-  left: -40px; /* Starts at the vertical line */
-  top: 26px; /* Aligns with the middle of the dot */
-  width: 40px; /* Stretches to the content card */
-  height: 2px;
-  background-color: rgba(168, 85, 247, 0.4); /* Purple horizontal branch */
-}
-
-/* 4. The Content Box */
-.timeline-content {
-  background: rgba(255, 255, 255, 0.03); /* Faint transparent card */
-  padding: 20px 25px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease;
-}
-
-.timeline-content:hover {
-  border-color: #00ffcc; /* Glows neon green on hover */
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 255, 204, 0.1);
-}
-
-.timeline-content h3 {
-  margin: 0 0 8px 0;
-  color: #fff;
-  font-size: 1.3rem;
-}
-
-.timeline-date {
-  color: #00ffcc; /* Neon green text for the years */
-  font-weight: bold;
-  margin-bottom: 10px;
-  font-size: 0.9rem;
-  letter-spacing: 1px;
-}
-
-.timeline-grade {
-  margin-top: 10px;
-  color: #aaa;
-  font-style: italic;
-  font-size: 0.9rem;
-}
-
-/* =========================================
-   LIGHT MODE OVERRIDES FOR TIMELINE
-   ========================================= */
+.light .timeline,
 .light-mode .timeline {
   border-left-color: rgba(168, 85, 247, 0.8);
 }
 
+.light .timeline-item::before,
 .light-mode .timeline-item::before {
   background-color: rgba(168, 85, 247, 0.8);
 }
 
+.light .timeline-content,
 .light-mode .timeline-content {
   background: #ffffff;
   border: 2px solid #e0e0e0;
 }
 
+.light .timeline-content:hover,
 .light-mode .timeline-content:hover {
   border-color: #a855f7;
   box-shadow: 0 5px 15px rgba(168, 85, 247, 0.2);
 }
 
+.light .timeline-content h3,
 .light-mode .timeline-content h3 {
   color: #333;
 }
 
+.light .timeline-date,
 .light-mode .timeline-date {
-  color: #a855f7; /* Changes green dates to purple in light mode */
+  color: #a855f7; 
 }
 
+.light .timeline-grade,
 .light-mode .timeline-grade {
   color: #666;
 }
+
 /* =========================================
-   GLOBAL SECTION TITLES (Forces all titles to match)
+   RESPONSIVE LAYOUT (MEDIA QUERIES)
    ========================================= */
-.section-title {
-  text-align: center !important;
-  font-size: 2.5rem !important; /* Makes it nice and large */
-  font-weight: bold !important;
+@media (max-width: 900px) {
+  .contact-form {
+    width: 100%;
+  }
+  .hero-buttons {
+    flex-direction: column;
+  }
+  .hero-buttons button {
+    width: 100%;
+  }
+  .hero-avatar {
+    width: 170px;
+    height: 170px;
+  }
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .footer-center,
+  .footer-right,
+  .footer-icons,
+  .footer-center a {
+    align-items: center;
+    justify-content: center;
+  }
+  /* Safety Check: Prevents icons from flying off-screen on phones */
+  .footer-icons {
+    position: static !important;
+    margin-top: 30px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact {
+    flex-direction: column; 
+    gap: 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  .animated-text {
+    font-size: 2.4rem;
+  }
+  .contact {
+    padding: 28px;
+  }
+}
+
+/* =========================================
+   AUTOCOMPLETE SUGGESTIONS DROPDOWN
+   ========================================= */
+.tech-input-container {
+  position: relative;
   width: 100%;
-  
-  /* Adds your signature Purple-to-Green Gradient */
-  background: linear-gradient(90deg, #a855f7, #00ffcc) !important;
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
 }
 
-/* Ensure the Education title has enough space below it */
-.education .section-title {
-  margin-bottom: 60px !important; 
+.suggestions-list {
+  position: absolute;
+  top: 100%; 
+  left: 0;
+  width: 100%;
+  margin-top: 4px;
+  padding: 0;
+  list-style-type: none;
+  background-color: #1a1a2e; 
+  border: 1px solid #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  z-index: 10; 
+  max-height: 150px;
+  overflow-y: auto; 
 }
-/* Left-align the Contact title to match the column layout */
-.contact-left .section-title {
-  text-align: left !important;
-  margin-bottom: 30px !important; /* Adds a nice gap before the email */
+
+.suggestions-list li {
+  padding: 12px 16px;
+  color: #a0a0b0;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
+
+.suggestions-list li:hover {
+  background-color: #242442;
+  color: #ffffff;
+}
+
+/* Hide default Chrome datalist arrow */
+input::-webkit-calendar-picker-indicator {
+  display: none !important;
+  opacity: 0 !important;
+}
+
 /* =========================================
-   FOOTER TEXT FORCED OVERRIDES
+   INPUT FILLED STATES (Master Override)
    ========================================= */
-.footer-left {
-  text-align: left !important; /* Forces everything in this box to the left */
+input {
+  background-color: #1a1a2e; 
+  color: #a0a0b0; 
+  border: 1px solid #333;
+  transition: all 0.3s ease;
 }
 
-.footer-left h2 {
-  font-size: 1.5rem !important; /* Visibly shrinks the title */
-  margin-bottom: 8px !important; /* Tightens the gap */
+input.filled-box,
+textarea.filled-box,
+textarea[name="description"].filled-box {
+  background-color: #ffffff !important; 
+  color: #000000 !important; 
+  border: 2px solid #8a2be2 !important; 
 }
 
-.footer-left p {
-  font-size: 0.85rem !important; /* Visibly shrinks the description */
-  max-width: 300px !important; /* Keeps it neatly wrapped */
-  line-height: 1.5 !important; 
-  margin: 0 !important;
-}
 /* =========================================
-   FOOTER ICONS - BARE LOGO GLOW OVERRIDES
+   NAVBAR LOGIN / LOGOUT BUTTON
    ========================================= */
+.auth-btn {
+  background: rgba(255, 255, 255, 0.05); 
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #cbd5e1;
+  padding: 8px 22px;
+  border-radius: 20px; 
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 20px; 
+}
+
+.auth-btn:hover {
+  background: rgba(127, 90, 240, 0.1); 
+  color: #ffffff;
+  border-color: #7f5af0;
+  box-shadow: 0 0 15px rgba(127, 90, 240, 0.5); 
+  transform: translateY(-2px); 
+}
+
+.auth-btn.logged-in:hover {
+  background: rgba(239, 68, 68, 0.1); 
+  border-color: #ef4444;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.5); 
+}
+
+/* Auth Button Light Mode Override */
+.light .auth-btn,
+.light-mode .auth-btn {
+  color: #1a1a2e; 
+  border: 2px solid #1a1a2e; 
+  background-color: transparent;
+}
+
+.light .auth-btn:hover,
+.light-mode .auth-btn:hover {
+  background-color: #1a1a2e;
+  color: #ffffff;
+}
+
+/* =========================================
+   FOOTER ICONS (Naked Logos, Centered)
+   ========================================= */
+.footer-icons {
+  display: flex !important;
+  gap: 30px !important; 
+  align-items: center !important;
+  z-index: 10 !important; 
+}
+
 .footer-icons a {
-  background: transparent !important; /* Removes the circle background */
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   width: auto !important; 
   height: auto !important;
-  color: #888 !important; /* Muted grey by default */
-  font-size: 1.5rem !important; /* Nice size for bare logos */
-  box-shadow: none !important; /* Removes any default shadow */
+  background: transparent !important; 
+  box-shadow: none !important;
+  text-decoration: none !important;
 }
 
-.footer-icons a:hover {
-  background: transparent !important; /* Ensures no background appears on hover */
-  color: #ffffff !important; /* Logo turns pure white */
+.footer-icons a svg,
+.footer-logo {
+  width: 28px !important; 
+  height: 28px !important;
+  color: #888 !important; 
+  transition: all 0.3s ease !important;
+  cursor: pointer !important; 
+}
+
+.footer-icons a:hover svg,
+.footer-logo:hover {
+  color: #ffffff !important; 
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.8)) !important; 
+  transform: translateY(-5px) scale(1.1) !important; 
+}
+
+/* =========================================
+   DESKTOP SPECIFIC FIXES
+   ========================================= */
+@media (min-width: 769px) {
+  .footer-icons {
+    transform: translateY(-35px) !important; 
+  }
+  .hamburger, .nav-controls {
+    display: none !important;
+  }
+}
+
+/* =========================================
+   MOBILE RESPONSIVENESS FIXES (Phones & Tablets)
+   ========================================= */
+@media (max-width: 768px) {
   
-  /* Makes the actual logo glow instead of a box */
-  text-shadow: 0 0 15px rgba(255, 255, 255, 0.8) !important; 
-  box-shadow: none !important; /* Removes the old box glow */
-  transform: translateY(-5px) scale(1.1) !important; /* Gentle floating jump */
-}
-/* =========================================
-   REDUCE FOOTER BOTTOM SPACING
-   ========================================= */
-.footer-bottom {
-  margin-top: 20px !important; /* Reduced this from 50px to pull it up! */
-  padding-top: 20px !important; /* Keeps a nice little breathing room above the copyright text */
-}
-/* =========================================
-   NUCLEAR OPTION: FORCE ICONS TO RIGHT CORNER
-   ========================================= */
-.footer {
-  position: relative !important; /* This acts as the anchor for the absolute icons */
-}
+  /* Navbar Clean Up */
+  .nav-links,
+  .auth-btn {
+    display: none !important; 
+  }
 
-.footer-icons {
-  position: absolute !important;
-  right: 20px !important; /* Forces them exactly 40px from the absolute right edge of the screen */
-  bottom: 60px !important; /* Adjust this to move them up or down so they align with your text */
+  /* Education Timeline */
+  .timeline {
+    margin-left: 15px !important; 
+    padding-left: 20px !important; 
+  }
+  .timeline-dot { left: -8.5px !important; }
+  .timeline-item::before { display: none !important; }
+  .timeline-content { padding: 15px !important; }
+
+  /* Contact Section */
+  .contact-container,
+  .contact {
+    flex-direction: column !important;
+    gap: 40px !important;
+    padding: 0 15px !important; 
+  }
+  .contact-left { margin-left: 0 !important; }
+  .email-pill {
+    font-size: 14px !important; 
+    word-break: break-word !important; 
+  }
+
+  /* Global Section Margins */
+  section { padding: 50px 15px !important; }
+
+  /* Footer (Center everything perfectly) */
+  .footer { padding: 40px 20px 20px !important; }
+  .footer-container {
+    flex-direction: column !important;
+    align-items: center !important; 
+    gap: 20px !important;
+  }
+  .footer-left {
+    margin-left: 0 !important; 
+    text-align: center !important; 
+  }
+  .footer-left p { margin: 0 auto !important; }
+  .footer-icons {
+    position: static !important;
+    transform: none !important;
+    margin: 15px 0 0 0 !important; 
+    justify-content: center !important; 
+    width: 100% !important;
+  }
+}
+/* =========================================
+   PASSWORD EYE ICON TOGGLE
+   ========================================= */
+/* 1. The wrapper must be relative so the eye can anchor to it */
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+  /* If your inputs have margin-bottom, move that margin here instead! */
+}
+/* 2. Position the eye perfectly on the right side */
+.eye-toggle-icon {
+  position: absolute;
+  right: 18px; /* Pushes it just inside the right edge of the box */
+  top: 50%;
+  transform: translateY(-50%); /* Centers it vertically perfectly */
+  cursor: pointer;
+  color: #9ca3af; /* A nice muted grey */
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+  transition: color 0.3s ease;
+  z-index: 10;
+}
+/* 3. Give it your signature purple glow on hover */
+.eye-toggle-icon:hover {
+  color: #7f5af0; 
+}
+/* 4. Make room for the icon so the text doesn't type over it! */
+.password-input-wrapper input {
+  width: 100%;
+  padding-right: 45px !important; /* Adds invisible padding to the right side of the text */
 }
