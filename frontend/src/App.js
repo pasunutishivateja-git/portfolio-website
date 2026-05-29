@@ -190,21 +190,36 @@ function App() {
           </nav>
 
           <div className={`sidebar-overlay ${isSidebarOpen ? "active" : ""}`} onClick={toggleSidebar}></div>
-          <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
-            <div className="sidebar-header">
-              <h3>Admin</h3>
-              <button className="close-btn" onClick={toggleSidebar}>&times;</button>
-            </div>
-            <div className="sidebar-content">
-              {isLoggedIn ? (
-                <button className="sidebar-action-btn logout" onClick={() => { localStorage.removeItem("token"); setIsLoggedIn(false); window.location.reload(); }}>
-                  Logout
-                </button>
-              ) : (
-                <a href="/admin-login" style={{ textDecoration: "none" }}><button className="sidebar-action-btn login">Admin Login</button></a>
-              )}
-            </div>
-          </div>
+<div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
+  <div className="sidebar-header">
+    <h3>Admin</h3>
+    <button className="close-btn" onClick={toggleSidebar}>&times;</button>
+  </div>
+  <div className="sidebar-content">
+    {isLoggedIn ? (
+      <button 
+        className="sidebar-action-btn logout" 
+        onClick={() => { 
+          localStorage.removeItem("token"); 
+          setIsLoggedIn(false); 
+          window.location.reload(); 
+        }}
+      >
+        Logout
+      </button>
+    ) : (
+      <button 
+        className="sidebar-action-btn login" 
+        onClick={() => {
+          toggleSidebar();          // <-- Closes the mobile menu
+          navigate("/login");       // <-- Instantly routes to the login page
+        }}
+      >
+        Admin Login
+      </button>
+    )}
+  </div>
+</div>
 
           <motion.section className="hero" id="home" initial={{ opacity: 0, y: 70 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
             <motion.h1 className="animated-text" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>Full Stack Developer</motion.h1>
