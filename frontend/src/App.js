@@ -101,23 +101,34 @@ function App() {
       technologies: formData.technologies.split(",").map((tech) => tech.trim()),
     };
     updateSuggestions(formData.technologies);
+    
     try {
-      const config = { headers: { Authorization: `Bearer ${token}` } };
+      // THE FIX: Grab the freshest token exactly when the button is clicked!
+      const currentToken = localStorage.getItem("token");
+      const config = { headers: { Authorization: `Bearer ${currentToken}` } };
+
       if (editId) {
         await axios.put(`https://portfolio-backend-2k8z.onrender.com/api/projects/${editId}`, newProject, config);
         setEditId(null);
       } else {
         await axios.post("https://portfolio-backend-2k8z.onrender.com/api/projects", newProject, config);
       }
+      
+      // If successful, refresh the list and clear the boxes!
       fetchProjects();
       setFormData({ title: "", description: "", technologies: "", githubLink: "" });
-    } catch (error) { console.error(error); }
+      
+    } catch (error) { 
+      console.error("Error saving project:", error); 
+      alert("Something went wrong! Is your backend running on Render?");
+    }
   };
 
   const deleteProject = async (id) => {
     try {
+      const currentToken = localStorage.getItem("token"); // Get fresh token here too
       await axios.delete(`https://portfolio-backend-2k8z.onrender.com/api/projects/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${currentToken}` },
       });
       fetchProjects();
     } catch (error) { console.error(error); }
@@ -283,8 +294,25 @@ function App() {
                   <input type="text" name="githubLink" placeholder="GitHub Link" value={formData.githubLink} onChange={handleChange} autoComplete="off" className={formData.githubLink ? "filled-box" : ""} />
                 </div>
                 <textarea name="description" placeholder="Description" value={formData.description || ""} onChange={handleChange} autoComplete="off" className={formData.description ? "filled-box" : ""} />
-                <button type="submit">{editId ? "Update Project" : "Add Project"}</button>
-              </form>
+               <div style={{ display: "flex", gap: "15px", width: "100%" }}>
+    <button type="submit" style={{ flex: 1 }}>
+      {editId ? "Update Project" : "Add Project"}
+    </button>
+    {/* This button only appears when you are editing a project */}
+    {editId && (
+      <button 
+        type="button" 
+        style={{ flex: 1, backgroundColor: "transparent", border: "1px solid #7f5af0", color: "#7f5af0" }}
+        onClick={() => {
+          setEditId(null); // Resets the title to "Add New Project"
+          setFormData({ title: "", description: "", technologies: "", githubLink: "" }); // Clears the boxes
+        }}
+      >
+        Cancel Edit
+      </button>
+    )}
+  </div>
+            </form>
             </section>
           )}
 
