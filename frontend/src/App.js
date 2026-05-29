@@ -21,7 +21,6 @@ function App() {
 });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
-  const token = localStorage.getItem("token");
   const [projects, setProjects] = useState([]);
   const [editId, setEditId] = useState(null);
   const [formData, setFormData] = useState({
