@@ -14,22 +14,22 @@ import Login from "./pages/Login";
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(() => {
+  // Check if they saved a theme before. If not, default to dark mode (true)
+  const savedTheme = localStorage.getItem("portfolio-theme");
+  return savedTheme === "light" ? false : true;
+});
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
   const token = localStorage.getItem("token");
-  
   const [projects, setProjects] = useState([]);
   const [editId, setEditId] = useState(null);
   const [formData, setFormData] = useState({
     title: "", description: "", technologies: "", githubLink: "",
   });
-
   const [savedTech, setSavedTech] = useState([]);
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-
   const [contactData, setContactData] = useState({
     name: "", email: "", message: "",
   });
@@ -44,14 +44,16 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (darkMode) {
-      document.body.classList.remove("light-mode");
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
-      document.body.classList.add("light-mode");
-    }
-  }, [darkMode]);
+  if (darkMode) {
+    document.body.classList.remove("light-mode");
+    document.body.classList.add("dark-mode");
+    localStorage.setItem("portfolio-theme", "dark"); // <-- Saves Dark Mode
+  } else {
+    document.body.classList.remove("dark-mode");
+    document.body.classList.add("light-mode");
+    localStorage.setItem("portfolio-theme", "light"); // <-- Saves Light Mode
+  }
+}, [darkMode]);
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
@@ -277,11 +279,19 @@ function App() {
                     </div>
                     <div className="tech-list">{project.technologies.map((tech, i) => <span key={i} className="tech-item">{tech}</span>)}</div>
                     <div className="project-buttons">
-                      <a href={project.githubLink} target="_blank" rel="noreferrer"><button type="button" className="github-btn">GitHub</button></a>
-                      {isLoggedIn && (
-                        <><button type="button" className="edit-btn" onClick={() => editProject(project)}>Edit</button><button type="button" className="delete-btn" onClick={() => deleteProject(project._id)}>Delete</button></>
-                      )}
-                    </div>
+  {/* THE FIX: We wrap the link in a conditional check */}
+  {project.githubLink && (
+    <a href={project.githubLink} target="_blank" rel="noreferrer">
+      <button type="button" className="github-btn">GitHub</button>
+    </a>
+  )}
+  {isLoggedIn && (
+    <>
+      <button type="button" className="edit-btn" onClick={() => editProject(project)}>Edit</button>
+      <button type="button" className="delete-btn" onClick={() => deleteProject(project._id)}>Delete</button>
+    </>
+  )}
+</div>
                   </motion.div>
                 ))}
               </div>

@@ -162,3 +162,86 @@
   .admin-login-card { padding: 40px 25px; }
   .admin-title { font-size: 1.8rem; }
 }
+/* =========================================
+   ERROR MESSAGE STYLES
+   ========================================= */
+.login-error-message {
+  color: #ef4444; /* A bright, danger red */
+  background: rgba(239, 68, 68, 0.1); /* Subtle red background */
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: -5px;
+  margin-bottom: 5px;
+  font-family: "Poppins", sans-serif;
+  animation: shake 0.4s ease-in-out;
+}
+
+/* Gentle shake animation to catch the user's eye */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+}
+
+/* Make sure the disabled button looks unclickable when loading */
+.admin-submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+/* =========================================
+   LIGHT MODE OVERRIDES FOR LOGIN PAGE
+   ========================================= */
+
+/* 1. Change the deep navy background to a crisp, soft off-white */
+body.light-mode .admin-login-container {
+  background-color: #f8fafc; 
+}
+
+/* 2. Turn the dark glassmorphism card into a frosted white glass card */
+body.light-mode .admin-login-card {
+  background: rgba(255, 255, 255, 0.85); 
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05); /* Softer shadow */
+}
+
+/* 3. Darken the text elements so they are readable on white */
+body.light-mode .admin-subtitle,
+body.light-mode .back-btn {
+  color: #64748b; 
+}
+
+body.light-mode .back-btn:hover {
+  color: #7f5af0;
+}
+
+/* 4. Make the input boxes white with dark text */
+body.light-mode .input-wrapper input {
+  background: #ffffff;
+  color: #0f172a; 
+  border: 1px solid #cbd5e1;
+}
+
+body.light-mode .input-wrapper input:focus {
+  background: #ffffff;
+  border-color: #7f5af0;
+  box-shadow: 0 0 15px rgba(127, 90, 240, 0.15); /* Softer purple glow */
+}
+
+/* 5. Adjust the icons inside the boxes */
+body.light-mode .static-icon,
+body.light-mode .eye-icon-toggle {
+  color: #94a3b8;
+}
+
+body.light-mode .eye-icon-toggle:hover {
+  color: #7f5af0;
+}
+
+/* 6. Soften the decorative background blobs so they aren't blinding */
+body.light-mode .login-glow {
+  opacity: 0.15; 
+}

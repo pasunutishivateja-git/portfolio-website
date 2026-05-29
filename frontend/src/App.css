@@ -497,6 +497,35 @@ textarea[name="description"].filled-box {
   margin-bottom: 18px;
 }
 
+/* =========================================
+   PROJECT BUTTONS (Typography & Spacing Fix)
+   ========================================= */
+.project-buttons button,
+.github-btn,
+.edit-btn,
+.delete-btn {
+  font-family: "Poppins", sans-serif !important; /* Matches your premium theme */
+  font-weight: 500 !important; /* Makes the text crisp and legible */
+  font-size: 0.95rem !important;
+  letter-spacing: 0.5px !important; /* Gives the letters room to breathe */
+  padding: 10px 20px !important; /* Ensures the button isn't hugging the text too tightly */
+  border: none;
+  border-radius: 12px; /* Smooth, modern corners */
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Adds a nice unified hover lift effect to all three buttons */
+.project-buttons button:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.1); /* Slightly brightens the color on hover */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
 .project-description {
   color: #cbd5e1;
   line-height: 1.8;
@@ -1516,13 +1545,6 @@ textarea[name="description"].filled-box {
   color: #888 !important; 
   transition: all 0.3s ease !important;
   cursor: pointer !important; 
-}
-
-.footer-icons a:hover svg,
-.footer-logo:hover {
-  color: #ffffff !important; 
-  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.8)) !important; 
-  transform: translateY(-5px) scale(1.1) !important; 
 }
 
 /* =========================================

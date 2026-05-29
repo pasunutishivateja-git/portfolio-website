@@ -2,21 +2,47 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash, FaArrowLeft, FaEnvelope } from "react-icons/fa"; 
 import { motion } from "framer-motion"; 
+import axios from "axios"; // <-- NEW: Imported axios to make API calls
 import "./Login.css";
 
 function Login() {
-  const [email, setEmail] = useState(""); // <-- New Email State
+  const [email, setEmail] = useState(""); 
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  
+  // NEW: States to handle loading and errors
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  // NEW: Converted to an async function to wait for the backend
+  const handleLogin = async (e) => {
     e.preventDefault();
-    
-    // TEMPORARY BYPASS: Checks if BOTH fields are typed in
-    if (email.length > 0 && password.length > 0) {
-      localStorage.setItem("token", "admin-vip-pass");
+    setError(""); // Clear any old errors
+    setIsLoading(true); // Start the loading animation
+
+    try {
+      // NOTE: Verify this URL matches exactly where your authRoutes are mounted!
+      // It might be "/api/auth/login" or just "/api/login" depending on your server.js
+      const res = await axios.post("https://portfolio-backend-2k8z.onrender.com/api/auth/login", {
+        email: email,
+        password: password,
+      });
+
+      // If the backend says YES, grab the real token!
+      localStorage.setItem("token", res.data.token);
       window.location.href = "/";
+      
+    } catch (err) {
+      // If the backend says NO, show the error message to the user
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Network error. Please try again later.");
+      }
+    } finally {
+      setIsLoading(false); // Stop loading regardless of success or failure
     }
   };
 
@@ -41,7 +67,6 @@ function Login() {
 
         <form onSubmit={handleLogin} className="admin-form">
           
-          {/* ================= NEW EMAIL FIELD ================= */}
           <div className="input-wrapper">
             <input
               type="email"
@@ -56,7 +81,6 @@ function Login() {
             </span>
           </div>
 
-          {/* ================= PASSWORD FIELD ================= */}
           <div className="input-wrapper">
             <input
               type={showPassword ? "text" : "password"}
@@ -74,13 +98,17 @@ function Login() {
             </span>
           </div>
 
+          {/* NEW: Displays the error message in red if it exists */}
+          {error && <div className="login-error-message">{error}</div>}
+
           <motion.button
             type="submit"
             className="admin-submit-btn"
-            whileHover={{ scale: 1.02, translateY: -2 }}
-            whileTap={{ scale: 0.98 }}
+            disabled={isLoading}
+            whileHover={{ scale: isLoading ? 1 : 1.02, translateY: isLoading ? 0 : -2 }}
+            whileTap={{ scale: isLoading ? 1 : 0.98 }}
           >
-            Authenticate
+            {isLoading ? "Authenticating..." : "Authenticate"}
           </motion.button>
         </form>
       </motion.div>
