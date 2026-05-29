@@ -1821,3 +1821,16 @@ button:hover,
     margin: 0 !important;       /* Erases any old margins that were pushing it off-center */
   }
 }
+/* --- Projects Section Alignment Fix --- */
+.projects-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;    /* Centers the title perfectly */
+  padding-top: 3rem;      /* Adds breathing room above the title */
+  width: 100%;
+}
+
+.projects-section .section-title {
+  margin-bottom: 3rem;    /* Adds space between the title and your project cards */
+  text-align: center;
+}

@@ -322,6 +322,10 @@ function App() {
           )}
 
           <section className="projects-section" id="projects">
+            
+            {/* ---> THIS IS THE LINE YOU ARE ADDING <--- */}
+            <h2 className="section-title">Projects</h2>
+            
             {projects.length === 0 ? <div className="no-projects">No projects added</div> : (
               <div className="projects-grid">
                 {projects.map((project) => (
@@ -331,7 +335,6 @@ function App() {
                     </div>
                     <div className="tech-list">{project.technologies.map((tech, i) => <span key={i} className="tech-item">{tech}</span>)}</div>
                     <div className="project-buttons">
-  {/* THE FIX: We wrap the link in a conditional check */}
   {project.githubLink && (
     <a href={project.githubLink} target="_blank" rel="noreferrer">
       <button type="button" className="github-btn">GitHub</button>
