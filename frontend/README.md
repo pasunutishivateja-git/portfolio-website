@@ -1,70 +1,62 @@
-# Getting Started with Create React App
+# 🚀 Shiva Teja | Full Stack Developer Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the repository for my personal portfolio website! This is a complete **Full-Stack MERN** application designed to showcase my projects, skills, and experience, complete with a custom backend content management system.
 
-## Available Scripts
+🔗 **[View Live Site Here](https://portfolio-website-alpha-swart-78.vercel.app/)**
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## ✨ Key Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+* **Custom Admin Dashboard:** A secure, token-based authentication system allowing me to add, edit, and delete projects directly from the live UI without touching the code.
+* **Full-Stack Architecture:** RESTful API built with Node.js/Express, connected to a MongoDB database to dynamically serve project data.
+* **Dynamic Theming:** Seamless Dark/Light mode toggle with `localStorage` persistence.
+* **Fully Responsive UI:** Custom CSS media queries ensuring a flawless experience on desktop, tablet, and mobile (featuring a custom sliding mobile drawer).
+* **Live Contact Form:** Integrated with EmailJS to send messages directly to my inbox without requiring a third-party email client.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## 🛠️ Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**Frontend:**
+* React.js
+* Framer Motion (Animations)
+* Axios (API Requests)
+* Vanilla CSS (Flexbox, Grid, Custom Variables)
 
-### `npm run build`
+**Backend:**
+* Node.js & Express.js
+* MongoDB & Mongoose (Database)
+* JSON Web Tokens (JWT Authentication)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Deployment:**
+* Vercel (Frontend)
+* Render (Backend API)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 💻 Running Locally
 
-### `npm run eject`
+If you want to run this project on your own machine, follow these steps:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+**1. Clone the repository:**
+\`\`\`bash
+git clone https://github.com/pasunutishivateja-git/portfolio-website.git
+\`\`\`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**2. Install Dependencies:**
+Navigate into both the frontend and backend folders and run:
+\`\`\`bash
+npm install
+\`\`\`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**3. Environment Variables:**
+Create a `.env` file in the backend directory with the following:
+\`\`\`env
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_custom_secret_key
+PORT=5000
+\`\`\`
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+**4. Start the Servers:**
+Run `npm start` in the backend folder, and `npm start` in the frontend folder.

@@ -558,6 +558,24 @@ textarea[name="description"].filled-box {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
+/* ================= CANCEL EDIT BUTTON ================= */
+.cancel-btn {
+  flex: 1;
+  background-color: #2a1619; /* Very dark red/black background */
+  color: #ff4757;            /* Bright neon red text */
+  border: 2px solid #ff4757;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+/* Hover Effect: Fills in solid red and turns text white */
+.cancel-btn:hover {
+  background-color: #ff4757;
+  color: #ffffff;
+  transform: translateY(-4px); 
+  box-shadow: 0 10px 20px rgba(255, 71, 87, 0.2); 
+}
+
 .project-description {
   color: #cbd5e1;
   line-height: 1.8;

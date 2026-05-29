@@ -140,7 +140,12 @@ function App() {
       technologies: project.technologies.join(", "), githubLink: project.githubLink,
     });
     setEditId(project._id);
-    window.scrollTo({ top: 700, behavior: "smooth" });
+    
+    // THE FIX: Scroll to the specific section ID instead of a random pixel number
+    const formSection = document.getElementById("admin-projects");
+    if (formSection) {
+      formSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   };
 
   const sendEmail = (e) => {
@@ -302,7 +307,7 @@ function App() {
     {editId && (
       <button 
         type="button" 
-        style={{ flex: 1, backgroundColor: "transparent", border: "1px solid #7f5af0", color: "#7f5af0" }}
+        className="cancel-btn"
         onClick={() => {
           setEditId(null); // Resets the title to "Add New Project"
           setFormData({ title: "", description: "", technologies: "", githubLink: "" }); // Clears the boxes
