@@ -209,6 +209,14 @@ section {
   object-fit: cover;
   border-radius: 50%;
   border: 4px solid #050816;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+/* Optional: Make it glow slightly purple when hovered! */
+.hero-image img:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(127, 90, 240, 0.4);
 }
 
 /* HERO TYPOGRAPHY */
@@ -1514,11 +1522,11 @@ textarea[name="description"].filled-box {
 }
 
 .auth-btn:hover {
-  background: rgba(127, 90, 240, 0.1); 
-  color: #ffffff;
-  border-color: #7f5af0;
-  box-shadow: 0 0 15px rgba(127, 90, 240, 0.5); 
-  transform: translateY(-2px); 
+ background-color: #7f5af0 !important;
+  color: #ffffff !important;
+  border-color: #7f5af0 !important;
+  box-shadow: 0 10px 20px rgba(127, 90, 240, 0.3); 
+  transform: translateY(-4px); 
 }
 
 .auth-btn.logged-in:hover {
@@ -1670,4 +1678,128 @@ textarea[name="description"].filled-box {
 .password-input-wrapper input {
   width: 100%;
   padding-right: 45px !important; /* Adds invisible padding to the right side of the text */
+}
+/* ================= BUTTON HOVER EFFECTS ================= */
+
+/* 1. Add the transition to the base button so the animation is smooth */
+button, 
+.auth-btn {
+  transition: all 0.3s ease;
+}
+
+/* 2. The Hover Effect: Lift up and add a shadow */
+button:hover, 
+.auth-btn:hover {
+  transform: translateY(-4px); /* Moves it up slightly */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Soft shadow beneath */
+}
+
+/* (Optional) Specific fix for your theme toggle so it doesn't float upward, 
+   since it already has its own rotating spin effect! */
+.theme-toggle:hover {
+  transform: rotate(180deg) scale(1.08) !important;
+}
+/* ================= MOBILE RESPONSIVENESS (PHONES & TABLETS) ================= */
+@media (max-width: 768px) {
+  
+  /* --- 1. FIX THE CONTACT SECTION --- */
+  /* This forces the contact info and the form to stack vertically instead of sitting side-by-side */
+  .contact-content, 
+  .contact-container {
+    flex-direction: column !important;
+    gap: 40px !important;
+  }
+  
+  /* Makes sure the inputs stretch nicely across the phone screen */
+  .contact-info, 
+  .contact-form,
+  .contact-form form {
+    width: 100% !important;
+  }
+
+  /* --- 2. FIX THE EDUCATION SECTION --- */
+  /* Gives the timeline/cards full width so they aren't squeezed into the center */
+  .education-container,
+  .timeline {
+    width: 100% !important;
+    padding: 0 10px !important;
+  }
+  
+  .education-card,
+  .timeline-item {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* --- 3. FIX THE NAVBAR & HAMBURGER MENU --- */
+  /* Keeps the logo on the left and the hamburger on the right */
+  .navbar {
+    justify-content: space-between !important;
+    padding: 15px 5% !important;
+  }
+  
+  .nav-left {
+    flex-grow: 0 !important;
+  }
+
+/* ================= UPGRADED SIDEBAR (MOBILE MENU) ================= */
+  
+  /* 1. The Drawer Itself */
+  .sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    right: -300px !important; 
+    width: 260px !important;  
+    height: 100vh !important; 
+    background: rgba(15, 18, 33, 0.95) !important; 
+    backdrop-filter: blur(15px) !important; 
+    border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding: 30px 25px !important; 
+    display: flex !important;
+    flex-direction: column !important;
+    /* THE MAGIC FIX: 'stretch' lets the button take 100% of the width! */
+    align-items: stretch !important; 
+    gap: 20px !important;
+    transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    z-index: 2001 !important;
+  }
+
+  .sidebar.open {
+    right: 0 !important; 
+  }
+
+  /* 2. Fix the Header (Admin & Close Button) */
+  /* This targets the container holding your Admin text and X button and pushes them apart */
+  .sidebar > div:first-of-type,
+  .sidebar-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin-bottom: 20px !important;
+  }
+
+  /* 3. The Logout/Login Button */
+  .sidebar .auth-btn {
+    width: 100% !important; 
+    margin: 0 !important; 
+    padding: 12px !important; /* Gives the button a taller, premium tap-area for thumbs */
+  /* THE FIX: Forces padding to stay INSIDE the 100% width boundary */
+    box-sizing: border-box !important;
+  }
+
+  /* 4. The Background Blur Overlay */
+  .sidebar-overlay.active {
+    position: fixed !important;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6) !important;
+    backdrop-filter: blur(4px) !important; 
+    z-index: 2000 !important;
+  }
+
+  .mobile-menu .auth-btn {
+    width: 100% !important;     /* Stretches the logout button perfectly inside the box */
+    margin: 0 !important;       /* Erases any old margins that were pushing it off-center */
+  }
 }
