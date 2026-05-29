@@ -267,7 +267,7 @@ function App() {
           </section>
 
           {isLoggedIn && (
-            <section className="project-wrapper" id="projects">
+            <section className="project-wrapper" id="admin-projects">
               <form className="project-form" onSubmit={handleSubmit}>
                 <h2 className="section-title">{editId ? "Update Project" : "Add New Project"}</h2>
                 <div className="form-grid">
@@ -288,7 +288,7 @@ function App() {
             </section>
           )}
 
-          <section className="projects-section">
+          <section className="projects-section" id="projects">
             {projects.length === 0 ? <div className="no-projects">No projects added</div> : (
               <div className="projects-grid">
                 {projects.map((project) => (
