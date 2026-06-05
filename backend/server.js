@@ -13,6 +13,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 
 const projectRoutes = require("./routes/projectRoutes");
+const certificationRoutes = require("./routes/certificationRoutes");
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -20,6 +21,7 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use("/api/projects", projectRoutes);
+app.use("/api/certifications", certificationRoutes);
 
 app.get("/", (req, res) => {
   res.send("Backend Running Successfully");
