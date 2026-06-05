@@ -5,8 +5,8 @@ import axios from "axios";
 import emailjs from "@emailjs/browser";
 
 // --- Assets & Icons ---
-import profileImage from "./assets/aizen.jpg";
-import { FaGithub, FaLinkedin, FaEnvelope, FaMoon, FaSun, FaWhatsapp } from "react-icons/fa";
+import profileImage from "./assets/logo.jpg";
+import { FaGithub, FaLinkedin, FaEnvelope, FaMoon, FaSun, FaWhatsapp, FaDownload, FaAward } from "react-icons/fa";
 import "./App.css";
 
 // --- Components ---
@@ -15,12 +15,13 @@ import Login from "./pages/Login";
 function App() {
   const [loading, setLoading] = useState(true);
   const [darkMode, setDarkMode] = useState(() => {
-  // Check if they saved a theme before. If not, default to dark mode (true)
-  const savedTheme = localStorage.getItem("portfolio-theme");
-  return savedTheme === "light" ? false : true;
-});
+    const savedTheme = localStorage.getItem("portfolio-theme");
+    return savedTheme === "light" ? false : true;
+  });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+  
+  // --- Projects State ---
   const [projects, setProjects] = useState([]);
   const [editId, setEditId] = useState(null);
   const [formData, setFormData] = useState({
@@ -29,12 +30,26 @@ function App() {
   const [savedTech, setSavedTech] = useState([]);
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [contactData, setContactData] = useState({
-    name: "", email: "", message: "",
+
+  // --- Certificates State (NEW!) ---
+  const defaultCerts = [
+    { id: 1, title: "Intro to Machine Learning", issuer: "Kaggle", date: "June 2026" },
+    { id: 2, title: "AWS Certified Generative AI Practitioner", issuer: "Amazon Web Services (AWS)", date: "April 2026" },
+    { id: 3, title: "AI Masterclass", issuer: "GUVI", date: "April 2026" }
+  ];
+  const [certifications, setCertifications] = useState(() => {
+    const saved = localStorage.getItem("my-certifications");
+    return saved ? JSON.parse(saved) : defaultCerts;
   });
+  const [certFormData, setCertFormData] = useState({ title: "", issuer: "", date: "" });
+  const [editCertId, setEditCertId] = useState(null);
+
+  // --- Contact State ---
+  const [contactData, setContactData] = useState({ name: "", email: "", message: "" });
 
   const navigate = useNavigate();
 
+  // --- Effects ---
   useEffect(() => {
     fetchProjects();
     const storedTech = JSON.parse(localStorage.getItem("myTechSuggestions")) || [];
@@ -43,22 +58,28 @@ function App() {
   }, []);
 
   useEffect(() => {
-  if (darkMode) {
-    document.body.classList.remove("light-mode");
-    document.body.classList.add("dark-mode");
-    localStorage.setItem("portfolio-theme", "dark"); // <-- Saves Dark Mode
-  } else {
-    document.body.classList.remove("dark-mode");
-    document.body.classList.add("light-mode");
-    localStorage.setItem("portfolio-theme", "light"); // <-- Saves Light Mode
-  }
-}, [darkMode]);
+    if (darkMode) {
+      document.body.classList.remove("light-mode");
+      document.body.classList.add("dark-mode");
+      localStorage.setItem("portfolio-theme", "dark");
+    } else {
+      document.body.classList.remove("dark-mode");
+      document.body.classList.add("light-mode");
+      localStorage.setItem("portfolio-theme", "light");
+    }
+  }, [darkMode]);
+
+  // Save certificates to local storage whenever they change
+  useEffect(() => {
+    localStorage.setItem("my-certifications", JSON.stringify(certifications));
+  }, [certifications]);
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
+  // --- Handlers: Projects ---
   const updateSuggestions = (newTechString) => {
     if (!newTechString) return;
     const updatedList = [...new Set([...savedTech, newTechString])];
@@ -67,8 +88,7 @@ function App() {
   };
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
-  const handleContactChange = (e) => setContactData({ ...contactData, [e.target.name]: e.target.value });
-
+  
   const handleTechChange = (e) => {
     const userInput = e.target.value;
     setFormData({ ...formData, technologies: userInput });
@@ -102,7 +122,6 @@ function App() {
     updateSuggestions(formData.technologies);
     
     try {
-      // THE FIX: Grab the freshest token exactly when the button is clicked!
       const currentToken = localStorage.getItem("token");
       const config = { headers: { Authorization: `Bearer ${currentToken}` } };
 
@@ -113,10 +132,8 @@ function App() {
         await axios.post("https://portfolio-backend-2k8z.onrender.com/api/projects", newProject, config);
       }
       
-      // If successful, refresh the list and clear the boxes!
       fetchProjects();
       setFormData({ title: "", description: "", technologies: "", githubLink: "" });
-      
     } catch (error) { 
       console.error("Error saving project:", error); 
       alert("Something went wrong! Is your backend running on Render?");
@@ -125,7 +142,7 @@ function App() {
 
   const deleteProject = async (id) => {
     try {
-      const currentToken = localStorage.getItem("token"); // Get fresh token here too
+      const currentToken = localStorage.getItem("token");
       await axios.delete(`https://portfolio-backend-2k8z.onrender.com/api/projects/${id}`, {
         headers: { Authorization: `Bearer ${currentToken}` },
       });
@@ -139,14 +156,36 @@ function App() {
       technologies: project.technologies.join(", "), githubLink: project.githubLink,
     });
     setEditId(project._id);
-    
-    // THE FIX: Scroll to the specific section ID instead of a random pixel number
     const formSection = document.getElementById("admin-projects");
-    if (formSection) {
-      formSection.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    if (formSection) formSection.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  // --- Handlers: Certificates (NEW!) ---
+  const handleCertChange = (e) => setCertFormData({ ...certFormData, [e.target.name]: e.target.value });
+
+  const handleCertSubmit = (e) => {
+    e.preventDefault();
+    if (editCertId) {
+      setCertifications(certifications.map(c => c.id === editCertId ? { ...certFormData, id: editCertId } : c));
+      setEditCertId(null);
+    } else {
+      setCertifications([...certifications, { ...certFormData, id: Date.now() }]);
+    }
+    setCertFormData({ title: "", issuer: "", date: "" });
+  };
+
+  const deleteCert = (id) => setCertifications(certifications.filter(c => c.id !== id));
+
+  const editCert = (cert) => {
+    setCertFormData({ title: cert.title, issuer: cert.issuer, date: cert.date });
+    setEditCertId(cert.id);
+    const formSection = document.getElementById("admin-certs");
+    if (formSection) formSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+
+  // --- Handlers: Contact ---
+  const handleContactChange = (e) => setContactData({ ...contactData, [e.target.name]: e.target.value });
   const sendEmail = (e) => {
     e.preventDefault();
     emailjs.send("service_jcwz5az", "template_84bnhae", contactData, "68PSl9RYGeUNFwyWF")
@@ -181,6 +220,7 @@ function App() {
               <a href="#about">About</a>
               <a href="#education">Education</a>
               <a href="#skills">Skills</a>
+              <a href="#certifications">Certifications</a>
               <a href="#projects">Projects</a>
               <a href="#contact">Contact</a>
               <button
@@ -204,9 +244,6 @@ function App() {
             </div>
           </nav>
 
-          {/* =========================================
-              SIDEBAR & OVERLAY SECTION
-              ========================================= */}
           <div className={`sidebar-overlay ${isSidebarOpen ? "active" : ""}`} onClick={toggleSidebar}></div>
           <div className={`sidebar ${isSidebarOpen ? "open" : ""}`}>
             <div className="sidebar-header">
@@ -215,38 +252,20 @@ function App() {
             </div>
             <div className="sidebar-content">
               {isLoggedIn ? (
-                <button 
-                  className="sidebar-action-btn logout" 
-                  onClick={() => { 
-                    localStorage.removeItem("token"); 
-                    setIsLoggedIn(false); 
-                    window.location.reload(); 
-                  }}
-                >
-                  Logout
-                </button>
+                <button className="sidebar-action-btn logout" onClick={() => { localStorage.removeItem("token"); setIsLoggedIn(false); window.location.reload(); }}>Logout</button>
               ) : (
-                <button 
-                  className="sidebar-action-btn login" 
-                  onClick={() => {
-                    toggleSidebar();          // <-- Closes the mobile menu
-                    navigate("/login");       // <-- Instantly routes to the login page
-                  }}
-                >
-                  Admin Login
-                </button>
+                <button className="sidebar-action-btn login" onClick={() => { toggleSidebar(); navigate("/login"); }}>Admin Login</button>
               )}
             </div>
           </div>
-          {/* ========================================= */}
-          {/* The rest of your site starts here... */}
+
           <motion.section className="hero" id="home" initial={{ opacity: 0, y: 70 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
             <motion.h1 className="animated-text" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>Full Stack Developer</motion.h1>
             <motion.div className="hero-avatar" animate={{ y: [0, -15, 0] }} transition={{ duration: 4, repeat: Infinity }}>
               <img src={profileImage} alt="Profile" />
             </motion.div>
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
-              I build modern, scalable and responsive web applications using React.js, Node.js, Express.js and MongoDB.
+              I am an AI & ML Engineering student and Full-Stack Developer. I build intelligent, scalable web applications by combining the MERN stack with predictive modeling and Generative AI.
             </motion.p>
             <div className="hero-buttons">
               <a href="https://github.com/pasunutishivateja-git" target="_blank" rel="noreferrer" className="hero-link">
@@ -255,12 +274,17 @@ function App() {
               <a href="https://www.linkedin.com/in/shiva-teja-pasunuti-961286331/" target="_blank" rel="noreferrer" className="hero-link">
                 <div className="hero-btn"><FaLinkedin /><span>LinkedIn</span></div>
               </a>
+              <a href="/resume.pdf" download="Shiva_Teja_Resume.pdf" className="hero-link">
+                <div className="hero-btn">
+                  <FaDownload /><span>Resume</span>
+                </div>
+              </a>
             </div>
           </motion.section>
 
           <section className="about" id="about">
             <h2 className="section-title">About Me</h2>
-            <p>I am a passionate MERN Stack Developer skilled in creating beautiful, modern and scalable web applications.</p>
+            <p>I am a passionate Computer Science student at Vaagdevi College of Engineering specializing in Artificial Intelligence and Machine Learning. I bridge the gap between data science and web development, leveraging my skills in React, Node.js, and Python to create dynamic, data-driven applications that solve real-world problems.</p>
           </section>
 
           <section className="education" id="education">
@@ -281,8 +305,63 @@ function App() {
             </div>
           </section>
 
+          {/* =========================================
+              NEW: CERTIFICATE ADMIN FORM
+              ========================================= */}
           {isLoggedIn && (
-            <section className="project-wrapper" id="admin-projects">
+            <section className="project-wrapper" id="admin-certs" style={{ marginTop: "40px" }}>
+              <form className="project-form" onSubmit={handleCertSubmit}>
+                <h2 className="section-title">{editCertId ? "Update Certificate" : "Add New Certificate"}</h2>
+                <div className="form-grid">
+                  <input type="text" name="title" placeholder="Certificate Title (e.g. Meta Front-End)" value={certFormData.title} onChange={handleCertChange} autoComplete="off" className={certFormData.title ? "filled-box" : ""} required />
+                  <input type="text" name="issuer" placeholder="Issuer (e.g. Coursera)" value={certFormData.issuer} onChange={handleCertChange} autoComplete="off" className={certFormData.issuer ? "filled-box" : ""} required />
+                  <input type="text" name="date" placeholder="Date (e.g. August 2026)" value={certFormData.date} onChange={handleCertChange} autoComplete="off" className={certFormData.date ? "filled-box" : ""} required />
+                </div>
+                <div style={{ display: "flex", gap: "15px", width: "100%", marginTop: "15px" }}>
+                  <button type="submit" style={{ flex: 1 }}>{editCertId ? "Update Certificate" : "Add Certificate"}</button>
+                  {editCertId && (
+                    <button type="button" className="cancel-btn" onClick={() => { setEditCertId(null); setCertFormData({ title: "", issuer: "", date: "" }); }}>Cancel Edit</button>
+                  )}
+                </div>
+              </form>
+            </section>
+          )}
+
+          <section className="certifications" id="certifications">
+            <h2 className="section-title">Certifications</h2>
+            {certifications.length === 0 ? <div className="no-projects">No certifications added</div> : (
+              <div className="cert-grid" style={{ display: "flex", gap: "20px", justifyContent: "center", flexWrap: "wrap", padding: "20px 0" }}>
+                {certifications.map((cert) => (
+                  <motion.div 
+                    className="cert-card" 
+                    key={cert.id} 
+                    whileHover={{ y: -8 }}
+                    style={{ 
+                      background: darkMode ? "#1a1a2e" : "#f4f4f9", padding: "20px", borderRadius: "12px", width: "300px", textAlign: "center",
+                      border: `1px solid ${darkMode ? "#333" : "#ddd"}`, boxShadow: "0 4px 10px rgba(0,0,0,0.1)", transition: "all 0.3s ease",
+                      position: "relative"
+                    }}
+                  >
+                    <FaAward style={{ fontSize: "2rem", color: "#4facfe", marginBottom: "15px" }} />
+                    <h3 style={{ fontSize: "1.2rem", marginBottom: "10px", color: darkMode ? "#fff" : "#333" }}>{cert.title}</h3>
+                    <p style={{ fontSize: "0.9rem", color: darkMode ? "#aaa" : "#555" }}>{cert.issuer}</p>
+                    <p style={{ fontSize: "0.8rem", color: "#4facfe", marginTop: "10px", fontWeight: "bold" }}>{cert.date}</p>
+                    
+                    {/* Edit/Delete Buttons for Admin */}
+                    {isLoggedIn && (
+                      <div className="project-buttons" style={{ marginTop: "15px", justifyContent: "center" }}>
+                        <button type="button" className="edit-btn" onClick={() => editCert(cert)}>Edit</button>
+                        <button type="button" className="delete-btn" onClick={() => deleteCert(cert.id)}>Delete</button>
+                      </div>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </section>
+
+          {isLoggedIn && (
+            <section className="project-wrapper" id="admin-projects" style={{ marginTop: "40px" }}>
               <form className="project-form" onSubmit={handleSubmit}>
                 <h2 className="section-title">{editId ? "Update Project" : "Add New Project"}</h2>
                 <div className="form-grid">
@@ -298,33 +377,18 @@ function App() {
                   <input type="text" name="githubLink" placeholder="GitHub Link" value={formData.githubLink} onChange={handleChange} autoComplete="off" className={formData.githubLink ? "filled-box" : ""} />
                 </div>
                 <textarea name="description" placeholder="Description" value={formData.description || ""} onChange={handleChange} autoComplete="off" className={formData.description ? "filled-box" : ""} />
-               <div style={{ display: "flex", gap: "15px", width: "100%" }}>
-    <button type="submit" style={{ flex: 1 }}>
-      {editId ? "Update Project" : "Add Project"}
-    </button>
-    {/* This button only appears when you are editing a project */}
-    {editId && (
-      <button 
-        type="button" 
-        className="cancel-btn"
-        onClick={() => {
-          setEditId(null); // Resets the title to "Add New Project"
-          setFormData({ title: "", description: "", technologies: "", githubLink: "" }); // Clears the boxes
-        }}
-      >
-        Cancel Edit
-      </button>
-    )}
-  </div>
-            </form>
+                <div style={{ display: "flex", gap: "15px", width: "100%" }}>
+                  <button type="submit" style={{ flex: 1 }}>{editId ? "Update Project" : "Add Project"}</button>
+                  {editId && (
+                    <button type="button" className="cancel-btn" onClick={() => { setEditId(null); setFormData({ title: "", description: "", technologies: "", githubLink: "" }); }}>Cancel Edit</button>
+                  )}
+                </div>
+              </form>
             </section>
           )}
 
           <section className="projects-section" id="projects">
-            
-            {/* ---> THIS IS THE LINE YOU ARE ADDING <--- */}
             <h2 className="section-title">Projects</h2>
-            
             {projects.length === 0 ? <div className="no-projects">No projects added</div> : (
               <div className="projects-grid">
                 {projects.map((project) => (
@@ -334,18 +398,9 @@ function App() {
                     </div>
                     <div className="tech-list">{project.technologies.map((tech, i) => <span key={i} className="tech-item">{tech}</span>)}</div>
                     <div className="project-buttons">
-  {project.githubLink && (
-    <a href={project.githubLink} target="_blank" rel="noreferrer">
-      <button type="button" className="github-btn">GitHub</button>
-    </a>
-  )}
-  {isLoggedIn && (
-    <>
-      <button type="button" className="edit-btn" onClick={() => editProject(project)}>Edit</button>
-      <button type="button" className="delete-btn" onClick={() => deleteProject(project._id)}>Delete</button>
-    </>
-  )}
-</div>
+                      {project.githubLink && (<a href={project.githubLink} target="_blank" rel="noreferrer"><button type="button" className="github-btn">GitHub</button></a>)}
+                      {isLoggedIn && (<><button type="button" className="edit-btn" onClick={() => editProject(project)}>Edit</button><button type="button" className="delete-btn" onClick={() => deleteProject(project._id)}>Delete</button></>)}
+                    </div>
                   </motion.div>
                 ))}
               </div>

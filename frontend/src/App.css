@@ -189,28 +189,36 @@ section {
   z-index: 2;
 }
 
-/* HERO AVATAR */
+/* --- HERO AVATAR FINAL FIX --- */
 .hero-avatar {
   width: 220px;
   height: 220px;
   border-radius: 50%;
-  padding: 6px;
   margin-bottom: 35px;
-  background: linear-gradient(135deg, #7f5af0, #2cb67d);
+  
+  /* Keeps the outer glow */
   box-shadow: 0 0 25px rgba(127,90,240,0.6), 0 0 60px rgba(44,182,125,0.35);
+  
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  
+  /* CRITICAL: This is what crops the zoomed image into a perfect circle */
+  overflow: hidden; 
 }
 
 .hero-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 4px solid #050816;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+  border: none !important;
+  
+  /* CRITICAL: A 40% zoom. This aggressively pushes the black borders out of the frame. */
+  transform: scale(1.4) !important; 
 }
 
 /* Optional: Make it glow slightly purple when hovered! */
@@ -1833,4 +1841,13 @@ button:hover,
 .projects-section .section-title {
   margin-bottom: 3rem;    /* Adds space between the title and your project cards */
   text-align: center;
+}
+/* --- Global Section Spacing --- */
+section {
+  padding: 100px 10% !important; /* Reduced from 100px to 50px */
+}
+
+/* Make sure the titles don't push the content too far down */
+.section-title {
+  margin-bottom: 30px !important; /* Reduced from 50px to 30px */
 }
