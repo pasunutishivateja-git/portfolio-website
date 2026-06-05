@@ -31,18 +31,65 @@ function App() {
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
 
-  // --- Certificates State (NEW!) ---
-  const defaultCerts = [
-    { id: 1, title: "Intro to Machine Learning", issuer: "Kaggle", date: "June 2026" },
-    { id: 2, title: "AWS Certified Generative AI Practitioner", issuer: "Amazon Web Services (AWS)", date: "April 2026" },
-    { id: 3, title: "AI Masterclass", issuer: "GUVI", date: "April 2026" }
-  ];
-  const [certifications, setCertifications] = useState(() => {
-    const saved = localStorage.getItem("my-certifications");
-    return saved ? JSON.parse(saved) : defaultCerts;
-  });
+  // --- Certificates State (Upgraded to MongoDB!) ---
+  const [certifications, setCertifications] = useState([]);
   const [certFormData, setCertFormData] = useState({ title: "", issuer: "", date: "" });
   const [editCertId, setEditCertId] = useState(null);
+
+  // Fetch Certificates on load (Add this to your existing useEffect)
+  useEffect(() => {
+    fetchProjects();
+    fetchCertifications(); // <-- Call the new fetch function
+    const storedTech = JSON.parse(localStorage.getItem("myTechSuggestions")) || [];
+    setSavedTech(storedTech);
+    setTimeout(() => setLoading(false), 1200);
+  }, []);
+
+  // The Fetch Function
+  const fetchCertifications = async () => {
+    try {
+      const res = await axios.get("https://portfolio-backend-2k8z.onrender.com/api/certifications");
+      setCertifications(res.data);
+    } catch (err) { console.error(err); }
+  };
+
+  // --- Handlers: Certificates ---
+  const handleCertChange = (e) => setCertFormData({ ...certFormData, [e.target.name]: e.target.value });
+
+  const handleCertSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const currentToken = localStorage.getItem("token");
+      const config = { headers: { Authorization: `Bearer ${currentToken}` } };
+
+      if (editCertId) {
+        await axios.put(`https://portfolio-backend-2k8z.onrender.com/api/certifications/${editCertId}`, certFormData, config);
+        setEditCertId(null);
+      } else {
+        await axios.post("https://portfolio-backend-2k8z.onrender.com/api/certifications", certFormData, config);
+      }
+      
+      fetchCertifications(); // Refresh the list from MongoDB!
+      setCertFormData({ title: "", issuer: "", date: "" });
+    } catch (error) { console.error("Error saving cert:", error); }
+  };
+
+  const deleteCert = async (id) => {
+    try {
+      const currentToken = localStorage.getItem("token");
+      await axios.delete(`https://portfolio-backend-2k8z.onrender.com/api/certifications/${id}`, {
+        headers: { Authorization: `Bearer ${currentToken}` },
+      });
+      fetchCertifications();
+    } catch (error) { console.error(error); }
+  };
+
+  const editCert = (cert) => {
+    setCertFormData({ title: cert.title, issuer: cert.issuer, date: cert.date });
+    setEditCertId(cert._id); // Make sure this is _id for MongoDB!
+    const formSection = document.getElementById("admin-certs");
+    if (formSection) formSection.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   // --- Contact State ---
   const [contactData, setContactData] = useState({ name: "", email: "", message: "" });
@@ -159,30 +206,6 @@ function App() {
     const formSection = document.getElementById("admin-projects");
     if (formSection) formSection.scrollIntoView({ behavior: "smooth", block: "start" });
   };
-
-  // --- Handlers: Certificates (NEW!) ---
-  const handleCertChange = (e) => setCertFormData({ ...certFormData, [e.target.name]: e.target.value });
-
-  const handleCertSubmit = (e) => {
-    e.preventDefault();
-    if (editCertId) {
-      setCertifications(certifications.map(c => c.id === editCertId ? { ...certFormData, id: editCertId } : c));
-      setEditCertId(null);
-    } else {
-      setCertifications([...certifications, { ...certFormData, id: Date.now() }]);
-    }
-    setCertFormData({ title: "", issuer: "", date: "" });
-  };
-
-  const deleteCert = (id) => setCertifications(certifications.filter(c => c.id !== id));
-
-  const editCert = (cert) => {
-    setCertFormData({ title: cert.title, issuer: cert.issuer, date: cert.date });
-    setEditCertId(cert.id);
-    const formSection = document.getElementById("admin-certs");
-    if (formSection) formSection.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
 
   // --- Handlers: Contact ---
   const handleContactChange = (e) => setContactData({ ...contactData, [e.target.name]: e.target.value });
