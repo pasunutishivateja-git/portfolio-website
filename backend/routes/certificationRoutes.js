@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Certification = require("../models/Certification");
+const Certification = require("../models/Certification.js");
 const verifyToken = require("../middleware/authMiddleware"); // Assuming you have auth middleware to protect routes!
 
 // GET all certificates
