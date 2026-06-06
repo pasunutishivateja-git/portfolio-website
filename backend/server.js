@@ -14,7 +14,6 @@ app.use("/api/auth", authRoutes);
 
 const projectRoutes = require("./routes/projectRoutes");
 
-
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
