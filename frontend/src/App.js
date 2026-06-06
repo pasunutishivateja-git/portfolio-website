@@ -75,14 +75,18 @@ function App() {
   };
 
   const deleteCert = async (id) => {
-    try {
-      const currentToken = localStorage.getItem("token");
-      await axios.delete(`https://portfolio-backend-2k8z.onrender.com/api/certifications/${id}`, {
-        headers: { Authorization: `Bearer ${currentToken}` },
-      });
-      fetchCertifications();
-    } catch (error) { console.error(error); }
-  };
+  try {
+    const currentToken = localStorage.getItem("token");
+    const config = { headers: { Authorization: `Bearer ${currentToken}` } };
+    
+    await axios.delete(`https://portfolio-backend-2k8z.onrender.com/api/certifications/${id}`, config);
+    
+    // Notice the c._id right here!
+    setCertifications(certifications.filter(c => c._id !== id));
+  } catch (error) {
+    console.error("Error deleting cert:", error);
+  }
+};
 
   const editCert = (cert) => {
     setCertFormData({ title: cert.title, issuer: cert.issuer, date: cert.date });
@@ -374,7 +378,7 @@ function App() {
                     {isLoggedIn && (
                       <div className="project-buttons" style={{ marginTop: "15px", justifyContent: "center" }}>
                         <button type="button" className="edit-btn" onClick={() => editCert(cert)}>Edit</button>
-                        <button type="button" className="delete-btn" onClick={() => deleteCert(cert.id)}>Delete</button>
+                        <button type="button" className="delete-btn" onClick={() => deleteCert(cert._id)}>Delete</button>
                       </div>
                     )}
                   </motion.div>
