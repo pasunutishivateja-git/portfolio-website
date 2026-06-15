@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { motion, useScroll, useSpring } from "framer-motion";
 import axios from "axios";
@@ -35,7 +35,8 @@ function App() {
   const [certifications, setCertifications] = useState([]);
   const [certFormData, setCertFormData] = useState({ title: "", issuer: "", date: "" });
   const [editCertId, setEditCertId] = useState(null);
-const [imageFile, setImageFile] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
+  const fileInputRef = useRef(null);
   const [isUploading, setIsUploading] = useState(false);
 
   // Fetch Certificates on load (Add this to your existing useEffect)
@@ -222,7 +223,7 @@ const [imageFile, setImageFile] = useState(null);
     setFormData({ title: "", description: "", technologies: "", githubLink: "" });
     setImageFile(null); // Clears the file input after saving
     alert("Project saved successfully!");
-
+    if (fileInputRef.current) fileInputRef.current.value = ""; // Clears the "thumb1.png" text
   } catch (error) { 
     console.error("Error saving project:", error); 
     alert("Something went wrong!");
@@ -442,7 +443,11 @@ const [imageFile, setImageFile] = useState(null);
         </div>
         <input type="text" name="githubLink" placeholder="GitHub Link" value={formData.githubLink} onChange={handleChange} autoComplete="off" className={formData.githubLink ? "filled-box" : ""} />
       </div>
-      
+      <input type="file" ref={fileInputRef} /* <-- Add this line */
+      accept="image/png, image/jpeg, image/webp" 
+      onChange={(e) => setImageFile(e.target.files[0])} 
+      className="custom-file-input"
+      />
       <textarea name="description" placeholder="Description" value={formData.description || ""} onChange={handleChange} autoComplete="off" className={formData.description ? "filled-box" : ""} />
 
       {/* ---> NEW FILE UPLOAD SLOT <--- */}
