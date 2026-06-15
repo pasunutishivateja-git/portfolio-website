@@ -1977,3 +1977,48 @@ section {
   border-radius: 15px 15px 0 0; /* Rounds ONLY the top corners to match the card */
   display: block;
 }
+/* --- 1. Fix the "Long Bars" (Project Tech Pills) --- */
+.tech-list {
+  display: flex;
+  flex-wrap: wrap; /* Forces them to wrap to a new line instead of stretching */
+  gap: 10px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.tech-item {
+  display: inline-block;
+  padding: 6px 16px;
+  background: rgba(79, 172, 254, 0.1);
+  color: #4facfe; /* Cool blue text */
+  border: 1px solid rgba(79, 172, 254, 0.3);
+  border-radius: 20px; /* Gives them that perfect oval pill shape */
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.3s ease; /* Smooth animation for the hover */
+  cursor: default;
+}
+
+/* The Glow & Hover Effect for Project Pills */
+.tech-item:hover {
+  background: rgba(79, 172, 254, 0.2);
+  border-color: #4facfe;
+  box-shadow: 0 0 15px rgba(79, 172, 254, 0.6); /* The Blue Glow! */
+  transform: translateY(-3px); /* Makes them pop up slightly */
+}
+
+/* --- 2. Main Skills Section Blocks (To make them glow too!) --- */
+.skill-card {
+  padding: 15px 30px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.app.dark .skill-card:hover {
+  border-color: #00f2fe;
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.5); /* Neon cyan glow */
+  background: rgba(0, 242, 254, 0.1);
+}
