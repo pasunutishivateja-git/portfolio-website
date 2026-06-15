@@ -1986,25 +1986,43 @@ section {
   margin-bottom: 20px;
 }
 
+/* --- Fix Tech Pill Visibility & Size --- */
 .tech-item {
   display: inline-block;
-  padding: 6px 16px;
-  background: rgba(79, 172, 254, 0.1);
-  color: #4facfe; /* Cool blue text */
-  border: 1px solid rgba(79, 172, 254, 0.3);
-  border-radius: 20px; /* Gives them that perfect oval pill shape */
+  width: fit-content; /* Forces the pill to hug the text tightly */
+  padding: 5px 12px; /* Tighter padding so they don't look stretched */
+  border-radius: 20px;
   font-size: 0.85rem;
-  font-weight: 600;
-  transition: all 0.3s ease; /* Smooth animation for the hover */
+  font-weight: 700; /* Bolder font so it stands out immediately */
+  transition: all 0.3s ease;
   cursor: default;
 }
 
-/* The Glow & Hover Effect for Project Pills */
-.tech-item:hover {
+/* --- Light Mode Pills: Dark, High-Contrast Text --- */
+.app.light .tech-item {
+  background: rgba(0, 0, 0, 0.05); /* Soft grey background */
+  color: #1a1a2e; /* Very dark navy/black for maximum readability */
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.app.light .tech-item:hover {
+  background: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Sleek, dark shadow glow */
+  transform: translateY(-3px);
+}
+
+/* --- Dark Mode Pills: Neon Glowing Blue --- */
+.app.dark .tech-item {
+  background: rgba(79, 172, 254, 0.1);
+  color: #00f2fe; /* Bright, punchy cyan that pops on dark backgrounds */
+  border: 1px solid rgba(79, 172, 254, 0.3);
+}
+
+.app.dark .tech-item:hover {
   background: rgba(79, 172, 254, 0.2);
   border-color: #4facfe;
-  box-shadow: 0 0 15px rgba(79, 172, 254, 0.6); /* The Blue Glow! */
-  transform: translateY(-3px); /* Makes them pop up slightly */
+  box-shadow: 0 0 15px rgba(79, 172, 254, 0.6); /* Neon blue glow */
+  transform: translateY(-3px);
 }
 
 /* --- 2. Main Skills Section Blocks (To make them glow too!) --- */
