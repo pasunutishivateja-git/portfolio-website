@@ -452,19 +452,17 @@ function App() {
         </div>
         <input type="text" name="githubLink" placeholder="GitHub Link" value={formData.githubLink} onChange={handleChange} autoComplete="off" className={formData.githubLink ? "filled-box" : ""} />
       </div>
-      <input type="file" ref={fileInputRef} /* <-- Add this line */
-      accept="image/png, image/jpeg, image/webp" 
-      onChange={(e) => setImageFile(e.target.files[0])} 
-      className="custom-file-input"
-      />
-     <textarea name="description" placeholder="Description" value={formData.description || ""} onChange={handleChange} autoComplete="off" className={formData.description ? "filled-box" : ""} />
+      
+      {/* Notice there is NO file input here anymore! */}
+
+      <textarea name="description" placeholder="Description" value={formData.description || ""} onChange={handleChange} autoComplete="off" className={formData.description ? "filled-box" : ""} />
 
       {/* ---> CONSOLIDATED FILE UPLOAD SLOT <--- */}
       <div className="file-upload-container" style={{ width: "100%", marginBottom: "20px", textAlign: "left" }}>
         <label style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: darkMode ? "#fff" : "#333" }}>Upload Project Thumbnail:</label>
         <input 
           type="file" 
-          ref={fileInputRef} /* The Ref is now safely attached here */
+          ref={fileInputRef} 
           accept="image/png, image/jpeg, image/webp" 
           onChange={(e) => setImageFile(e.target.files[0])} 
           style={{ width: "100%", padding: "10px", border: "1px dashed #ccc", borderRadius: "8px", color: darkMode ? "#fff" : "#333" }}
