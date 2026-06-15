@@ -1932,3 +1932,48 @@ section {
 .custom-file-upload::file-selector-button:hover {
   background-color: #00f2fe;
 }
+/* --- 1. Restore Dark/Light Mode Card Colors --- */
+.app.dark .project-card {
+  background-color: #1a1a2e; /* Deep dark blue */
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.app.dark .project-card h3,
+.app.dark .project-description {
+  color: #ffffff;
+}
+
+.app.light .project-card {
+  background-color: #ffffff;
+  color: #333333;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* --- 2. Base Card Sizing & Padding --- */
+.project-card {
+  max-width: 420px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px; /* Smooth rounded corners */
+  padding: 25px; /* Keeps your text from hitting the edges */
+  overflow: hidden;
+}
+
+/* --- 3. Fix the Image "Bars" (Stretch to edges) --- */
+.project-image-container {
+  /* Counteracts the 25px padding so the image touches the top and sides! */
+  margin: -25px -25px 20px -25px; 
+  width: calc(100% + 50px); 
+}
+
+.project-thumbnail {
+  width: 100%;
+  height: 220px;
+  object-fit: cover; /* Prevents the image from stretching weirdly */
+  border-radius: 15px 15px 0 0; /* Rounds ONLY the top corners to match the card */
+  display: block;
+}
