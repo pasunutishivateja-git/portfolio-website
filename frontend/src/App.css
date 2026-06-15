@@ -1900,3 +1900,13 @@ section {
   border-radius: 8px; /* Keeps the corners rounded nicely inside the card */
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
+/* Fix for Project Cards in Dark Mode */
+.dark .project-card {
+  background-color: #1a1a2e; /* Restores the dark background */
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dark .project-card h3,
+.dark .project-description {
+  color: #ffffff; /* Makes text visible again */
+}

@@ -193,41 +193,50 @@ function App() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let uploadedImageUrl = "";
-  if (imageFile) {
-    uploadedImageUrl = await handleImageUpload(imageFile);
-  }
+    
+    // 1. Secure the Image URL
+    let finalImageUrl = "";
+    if (imageFile) {
+      finalImageUrl = await handleImageUpload(imageFile);
+    } else if (editId) {
+      // KEEP the old image if we are just editing text!
+      const existingProject = projects.find(p => p._id === editId);
+      finalImageUrl = existingProject ? existingProject.imageUrl : "";
+    }
+
+    // 2. Package the payload
     const newProject = {
       title: formData.title,
       description: formData.description,
-    technologies: formData.technologies,
-    imageUrl: uploadedImageUrl, // Save the secure URL to MongoDB
-    githubLink: formData.githubLink
-  };
+      technologies: formData.technologies,
+      imageUrl: finalImageUrl, 
+      githubLink: formData.githubLink
+    };
     
     try {
-    const currentToken = localStorage.getItem("token");
-    const config = { headers: { Authorization: `Bearer ${currentToken}` } };
+      const currentToken = localStorage.getItem("token");
+      const config = { headers: { Authorization: `Bearer ${currentToken}` } };
 
-    if (editId) {
-      // Correctly updates an existing project
-      await axios.put(`https://portfolio-backend-2k8z.onrender.com/api/projects/${editId}`, newProject, config);
-      setEditId(null);
-    } else {
-      // Correctly creates a new project WITH the token config
-      await axios.post("https://portfolio-backend-2k8z.onrender.com/api/projects", newProject, config);
+      if (editId) {
+        await axios.put(`https://portfolio-backend-2k8z.onrender.com/api/projects/${editId}`, newProject, config);
+        setEditId(null);
+      } else {
+        await axios.post("https://portfolio-backend-2k8z.onrender.com/api/projects", newProject, config);
+      }
+      
+      fetchProjects();
+      updateSuggestions(formData.technologies);
+      setFormData({ title: "", description: "", technologies: "", githubLink: "" });
+      
+      // 3. Clear the file state and input box
+      setImageFile(null); 
+      if (fileInputRef.current) fileInputRef.current.value = ""; 
+      
+      alert("Project saved successfully!");
+    } catch (error) { 
+      console.error("Error saving project:", error); 
+      alert("Something went wrong!");
     }
-    
-    fetchProjects();
-    updateSuggestions(formData.technologies);
-    setFormData({ title: "", description: "", technologies: "", githubLink: "" });
-    setImageFile(null); // Clears the file input after saving
-    alert("Project saved successfully!");
-    if (fileInputRef.current) fileInputRef.current.value = ""; // Clears the "thumb1.png" text
-  } catch (error) { 
-    console.error("Error saving project:", error); 
-    alert("Something went wrong!");
-  }
   };
 
   const deleteProject = async (id) => {
@@ -448,22 +457,22 @@ function App() {
       onChange={(e) => setImageFile(e.target.files[0])} 
       className="custom-file-input"
       />
-      <textarea name="description" placeholder="Description" value={formData.description || ""} onChange={handleChange} autoComplete="off" className={formData.description ? "filled-box" : ""} />
+     <textarea name="description" placeholder="Description" value={formData.description || ""} onChange={handleChange} autoComplete="off" className={formData.description ? "filled-box" : ""} />
 
-      {/* ---> NEW FILE UPLOAD SLOT <--- */}
+      {/* ---> CONSOLIDATED FILE UPLOAD SLOT <--- */}
       <div className="file-upload-container" style={{ width: "100%", marginBottom: "20px", textAlign: "left" }}>
-        <label style={{ display: "block", marginBottom: "8px", fontWeight: "600" }}>Upload Project Thumbnail:</label>
+        <label style={{ display: "block", marginBottom: "8px", fontWeight: "600", color: darkMode ? "#fff" : "#333" }}>Upload Project Thumbnail:</label>
         <input 
           type="file" 
+          ref={fileInputRef} /* The Ref is now safely attached here */
           accept="image/png, image/jpeg, image/webp" 
           onChange={(e) => setImageFile(e.target.files[0])} 
-          style={{ width: "100%", padding: "10px", border: "1px dashed #ccc", borderRadius: "8px" }}
+          style={{ width: "100%", padding: "10px", border: "1px dashed #ccc", borderRadius: "8px", color: darkMode ? "#fff" : "#333" }}
         />
       </div>
       {/* -------------------------------- */}
 
       <div style={{ display: "flex", gap: "15px", width: "100%" }}>
-        {/* Notice we disabled the button and changed the text while uploading */}
         <button type="submit" style={{ flex: 1 }} disabled={isUploading}>
           {isUploading ? "Uploading Image..." : (editId ? "Update Project" : "Add Project")}
         </button>
