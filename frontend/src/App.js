@@ -19,8 +19,25 @@ function App() {
     return savedTheme === "light" ? false : true;
   });
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
-  
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return false;
+    
+    try {
+      // Decode the middle part of the token to read its data
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      
+      // Check if the expiration time has passed
+      if (payload.exp * 1000 < Date.now()) {
+        localStorage.removeItem("token"); // Auto-delete dead token
+        return false; 
+      }
+      return true; // Token is alive and well
+    } catch (e) {
+      return false; // If the token is corrupted, log out
+    }
+  });
+
   // --- Projects State ---
   const [projects, setProjects] = useState([]);
   const [editId, setEditId] = useState(null);
