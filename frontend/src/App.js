@@ -176,7 +176,7 @@ const [imageFile, setImageFile] = useState(null);
 
     try {
       // Make sure your backend server is running on port 5000!
-      const response = await axios.post("http://localhost:5000/api/upload", uploadData, {
+      const response = await axios.post("https://portfolio-backend-2k8z.onrender.com/api/upload", uploadData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       
@@ -210,11 +210,11 @@ const [imageFile, setImageFile] = useState(null);
 
     if (editId) {
       // Correctly updates an existing project
-      await axios.put(`http://localhost:5000/api/projects/${editId}`, newProject, config);
+      await axios.put(`https://portfolio-backend-2k8z.onrender.com/api/projects/${editId}`, newProject, config);
       setEditId(null);
     } else {
       // Correctly creates a new project WITH the token config
-      await axios.post("http://localhost:5000/api/projects", newProject, config);
+      await axios.post("https://portfolio-backend-2k8z.onrender.com/api/projects", newProject, config);
     }
     
     fetchProjects();
