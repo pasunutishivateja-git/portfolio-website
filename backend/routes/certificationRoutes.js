@@ -28,13 +28,14 @@ router.post("/", verifyToken, async (req, res) => {
   }
 });
 
-// DELETE a certificate (Protected by Login)
-router.delete("/:id", verifyToken, async (req, res) => {
+// DELETE a certificate
+router.delete("/:id", async (req, res) => {
   try {
-    await Certification.findByIdAndDelete(req.params.id);
+    const deletedCert = await Certification.findByIdAndDelete(req.params.id);
+    if (!deletedCert) return res.status(404).json({ message: "Certificate not found" });
     res.json({ message: "Certificate deleted" });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 

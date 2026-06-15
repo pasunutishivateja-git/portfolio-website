@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash, FaArrowLeft, FaEnvelope } from "react-icons/fa"; 
 import { motion } from "framer-motion"; 
-import axios from "axios"; // <-- NEW: Imported axios to make API calls
+import axios from "axios";
 import "./Login.css";
 
 function Login() {
@@ -10,45 +10,38 @@ function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   
-  // NEW: States to handle loading and errors
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   
   const navigate = useNavigate();
 
-  // NEW: Converted to an async function to wait for the backend
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError(""); // Clear any old errors
-    setIsLoading(true); // Start the loading animation
+    setError(""); 
+    setIsLoading(true); 
 
     try {
-      // NOTE: Verify this URL matches exactly where your authRoutes are mounted!
-      // It might be "/api/auth/login" or just "/api/login" depending on your server.js
       const res = await axios.post("https://portfolio-backend-2k8z.onrender.com/api/auth/login", {
         email: email,
         password: password,
       });
 
-      // If the backend says YES, grab the real token!
       localStorage.setItem("token", res.data.token);
       window.location.href = "/";
       
     } catch (err) {
-      // If the backend says NO, show the error message to the user
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
       } else {
         setError("Network error. Please try again later.");
       }
     } finally {
-      setIsLoading(false); // Stop loading regardless of success or failure
+      setIsLoading(false); 
     }
   };
 
   return (
     <div className="admin-login-container">
-      {/* Decorative Glowing Blobs */}
       <div className="login-glow blob-1"></div>
       <div className="login-glow blob-2"></div>
 
@@ -90,6 +83,7 @@ function Login() {
               required
               className={password.length > 0 ? "filled-box" : ""}
             />
+            
             <span
               className="eye-icon-toggle"
               onClick={() => setShowPassword(!showPassword)}
@@ -98,7 +92,6 @@ function Login() {
             </span>
           </div>
 
-          {/* NEW: Displays the error message in red if it exists */}
           {error && <div className="login-error-message">{error}</div>}
 
           <motion.button

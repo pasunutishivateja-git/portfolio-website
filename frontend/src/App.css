@@ -1851,3 +1851,63 @@ section {
 .section-title {
   margin-bottom: 30px !important; /* Reduced from 50px to 30px */
 }
+section {
+  margin-bottom: 30px; 
+}
+/* The Magic Responsive Grid */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  align-items: stretch; /* Makes sure all cards in a row stretch to the same height */
+}
+
+/* Card Layout & Spacing */
+.project-card {
+  background: #ffffff; /* Change this if you are using dark mode */
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Forces the buttons to the very bottom */
+  height: 100%; 
+}
+
+/* Keeps the description from squishing the buttons */
+.project-description {
+  margin-bottom: 1.5rem;
+  flex-grow: 1; 
+}
+
+/* Organizes your buttons cleanly */
+.project-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+/* --- Project Card Image Styling --- */
+.project-card {
+  /* We remove the default padding here so the image touches the very edges */
+  padding: 0; 
+  overflow: hidden; /* Keeps the rounded corners intact */
+}
+
+/* We add the padding back to a specific content wrapper if needed, 
+   or just use margin on the text below */
+.project-card > div:not(.project-image-container) {
+  padding: 0 1.5rem;
+}
+
+.project-card .project-buttons {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+}
+
+.project-thumbnail {
+  width: 100%;
+  height: 200px;
+  object-fit: cover; /* This acts like a background-size: cover, preventing distortion */
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  margin-bottom: 1rem;
+}

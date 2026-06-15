@@ -35,6 +35,8 @@ function App() {
   const [certifications, setCertifications] = useState([]);
   const [certFormData, setCertFormData] = useState({ title: "", issuer: "", date: "" });
   const [editCertId, setEditCertId] = useState(null);
+const [imageFile, setImageFile] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   // Fetch Certificates on load (Add this to your existing useEffect)
   useEffect(() => {
@@ -164,31 +166,67 @@ function App() {
     } catch (err) { console.error(err); }
   };
 
+  // --- Cloudinary Upload Function ---
+  const handleImageUpload = async (file) => {
+    if (!file) return "";
+    
+    setIsUploading(true);
+    const uploadData = new FormData();
+    uploadData.append("image", file);
+
+    try {
+      // Make sure your backend server is running on port 5000!
+      const response = await axios.post("http://localhost:5000/api/upload", uploadData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      
+      setIsUploading(false);
+      return response.data.url; // Returns the secure Cloudinary URL
+    } catch (error) {
+      console.error("Upload error:", error);
+      setIsUploading(false);
+      alert("Image upload failed. Check the console.");
+      return "";
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let uploadedImageUrl = "";
+  if (imageFile) {
+    uploadedImageUrl = await handleImageUpload(imageFile);
+  }
     const newProject = {
-      ...formData,
-      technologies: formData.technologies.split(",").map((tech) => tech.trim()),
-    };
-    updateSuggestions(formData.technologies);
+      title: formData.title,
+      description: formData.description,
+    technologies: formData.technologies,
+    imageUrl: uploadedImageUrl, // Save the secure URL to MongoDB
+    githubLink: formData.githubLink
+  };
     
     try {
-      const currentToken = localStorage.getItem("token");
-      const config = { headers: { Authorization: `Bearer ${currentToken}` } };
+    const currentToken = localStorage.getItem("token");
+    const config = { headers: { Authorization: `Bearer ${currentToken}` } };
 
-      if (editId) {
-        await axios.put(`https://portfolio-backend-2k8z.onrender.com/api/projects/${editId}`, newProject, config);
-        setEditId(null);
-      } else {
-        await axios.post("https://portfolio-backend-2k8z.onrender.com/api/projects", newProject, config);
-      }
-      
-      fetchProjects();
-      setFormData({ title: "", description: "", technologies: "", githubLink: "" });
-    } catch (error) { 
-      console.error("Error saving project:", error); 
-      alert("Something went wrong! Is your backend running on Render?");
+    if (editId) {
+      // Correctly updates an existing project
+      await axios.put(`http://localhost:5000/api/projects/${editId}`, newProject, config);
+      setEditId(null);
+    } else {
+      // Correctly creates a new project WITH the token config
+      await axios.post("http://localhost:5000/api/projects", newProject, config);
     }
+    
+    fetchProjects();
+    updateSuggestions(formData.technologies);
+    setFormData({ title: "", description: "", technologies: "", githubLink: "" });
+    setImageFile(null); // Clears the file input after saving
+    alert("Project saved successfully!");
+
+  } catch (error) { 
+    console.error("Error saving project:", error); 
+    alert("Something went wrong!");
+  }
   };
 
   const deleteProject = async (id) => {
@@ -388,51 +426,85 @@ function App() {
           </section>
 
           {isLoggedIn && (
-            <section className="project-wrapper" id="admin-projects" style={{ marginTop: "40px" }}>
-              <form className="project-form" onSubmit={handleSubmit}>
-                <h2 className="section-title">{editId ? "Update Project" : "Add New Project"}</h2>
-                <div className="form-grid">
-                  <input type="text" name="title" placeholder="Project Title" value={formData.title} onChange={handleChange} autoComplete="off" className={formData.title ? "filled-box" : ""} />
-                  <div className="tech-input-container">
-                    <input type="text" name="technologies" placeholder="Technologies" value={formData.technologies} onChange={handleTechChange} autoComplete="off" className={formData.technologies ? "filled-box" : ""} />
-                    {showSuggestions && filteredSuggestions.length > 0 && (
-                      <ul className="suggestions-list">
-                        {filteredSuggestions.map((tech, i) => (<li key={i} onClick={() => selectSuggestion(tech)}>{tech}</li>))}
-                      </ul>
-                    )}
-                  </div>
-                  <input type="text" name="githubLink" placeholder="GitHub Link" value={formData.githubLink} onChange={handleChange} autoComplete="off" className={formData.githubLink ? "filled-box" : ""} />
-                </div>
-                <textarea name="description" placeholder="Description" value={formData.description || ""} onChange={handleChange} autoComplete="off" className={formData.description ? "filled-box" : ""} />
-                <div style={{ display: "flex", gap: "15px", width: "100%" }}>
-                  <button type="submit" style={{ flex: 1 }}>{editId ? "Update Project" : "Add Project"}</button>
-                  {editId && (
-                    <button type="button" className="cancel-btn" onClick={() => { setEditId(null); setFormData({ title: "", description: "", technologies: "", githubLink: "" }); }}>Cancel Edit</button>
-                  )}
-                </div>
-              </form>
-            </section>
+  <section className="project-wrapper" id="admin-projects" style={{ marginTop: "40px" }}>
+    <form className="project-form" onSubmit={handleSubmit}>
+      <h2 className="section-title">{editId ? "Update Project" : "Add New Project"}</h2>
+      
+      <div className="form-grid">
+        <input type="text" name="title" placeholder="Project Title" value={formData.title} onChange={handleChange} autoComplete="off" className={formData.title ? "filled-box" : ""} />
+        <div className="tech-input-container">
+          <input type="text" name="technologies" placeholder="Technologies" value={formData.technologies} onChange={handleTechChange} autoComplete="off" className={formData.technologies ? "filled-box" : ""} />
+          {showSuggestions && filteredSuggestions.length > 0 && (
+            <ul className="suggestions-list">
+              {filteredSuggestions.map((tech, i) => (<li key={i} onClick={() => selectSuggestion(tech)}>{tech}</li>))}
+            </ul>
           )}
+        </div>
+        <input type="text" name="githubLink" placeholder="GitHub Link" value={formData.githubLink} onChange={handleChange} autoComplete="off" className={formData.githubLink ? "filled-box" : ""} />
+      </div>
+      
+      <textarea name="description" placeholder="Description" value={formData.description || ""} onChange={handleChange} autoComplete="off" className={formData.description ? "filled-box" : ""} />
+
+      {/* ---> NEW FILE UPLOAD SLOT <--- */}
+      <div className="file-upload-container" style={{ width: "100%", marginBottom: "20px", textAlign: "left" }}>
+        <label style={{ display: "block", marginBottom: "8px", fontWeight: "600" }}>Upload Project Thumbnail:</label>
+        <input 
+          type="file" 
+          accept="image/png, image/jpeg, image/webp" 
+          onChange={(e) => setImageFile(e.target.files[0])} 
+          style={{ width: "100%", padding: "10px", border: "1px dashed #ccc", borderRadius: "8px" }}
+        />
+      </div>
+      {/* -------------------------------- */}
+
+      <div style={{ display: "flex", gap: "15px", width: "100%" }}>
+        {/* Notice we disabled the button and changed the text while uploading */}
+        <button type="submit" style={{ flex: 1 }} disabled={isUploading}>
+          {isUploading ? "Uploading Image..." : (editId ? "Update Project" : "Add Project")}
+        </button>
+        
+        {editId && (
+          <button type="button" className="cancel-btn" onClick={() => { setEditId(null); setFormData({ title: "", description: "", technologies: "", githubLink: "" }); }}>Cancel Edit</button>
+        )}
+      </div>
+    </form>
+  </section>
+)}
 
           <section className="projects-section" id="projects">
-            <h2 className="section-title">Projects</h2>
-            {projects.length === 0 ? <div className="no-projects">No projects added</div> : (
-              <div className="projects-grid">
-                {projects.map((project) => (
-                  <motion.div className="project-card" key={project._id} whileHover={{ y: -8 }}>
-                    <div>
-                      <h3>{project.title}</h3><div className="project-line"></div><p className="project-description">{project.description}</p>
-                    </div>
-                    <div className="tech-list">{project.technologies.map((tech, i) => <span key={i} className="tech-item">{tech}</span>)}</div>
-                    <div className="project-buttons">
-                      {project.githubLink && (<a href={project.githubLink} target="_blank" rel="noreferrer"><button type="button" className="github-btn">GitHub</button></a>)}
-                      {isLoggedIn && (<><button type="button" className="edit-btn" onClick={() => editProject(project)}>Edit</button><button type="button" className="delete-btn" onClick={() => deleteProject(project._id)}>Delete</button></>)}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-          </section>
+  <h2 className="section-title">Projects</h2>
+  {projects.length === 0 ? <div className="no-projects">No projects added</div> : (
+    <div className="projects-grid">
+      {projects.map((project) => (
+        <motion.div className="project-card" key={project._id} whileHover={{ y: -8 }}>
+          
+          {/* ---> NEW IMAGE DISPLAY SLOT <--- */}
+          {project.imageUrl && (
+            <div className="project-image-container">
+              <img src={project.imageUrl} alt={project.title} className="project-thumbnail" />
+            </div>
+          )}
+          {/* --------------------------------- */}
+
+          <div>
+            <h3>{project.title}</h3>
+            <div className="project-line"></div>
+            <p className="project-description">{project.description}</p>
+          </div>
+          
+          <div className="tech-list">
+            {project.technologies.map((tech, i) => <span key={i} className="tech-item">{tech}</span>)}
+          </div>
+          
+          <div className="project-buttons">
+            {project.githubLink && (<a href={project.githubLink} target="_blank" rel="noreferrer"><button type="button" className="github-btn">GitHub</button></a>)}
+            {isLoggedIn && (<><button type="button" className="edit-btn" onClick={() => editProject(project)}>Edit</button><button type="button" className="delete-btn" onClick={() => deleteProject(project._id)}>Delete</button></>)}
+          </div>
+        </motion.div>
+      ))}
+    </div>
+  )}
+</section>
 
           <section className="contact" id="contact">
             <div className="contact-left">
