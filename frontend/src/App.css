@@ -354,20 +354,24 @@ section {
   padding: 80px 10%;
 }
 
+/* --- Bulletproof Skills Layout --- */
 .skills-container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 18px;
+  display: flex !important;
+  flex-wrap: wrap !important; 
+  justify-content: center !important;
+  gap: 15px !important; 
+  margin-top: 20px;
 }
 
 .skill-card {
-  padding: 16px 28px;
-  border-radius: 14px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  transition: 0.35s ease;
-  cursor: pointer;
+  width: auto !important; /* Absolutely forces it to shrink-wrap the text */
+  flex: 0 1 auto !important; /* Prevents it from growing to fill the row */
+  padding: 12px 25px !important;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 12px;
+  cursor: default;
+  transition: all 0.3s ease;
 }
 
 .skill-card:hover {
@@ -1858,25 +1862,28 @@ section {
 section {
   margin-bottom: 30px; 
 }
-/* The Magic Responsive Grid */
+
+/* --- 1. Widen the Grid Columns --- */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  width: 100%;
-  align-items: stretch; /* Makes sure all cards in a row stretch to the same height */
+  /* Increased the minimum width from 320px to 400px so they wrap better */
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); 
+  gap: 2rem; /* Slightly larger gap to breathe */
+  justify-content: center;
 }
 
-/* Card Layout & Spacing */
+/* --- 2. Make the Cards Wider (More Square) --- */
 .project-card {
-  background: #ffffff; /* Change this if you are using dark mode */
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  max-width: 420px;
+  width: 100%;
+  aspect-ratio: 1 / 1; /* Guarantees a perfect square shape! */
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Forces the buttons to the very bottom */
-  height: 100%; 
+  border-radius: 15px;
+  padding: 25px;
+  overflow: hidden; /* Keeps text inside the box */
+  transition: transform 0.4s ease, box-shadow 0.4s ease; /* Prepares the smooth movement */
 }
 
 /* Keeps the description from squishing the buttons */
@@ -1897,13 +1904,15 @@ section {
   margin-bottom: 15px;
 }
 
+/* --- 3. Balance the Image Height --- */
 .project-thumbnail {
-  width: 180%;
-  height: 100px;
+  width: 100%;
+  height: 45%; /* Uses a percentage so it perfectly shares space with the text */
   object-fit: cover;
-  border-radius: 8px; /* Keeps the corners rounded nicely inside the card */
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px 15px 0 0;
+  display: block;
 }
+
 /* --- Custom File Upload Styling --- */
 .custom-file-upload {
   width: 100%;
@@ -1940,6 +1949,14 @@ section {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
+/* For Dark Mode */
+.app.dark .project-card:hover {
+  /* Glides 8px to the right and 4px up */
+  transform: translate(8px, -4px); 
+  box-shadow: -8px 15px 30px rgba(0, 242, 254, 0.15);
+  border-color: rgba(0, 242, 254, 0.5);
+}
+
 .app.dark .project-card h3,
 .app.dark .project-description {
   color: #ffffff;
@@ -1949,18 +1966,24 @@ section {
   background-color: #ffffff;
   color: #333333;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transform: translate(8px, -4px); 
+  box-shadow: -8px 15px 25px rgba(0, 0, 0, 0.15);
 }
 
 /* --- 2. Base Card Sizing & Padding --- */
 .project-card {
-  max-width: 420px;
-  width: 100%;
+  max-width: 480px !important;
+  width: 100% !important;
+  height: 100% !important; /* Tells the grid to stretch it */
+  min-height: max-content !important; /* GUARANTEES the box grows to fit every single line of text and button! */
+  aspect-ratio: auto !important; /* Kills any leftover square rules */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  border-radius: 15px; /* Smooth rounded corners */
-  padding: 25px; /* Keeps your text from hitting the edges */
-  overflow: hidden;
+  border-radius: 15px;
+  padding: 25px;
+  overflow: hidden; 
+  transition: transform 0.4s ease, box-shadow 0.4s ease; 
 }
 
 /* --- 3. Fix the Image "Bars" (Stretch to edges) --- */
@@ -1972,7 +1995,7 @@ section {
 
 .project-thumbnail {
   width: 100%;
-  height: 220px;
+  height: 240px;
   object-fit: cover; /* Prevents the image from stretching weirdly */
   border-radius: 15px 15px 0 0; /* Rounds ONLY the top corners to match the card */
   display: block;

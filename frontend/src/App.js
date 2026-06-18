@@ -382,7 +382,7 @@ function App() {
           <section className="education" id="education">
             <h2 className="section-title">Education</h2>
             <div className="timeline">
-              <div className="timeline-item"><div className="timeline-dot"></div><div className="timeline-content"><h3>B.Tech in Computer Science Engineering (AI&ML)</h3><p className="timeline-date">2023 - 2027</p><p>Vaagdevi Engineering College</p><p className="timeline-grade">CGPA: 6.9</p></div></div>
+              <div className="timeline-item"><div className="timeline-dot"></div><div className="timeline-content"><h3>B.Tech in Computer Science Engineering (AI&ML)</h3><p className="timeline-date">2023 - 2027</p><p>Vaagdevi Engineering College</p><p className="timeline-grade">CGPA: 7.01</p></div></div>
               <div className="timeline-item"><div className="timeline-dot"></div><div className="timeline-content"><h3>Intermediate (Class XII)</h3><p className="timeline-date">2021 - 2023</p><p>Vidwan Junior College</p><p className="timeline-grade">Percentage: 87%</p></div></div>
               <div className="timeline-item"><div className="timeline-dot"></div><div className="timeline-content"><h3>High School (Class X)</h3><p className="timeline-date">2021</p><p>Froebel Model High School</p><p className="timeline-grade">CGPA: 10</p></div></div>
             </div>
