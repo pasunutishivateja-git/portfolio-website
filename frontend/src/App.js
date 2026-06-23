@@ -280,7 +280,7 @@ function App() {
   const handleContactChange = (e) => setContactData({ ...contactData, [e.target.name]: e.target.value });
   const sendEmail = (e) => {
     e.preventDefault();
-    emailjs.send("service_jcwz5az", "template_84bnhae", contactData, "68PSl9RYGeUNFwyWF")
+    emailjs.send("service_jcwz5az", "template_84bnhae", contactData, "-49Q2MDCKpzuKoNAd")
       .then(() => {
         alert("Message Sent Successfully!");
         setContactData({ name: "", email: "", message: "" });
