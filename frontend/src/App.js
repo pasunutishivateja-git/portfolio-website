@@ -5,7 +5,7 @@ import axios from "axios";
 import emailjs from "@emailjs/browser";
 
 // --- Assets & Icons ---
-import profileImage from "./assets/logo.jpg";
+import profileImage from "./assets/logo.jpeg";
 import { FaGithub, FaLinkedin, FaEnvelope, FaMoon, FaSun, FaWhatsapp, FaDownload, FaAward } from "react-icons/fa";
 import "./App.css";
 
